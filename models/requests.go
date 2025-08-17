@@ -6,14 +6,17 @@ import (
 	"github.com/google/uuid"
 )
 
-type ScheduleEmailRequest struct {
+type ScheduleAppointmentEmailRequest struct {
 	Email   string    `json:"email" binding:"required"`
+	Name    string    `json:"name"`
 	CC      []string  `json:"cc"`
 	SendAt  time.Time `json:"send_at" binding:"required"`
-	Data    ScheduleEmailData `json:"data" binding:"required"`
+	IsReminder *bool `json:"is_reminder"`
+	ReminderSendAt *[]time.Time `json:"reminder_send_at"`
+	Data    ScheduleAppointmentEmailData `json:"data" binding:"required"`
 }
 
-type ScheduleEmailData struct {
+type ScheduleAppointmentEmailData struct {
 	PONumber               *[]string        `json:"po_number"`
 	LRNumber               *string          `json:"lr_number"`
 	AppointmentDate        *time.Time       `json:"appointment_date"`
@@ -23,15 +26,26 @@ type ScheduleEmailData struct {
 	TotalCartons           *int             `json:"total_cartons"`
 	TotalDeadWeight        *float64         `json:"total_dead_weight"`
 	TotalVolumetricWeight  *float64         `json:"total_volumetric_weight"`
+	
 	WarehouseName          *string          `json:"warehouse_name"`
 	WarehouseAddress       *string          `json:"warehouse_address"`
 	WarehouseCity          *string          `json:"warehouse_city"`
 	WarehouseState         *string          `json:"warehouse_state"`
 	WarehousePin           *string          `json:"warehouse_pin"`
-	WarehouseCountry       *string          `json:"warehouse_country"`
 	WarehousePhone         *string          `json:"warehouse_phone"`
 	WarehouseAlternatePhone *string         `json:"warehouse_alternate_phone"`
 	WarehouseEmail         *string          `json:"warehouse_email"`
+
+	CustomerWarehouseName          *string          `json:"customer_warehouse_name"`
+	CustomerWarehouseAddress       *string          `json:"customer_warehouse_address"`
+	CustomerWarehouseCity          *string          `json:"customer_warehouse_city"`
+	CustomerWarehouseState         *string          `json:"customer_warehouse_state"`
+	CustomerWarehousePin           *string          `json:"customer_warehouse_pin"`
+	CustomerWarehousePhone         *string          `json:"customer_warehouse_phone"`
+	CustomerWarehouseAlternatePhone *string         `json:"customer_warehouse_alternate_phone"`
+	CustomerWarehouseEmail         *string          `json:"customer_warehouse_email"`
+	
+	Files                  *[]string        `json:"files"`
 }
 
 

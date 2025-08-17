@@ -1,0 +1,2456 @@
+{
+  "level": "info",
+  "log_data": {
+    "filename": "D:/Openleaf/Openleaf-Dev-B2B-Notification-Server/workers/carrier/appointmentEmail.go:127",
+    "log_data": {
+      "data": {
+        "email": "omkar@openleaf.tech",
+        "cc": [
+          "sahil@openleaf.tech",
+          "nikhil@openleaf.tech"
+        ],
+        "send_at": "2025-08-17T21:02:00+05:30",
+        "is_reminder": false,
+        "reminder_send_at": [],
+        "data": {
+          "po_number": [
+            "PO12345",
+            "PO67890"
+          ],
+          "lr_number": "LR987654321",
+          "appointment_date": "2025-08-22T15:00:00Z",
+          "master_waybill": [
+            "MWB001",
+            "MWB002"
+          ],
+          "child_waybill": [
+            "CWB101",
+            "CWB102"
+          ],
+          "cartons": [
+            {
+              "id": "550e8400-e29b-41d4-a716-446655440000",
+              "type": "Box",
+              "length": 40,
+              "breadth": 30,
+              "height": 20,
+              "weight": 12.5,
+              "quantity": 1,
+              "volumetric_weight": 15.2,
+              "awb": [
+                "AWB123456789"
+              ],
+              "uuid_awb": [
+                "123e4567-e89b-12d3-a456-426614174000"
+              ],
+              "total_child_cartons": 1,
+              "child_cartons": [
+                {
+                  "id": "11111111-2222-3333-4444-555555555555",
+                  "type": "Small Box",
+                  "length": 20,
+                  "breadth": 15,
+                  "height": 10,
+                  "weight": 5,
+                  "quantity": 1,
+                  "volumetric_weight": 6.2,
+                  "awb": [
+                    "AWB987654321"
+                  ],
+                  "uuid_awb": [
+                    "99999999-8888-7777-6666-555555555555"
+                  ]
+                }
+              ]
+            }
+          ],
+          "total_cartons": 1,
+          "total_dead_weight": 20.7,
+          "total_volumetric_weight": 22.3,
+          "warehouse_name": "Main Distribution Center",
+          "warehouse_address": "123 Industrial Park",
+          "warehouse_city": "Mumbai",
+          "warehouse_state": "Maharashtra",
+          "warehouse_pin": "400001",
+          "warehouse_phone": "+91-9876543210",
+          "warehouse_alternate_phone": "+91-9123456780",
+          "warehouse_email": "dispatch@warehouse.com",
+          "customer_warehouse_name": "ABC Retail Hub",
+          "customer_warehouse_address": "456 Market Road",
+          "customer_warehouse_city": "Pune",
+          "customer_warehouse_state": "Maharashtra",
+          "customer_warehouse_pin": "411001",
+          "customer_warehouse_phone": "+91-9988776655",
+          "customer_warehouse_alternate_phone": "+91-8877665544",
+          "customer_warehouse_email": "inbound@abcretail.com",
+          "files": []
+        }
+      },
+      "task_type": "email:carrier-appointment-notification"
+    }
+  },
+  "msg": "[worker] appointment email sent successfully",
+  "time": "17-08-2025 21:02:10"
+}
+{
+  "level": "info",
+  "log_data": {
+    "filename": "D:/Openleaf/Openleaf-Dev-B2B-Notification-Server/helpers/email.go:56",
+    "log_data": {
+      "host": "smtp.gmail.com",
+      "port": 587,
+      "useSTARTTLS": true,
+      "useTLS": false,
+      "username": "b2b@openleaf.tech"
+    }
+  },
+  "msg": "email configuration initialized",
+  "time": "17-08-2025 21:03:54"
+}
+{
+  "level": "info",
+  "log_data": {
+    "filename": "D:/Openleaf/Openleaf-Dev-B2B-Notification-Server/controllers/scheduleEmail.go:79",
+    "log_data": {
+      "queue": "default",
+      "send_at": "2025-08-17T21:04:00+05:30",
+      "task_id": "9944bf48-4075-4dc5-baed-75fc65871bbc",
+      "task_type": "email:carrier-appointment-notification"
+    }
+  },
+  "msg": "email task enqueued successfully",
+  "time": "17-08-2025 21:03:59"
+}
+{
+  "level": "info",
+  "log_data": {
+    "filename": "D:/Openleaf/Openleaf-Dev-B2B-Notification-Server/workers/carrier/appointmentEmail.go:26",
+    "log_data": {
+      "payload": {
+        "cc": [
+          "sahil@openleaf.tech",
+          "nikhil@openleaf.tech"
+        ],
+        "data": {
+          "appointment_date": "2025-08-22T15:00:00Z",
+          "cartons": [
+            {
+              "awb": [
+                "AWB123456789"
+              ],
+              "breadth": 30,
+              "child_cartons": [
+                {
+                  "awb": [
+                    "AWB987654321"
+                  ],
+                  "breadth": 15,
+                  "height": 10,
+                  "id": "11111111-2222-3333-4444-555555555555",
+                  "length": 20,
+                  "quantity": 1,
+                  "type": "Small Box",
+                  "uuid_awb": [
+                    "99999999-8888-7777-6666-555555555555"
+                  ],
+                  "volumetric_weight": 6.2,
+                  "weight": 5
+                }
+              ],
+              "height": 20,
+              "id": "550e8400-e29b-41d4-a716-446655440000",
+              "length": 40,
+              "quantity": 1,
+              "total_child_cartons": 1,
+              "type": "Box",
+              "uuid_awb": [
+                "123e4567-e89b-12d3-a456-426614174000"
+              ],
+              "volumetric_weight": 15.2,
+              "weight": 12.5
+            }
+          ],
+          "child_waybill": [
+            "CWB101",
+            "CWB102"
+          ],
+          "customer_warehouse_address": "456 Market Road",
+          "customer_warehouse_alternate_phone": "+91-8877665544",
+          "customer_warehouse_city": "Pune",
+          "customer_warehouse_email": "inbound@abcretail.com",
+          "customer_warehouse_name": "ABC Retail Hub",
+          "customer_warehouse_phone": "+91-9988776655",
+          "customer_warehouse_pin": "411001",
+          "customer_warehouse_state": "Maharashtra",
+          "files": [],
+          "lr_number": "LR987654321",
+          "master_waybill": [
+            "MWB001",
+            "MWB002"
+          ],
+          "po_number": [
+            "PO12345",
+            "PO67890"
+          ],
+          "total_cartons": 1,
+          "total_dead_weight": 20.7,
+          "total_volumetric_weight": 22.3,
+          "warehouse_address": "123 Industrial Park",
+          "warehouse_alternate_phone": "+91-9123456780",
+          "warehouse_city": "Mumbai",
+          "warehouse_email": "dispatch@warehouse.com",
+          "warehouse_name": "Main Distribution Center",
+          "warehouse_phone": "+91-9876543210",
+          "warehouse_pin": "400001",
+          "warehouse_state": "Maharashtra"
+        },
+        "email": "omkar@openleaf.tech",
+        "is_reminder": false,
+        "reminder_send_at": [],
+        "send_at": "2025-08-17T21:04:00+05:30"
+      },
+      "task_type": "email:carrier-appointment-notification"
+    }
+  },
+  "msg": "[worker] carrier appointment email payload raw",
+  "time": "17-08-2025 21:04:02"
+}
+{
+  "level": "info",
+  "log_data": {
+    "filename": "D:/Openleaf/Openleaf-Dev-B2B-Notification-Server/workers/carrier/appointmentEmail.go:37",
+    "log_data": {
+      "data": {
+        "email": "omkar@openleaf.tech",
+        "cc": [
+          "sahil@openleaf.tech",
+          "nikhil@openleaf.tech"
+        ],
+        "send_at": "2025-08-17T21:04:00+05:30",
+        "is_reminder": false,
+        "reminder_send_at": [],
+        "data": {
+          "po_number": [
+            "PO12345",
+            "PO67890"
+          ],
+          "lr_number": "LR987654321",
+          "appointment_date": "2025-08-22T15:00:00Z",
+          "master_waybill": [
+            "MWB001",
+            "MWB002"
+          ],
+          "child_waybill": [
+            "CWB101",
+            "CWB102"
+          ],
+          "cartons": [
+            {
+              "id": "550e8400-e29b-41d4-a716-446655440000",
+              "type": "Box",
+              "length": 40,
+              "breadth": 30,
+              "height": 20,
+              "weight": 12.5,
+              "quantity": 1,
+              "volumetric_weight": 15.2,
+              "awb": [
+                "AWB123456789"
+              ],
+              "uuid_awb": [
+                "123e4567-e89b-12d3-a456-426614174000"
+              ],
+              "total_child_cartons": 1,
+              "child_cartons": [
+                {
+                  "id": "11111111-2222-3333-4444-555555555555",
+                  "type": "Small Box",
+                  "length": 20,
+                  "breadth": 15,
+                  "height": 10,
+                  "weight": 5,
+                  "quantity": 1,
+                  "volumetric_weight": 6.2,
+                  "awb": [
+                    "AWB987654321"
+                  ],
+                  "uuid_awb": [
+                    "99999999-8888-7777-6666-555555555555"
+                  ]
+                }
+              ]
+            }
+          ],
+          "total_cartons": 1,
+          "total_dead_weight": 20.7,
+          "total_volumetric_weight": 22.3,
+          "warehouse_name": "Main Distribution Center",
+          "warehouse_address": "123 Industrial Park",
+          "warehouse_city": "Mumbai",
+          "warehouse_state": "Maharashtra",
+          "warehouse_pin": "400001",
+          "warehouse_phone": "+91-9876543210",
+          "warehouse_alternate_phone": "+91-9123456780",
+          "warehouse_email": "dispatch@warehouse.com",
+          "customer_warehouse_name": "ABC Retail Hub",
+          "customer_warehouse_address": "456 Market Road",
+          "customer_warehouse_city": "Pune",
+          "customer_warehouse_state": "Maharashtra",
+          "customer_warehouse_pin": "411001",
+          "customer_warehouse_phone": "+91-9988776655",
+          "customer_warehouse_alternate_phone": "+91-8877665544",
+          "customer_warehouse_email": "inbound@abcretail.com",
+          "files": []
+        }
+      },
+      "task_type": "email:carrier-appointment-notification"
+    }
+  },
+  "msg": "[worker] carrier appointment email payload",
+  "time": "17-08-2025 21:04:02"
+}
+{
+  "level": "info",
+  "log_data": {
+    "filename": "D:/Openleaf/Openleaf-Dev-B2B-Notification-Server/helpers/email.go:117",
+    "log_data": {
+      "cc": [
+        "sahil@openleaf.tech",
+        "nikhil@openleaf.tech"
+      ],
+      "from": "b2b@openleaf.tech",
+      "host": "smtp.gmail.com",
+      "port": 587,
+      "subject": "Delivery Appointment Scheduled for LRLR987654321 on 22 Aug 2025",
+      "to": [
+        "omkar@openleaf.tech"
+      ],
+      "useSTARTTLS": true,
+      "useTLS": false,
+      "username": "b2b@openleaf.tech"
+    }
+  },
+  "msg": "attempting to send email",
+  "time": "17-08-2025 21:04:02"
+}
+{
+  "level": "info",
+  "log_data": {
+    "filename": "D:/Openleaf/Openleaf-Dev-B2B-Notification-Server/workers/carrier/appointmentEmail.go:182",
+    "log_data": {
+      "data": {
+        "email": "omkar@openleaf.tech",
+        "cc": [
+          "sahil@openleaf.tech",
+          "nikhil@openleaf.tech"
+        ],
+        "send_at": "2025-08-17T21:04:00+05:30",
+        "is_reminder": false,
+        "reminder_send_at": [],
+        "data": {
+          "po_number": [
+            "PO12345",
+            "PO67890"
+          ],
+          "lr_number": "LR987654321",
+          "appointment_date": "2025-08-22T15:00:00Z",
+          "master_waybill": [
+            "MWB001",
+            "MWB002"
+          ],
+          "child_waybill": [
+            "CWB101",
+            "CWB102"
+          ],
+          "cartons": [
+            {
+              "id": "550e8400-e29b-41d4-a716-446655440000",
+              "type": "Box",
+              "length": 40,
+              "breadth": 30,
+              "height": 20,
+              "weight": 12.5,
+              "quantity": 1,
+              "volumetric_weight": 15.2,
+              "awb": [
+                "AWB123456789"
+              ],
+              "uuid_awb": [
+                "123e4567-e89b-12d3-a456-426614174000"
+              ],
+              "total_child_cartons": 1,
+              "child_cartons": [
+                {
+                  "id": "11111111-2222-3333-4444-555555555555",
+                  "type": "Small Box",
+                  "length": 20,
+                  "breadth": 15,
+                  "height": 10,
+                  "weight": 5,
+                  "quantity": 1,
+                  "volumetric_weight": 6.2,
+                  "awb": [
+                    "AWB987654321"
+                  ],
+                  "uuid_awb": [
+                    "99999999-8888-7777-6666-555555555555"
+                  ]
+                }
+              ]
+            }
+          ],
+          "total_cartons": 1,
+          "total_dead_weight": 20.7,
+          "total_volumetric_weight": 22.3,
+          "warehouse_name": "Main Distribution Center",
+          "warehouse_address": "123 Industrial Park",
+          "warehouse_city": "Mumbai",
+          "warehouse_state": "Maharashtra",
+          "warehouse_pin": "400001",
+          "warehouse_phone": "+91-9876543210",
+          "warehouse_alternate_phone": "+91-9123456780",
+          "warehouse_email": "dispatch@warehouse.com",
+          "customer_warehouse_name": "ABC Retail Hub",
+          "customer_warehouse_address": "456 Market Road",
+          "customer_warehouse_city": "Pune",
+          "customer_warehouse_state": "Maharashtra",
+          "customer_warehouse_pin": "411001",
+          "customer_warehouse_phone": "+91-9988776655",
+          "customer_warehouse_alternate_phone": "+91-8877665544",
+          "customer_warehouse_email": "inbound@abcretail.com",
+          "files": []
+        }
+      },
+      "task_type": "email:carrier-appointment-notification"
+    }
+  },
+  "msg": "[worker] appointment email sent successfully",
+  "time": "17-08-2025 21:04:08"
+}
+{
+  "level": "info",
+  "log_data": {
+    "filename": "D:/Openleaf/Openleaf-Dev-B2B-Notification-Server/helpers/email.go:56",
+    "log_data": {
+      "host": "smtp.gmail.com",
+      "port": 587,
+      "useSTARTTLS": true,
+      "useTLS": false,
+      "username": "b2b@openleaf.tech"
+    }
+  },
+  "msg": "email configuration initialized",
+  "time": "17-08-2025 21:09:05"
+}
+{
+  "level": "info",
+  "log_data": {
+    "filename": "D:/Openleaf/Openleaf-Dev-B2B-Notification-Server/controllers/scheduleEmail.go:79",
+    "log_data": {
+      "queue": "default",
+      "send_at": "2025-08-17T21:09:43.1517501+05:30",
+      "task_id": "45a0a7e1-5c41-4e09-afee-2bdbca2e5d57",
+      "task_type": "email:carrier-appointment-notification"
+    }
+  },
+  "msg": "email task enqueued successfully",
+  "time": "17-08-2025 21:09:13"
+}
+{
+  "level": "info",
+  "log_data": {
+    "filename": "D:/Openleaf/Openleaf-Dev-B2B-Notification-Server/workers/carrier/appointmentEmail.go:26",
+    "log_data": {
+      "payload": {
+        "cc": [
+          "sahil@openleaf.tech",
+          "nikhil@openleaf.tech"
+        ],
+        "data": {
+          "appointment_date": "2025-08-22T15:00:00Z",
+          "cartons": [
+            {
+              "awb": [
+                "AWB123456789"
+              ],
+              "breadth": 30,
+              "child_cartons": [
+                {
+                  "awb": [
+                    "AWB987654321"
+                  ],
+                  "breadth": 15,
+                  "height": 10,
+                  "id": "11111111-2222-3333-4444-555555555555",
+                  "length": 20,
+                  "quantity": 1,
+                  "type": "Small Box",
+                  "uuid_awb": [
+                    "99999999-8888-7777-6666-555555555555"
+                  ],
+                  "volumetric_weight": 6.2,
+                  "weight": 5
+                }
+              ],
+              "height": 20,
+              "id": "550e8400-e29b-41d4-a716-446655440000",
+              "length": 40,
+              "quantity": 1,
+              "total_child_cartons": 1,
+              "type": "Box",
+              "uuid_awb": [
+                "123e4567-e89b-12d3-a456-426614174000"
+              ],
+              "volumetric_weight": 15.2,
+              "weight": 12.5
+            }
+          ],
+          "child_waybill": [
+            "CWB101",
+            "CWB102"
+          ],
+          "customer_warehouse_address": "456 Market Road",
+          "customer_warehouse_alternate_phone": "+91-8877665544",
+          "customer_warehouse_city": "Pune",
+          "customer_warehouse_email": "inbound@abcretail.com",
+          "customer_warehouse_name": "ABC Retail Hub",
+          "customer_warehouse_phone": "+91-9988776655",
+          "customer_warehouse_pin": "411001",
+          "customer_warehouse_state": "Maharashtra",
+          "files": [],
+          "lr_number": "LR987654321",
+          "master_waybill": [
+            "MWB001",
+            "MWB002"
+          ],
+          "po_number": [
+            "PO12345",
+            "PO67890"
+          ],
+          "total_cartons": 1,
+          "total_dead_weight": 20.7,
+          "total_volumetric_weight": 22.3,
+          "warehouse_address": "123 Industrial Park",
+          "warehouse_alternate_phone": "+91-9123456780",
+          "warehouse_city": "Mumbai",
+          "warehouse_email": "dispatch@warehouse.com",
+          "warehouse_name": "Main Distribution Center",
+          "warehouse_phone": "+91-9876543210",
+          "warehouse_pin": "400001",
+          "warehouse_state": "Maharashtra"
+        },
+        "email": "omkar@openleaf.tech",
+        "is_reminder": false,
+        "reminder_send_at": [],
+        "send_at": "2025-08-17T21:04:00+05:30"
+      },
+      "task_type": "email:carrier-appointment-notification"
+    }
+  },
+  "msg": "[worker] carrier appointment email payload raw",
+  "time": "17-08-2025 21:09:43"
+}
+{
+  "level": "info",
+  "log_data": {
+    "filename": "D:/Openleaf/Openleaf-Dev-B2B-Notification-Server/workers/carrier/appointmentEmail.go:37",
+    "log_data": {
+      "data": {
+        "email": "omkar@openleaf.tech",
+        "cc": [
+          "sahil@openleaf.tech",
+          "nikhil@openleaf.tech"
+        ],
+        "send_at": "2025-08-17T21:04:00+05:30",
+        "is_reminder": false,
+        "reminder_send_at": [],
+        "data": {
+          "po_number": [
+            "PO12345",
+            "PO67890"
+          ],
+          "lr_number": "LR987654321",
+          "appointment_date": "2025-08-22T15:00:00Z",
+          "master_waybill": [
+            "MWB001",
+            "MWB002"
+          ],
+          "child_waybill": [
+            "CWB101",
+            "CWB102"
+          ],
+          "cartons": [
+            {
+              "id": "550e8400-e29b-41d4-a716-446655440000",
+              "type": "Box",
+              "length": 40,
+              "breadth": 30,
+              "height": 20,
+              "weight": 12.5,
+              "quantity": 1,
+              "volumetric_weight": 15.2,
+              "awb": [
+                "AWB123456789"
+              ],
+              "uuid_awb": [
+                "123e4567-e89b-12d3-a456-426614174000"
+              ],
+              "total_child_cartons": 1,
+              "child_cartons": [
+                {
+                  "id": "11111111-2222-3333-4444-555555555555",
+                  "type": "Small Box",
+                  "length": 20,
+                  "breadth": 15,
+                  "height": 10,
+                  "weight": 5,
+                  "quantity": 1,
+                  "volumetric_weight": 6.2,
+                  "awb": [
+                    "AWB987654321"
+                  ],
+                  "uuid_awb": [
+                    "99999999-8888-7777-6666-555555555555"
+                  ]
+                }
+              ]
+            }
+          ],
+          "total_cartons": 1,
+          "total_dead_weight": 20.7,
+          "total_volumetric_weight": 22.3,
+          "warehouse_name": "Main Distribution Center",
+          "warehouse_address": "123 Industrial Park",
+          "warehouse_city": "Mumbai",
+          "warehouse_state": "Maharashtra",
+          "warehouse_pin": "400001",
+          "warehouse_phone": "+91-9876543210",
+          "warehouse_alternate_phone": "+91-9123456780",
+          "warehouse_email": "dispatch@warehouse.com",
+          "customer_warehouse_name": "ABC Retail Hub",
+          "customer_warehouse_address": "456 Market Road",
+          "customer_warehouse_city": "Pune",
+          "customer_warehouse_state": "Maharashtra",
+          "customer_warehouse_pin": "411001",
+          "customer_warehouse_phone": "+91-9988776655",
+          "customer_warehouse_alternate_phone": "+91-8877665544",
+          "customer_warehouse_email": "inbound@abcretail.com",
+          "files": []
+        }
+      },
+      "task_type": "email:carrier-appointment-notification"
+    }
+  },
+  "msg": "[worker] carrier appointment email payload",
+  "time": "17-08-2025 21:09:43"
+}
+{
+  "level": "info",
+  "log_data": {
+    "filename": "D:/Openleaf/Openleaf-Dev-B2B-Notification-Server/helpers/email.go:117",
+    "log_data": {
+      "cc": [
+        "sahil@openleaf.tech",
+        "nikhil@openleaf.tech"
+      ],
+      "from": "b2b@openleaf.tech",
+      "host": "smtp.gmail.com",
+      "port": 587,
+      "subject": "Delivery Appointment Scheduled for LRLR987654321 on 22 Aug 2025",
+      "to": [
+        "omkar@openleaf.tech"
+      ],
+      "useSTARTTLS": true,
+      "useTLS": false,
+      "username": "b2b@openleaf.tech"
+    }
+  },
+  "msg": "attempting to send email",
+  "time": "17-08-2025 21:09:43"
+}
+{
+  "level": "info",
+  "log_data": {
+    "filename": "D:/Openleaf/Openleaf-Dev-B2B-Notification-Server/workers/carrier/appointmentEmail.go:189",
+    "log_data": {
+      "data": {
+        "email": "omkar@openleaf.tech",
+        "cc": [
+          "sahil@openleaf.tech",
+          "nikhil@openleaf.tech"
+        ],
+        "send_at": "2025-08-17T21:04:00+05:30",
+        "is_reminder": false,
+        "reminder_send_at": [],
+        "data": {
+          "po_number": [
+            "PO12345",
+            "PO67890"
+          ],
+          "lr_number": "LR987654321",
+          "appointment_date": "2025-08-22T15:00:00Z",
+          "master_waybill": [
+            "MWB001",
+            "MWB002"
+          ],
+          "child_waybill": [
+            "CWB101",
+            "CWB102"
+          ],
+          "cartons": [
+            {
+              "id": "550e8400-e29b-41d4-a716-446655440000",
+              "type": "Box",
+              "length": 40,
+              "breadth": 30,
+              "height": 20,
+              "weight": 12.5,
+              "quantity": 1,
+              "volumetric_weight": 15.2,
+              "awb": [
+                "AWB123456789"
+              ],
+              "uuid_awb": [
+                "123e4567-e89b-12d3-a456-426614174000"
+              ],
+              "total_child_cartons": 1,
+              "child_cartons": [
+                {
+                  "id": "11111111-2222-3333-4444-555555555555",
+                  "type": "Small Box",
+                  "length": 20,
+                  "breadth": 15,
+                  "height": 10,
+                  "weight": 5,
+                  "quantity": 1,
+                  "volumetric_weight": 6.2,
+                  "awb": [
+                    "AWB987654321"
+                  ],
+                  "uuid_awb": [
+                    "99999999-8888-7777-6666-555555555555"
+                  ]
+                }
+              ]
+            }
+          ],
+          "total_cartons": 1,
+          "total_dead_weight": 20.7,
+          "total_volumetric_weight": 22.3,
+          "warehouse_name": "Main Distribution Center",
+          "warehouse_address": "123 Industrial Park",
+          "warehouse_city": "Mumbai",
+          "warehouse_state": "Maharashtra",
+          "warehouse_pin": "400001",
+          "warehouse_phone": "+91-9876543210",
+          "warehouse_alternate_phone": "+91-9123456780",
+          "warehouse_email": "dispatch@warehouse.com",
+          "customer_warehouse_name": "ABC Retail Hub",
+          "customer_warehouse_address": "456 Market Road",
+          "customer_warehouse_city": "Pune",
+          "customer_warehouse_state": "Maharashtra",
+          "customer_warehouse_pin": "411001",
+          "customer_warehouse_phone": "+91-9988776655",
+          "customer_warehouse_alternate_phone": "+91-8877665544",
+          "customer_warehouse_email": "inbound@abcretail.com",
+          "files": []
+        }
+      },
+      "task_type": "email:carrier-appointment-notification"
+    }
+  },
+  "msg": "[worker] appointment email sent successfully",
+  "time": "17-08-2025 21:09:50"
+}
+{
+  "level": "info",
+  "log_data": {
+    "filename": "D:/Openleaf/Openleaf-Dev-B2B-Notification-Server/helpers/email.go:56",
+    "log_data": {
+      "host": "smtp.gmail.com",
+      "port": 587,
+      "useSTARTTLS": true,
+      "useTLS": false,
+      "username": "b2b@openleaf.tech"
+    }
+  },
+  "msg": "email configuration initialized",
+  "time": "17-08-2025 21:14:49"
+}
+{
+  "level": "info",
+  "log_data": {
+    "filename": "D:/Openleaf/Openleaf-Dev-B2B-Notification-Server/controllers/scheduleEmail.go:79",
+    "log_data": {
+      "queue": "default",
+      "send_at": "2025-08-17T21:15:03.7025421+05:30",
+      "task_id": "54076a1c-b337-4b62-bdad-e4eaa6b231cd",
+      "task_type": "email:carrier-appointment-notification"
+    }
+  },
+  "msg": "email task enqueued successfully",
+  "time": "17-08-2025 21:14:53"
+}
+{
+  "level": "info",
+  "log_data": {
+    "filename": "D:/Openleaf/Openleaf-Dev-B2B-Notification-Server/workers/carrier/appointmentEmail.go:26",
+    "log_data": {
+      "payload": {
+        "cc": [
+          "sahil@openleaf.tech",
+          "nikhil@openleaf.tech"
+        ],
+        "data": {
+          "appointment_date": "2025-08-22T15:00:00Z",
+          "cartons": [
+            {
+              "awb": [
+                "AWB123456789"
+              ],
+              "breadth": 30,
+              "child_cartons": [
+                {
+                  "awb": [
+                    "AWB987654321"
+                  ],
+                  "breadth": 15,
+                  "height": 10,
+                  "id": "11111111-2222-3333-4444-555555555555",
+                  "length": 20,
+                  "quantity": 1,
+                  "type": "Small Box",
+                  "uuid_awb": [
+                    "99999999-8888-7777-6666-555555555555"
+                  ],
+                  "volumetric_weight": 6.2,
+                  "weight": 5
+                }
+              ],
+              "height": 20,
+              "id": "550e8400-e29b-41d4-a716-446655440000",
+              "length": 40,
+              "quantity": 1,
+              "total_child_cartons": 1,
+              "type": "Box",
+              "uuid_awb": [
+                "123e4567-e89b-12d3-a456-426614174000"
+              ],
+              "volumetric_weight": 15.2,
+              "weight": 12.5
+            }
+          ],
+          "child_waybill": [
+            "CWB101",
+            "CWB102"
+          ],
+          "customer_warehouse_address": "456 Market Road",
+          "customer_warehouse_alternate_phone": "+91-8877665544",
+          "customer_warehouse_city": "Pune",
+          "customer_warehouse_email": "inbound@abcretail.com",
+          "customer_warehouse_name": "ABC Retail Hub",
+          "customer_warehouse_phone": "+91-9988776655",
+          "customer_warehouse_pin": "411001",
+          "customer_warehouse_state": "Maharashtra",
+          "files": [],
+          "lr_number": "LR987654321",
+          "master_waybill": [
+            "MWB001",
+            "MWB002"
+          ],
+          "po_number": [
+            "PO12345",
+            "PO67890"
+          ],
+          "total_cartons": 1,
+          "total_dead_weight": 20.7,
+          "total_volumetric_weight": 22.3,
+          "warehouse_address": "123 Industrial Park",
+          "warehouse_alternate_phone": "+91-9123456780",
+          "warehouse_city": "Mumbai",
+          "warehouse_email": "dispatch@warehouse.com",
+          "warehouse_name": "Main Distribution Center",
+          "warehouse_phone": "+91-9876543210",
+          "warehouse_pin": "400001",
+          "warehouse_state": "Maharashtra"
+        },
+        "email": "omkar@openleaf.tech",
+        "is_reminder": false,
+        "name": "Shiprocket",
+        "reminder_send_at": [],
+        "send_at": "2025-08-17T21:04:00+05:30"
+      },
+      "task_type": "email:carrier-appointment-notification"
+    }
+  },
+  "msg": "[worker] carrier appointment email payload raw",
+  "time": "17-08-2025 21:15:08"
+}
+{
+  "level": "info",
+  "log_data": {
+    "filename": "D:/Openleaf/Openleaf-Dev-B2B-Notification-Server/workers/carrier/appointmentEmail.go:37",
+    "log_data": {
+      "data": {
+        "email": "omkar@openleaf.tech",
+        "name": "Shiprocket",
+        "cc": [
+          "sahil@openleaf.tech",
+          "nikhil@openleaf.tech"
+        ],
+        "send_at": "2025-08-17T21:04:00+05:30",
+        "is_reminder": false,
+        "reminder_send_at": [],
+        "data": {
+          "po_number": [
+            "PO12345",
+            "PO67890"
+          ],
+          "lr_number": "LR987654321",
+          "appointment_date": "2025-08-22T15:00:00Z",
+          "master_waybill": [
+            "MWB001",
+            "MWB002"
+          ],
+          "child_waybill": [
+            "CWB101",
+            "CWB102"
+          ],
+          "cartons": [
+            {
+              "id": "550e8400-e29b-41d4-a716-446655440000",
+              "type": "Box",
+              "length": 40,
+              "breadth": 30,
+              "height": 20,
+              "weight": 12.5,
+              "quantity": 1,
+              "volumetric_weight": 15.2,
+              "awb": [
+                "AWB123456789"
+              ],
+              "uuid_awb": [
+                "123e4567-e89b-12d3-a456-426614174000"
+              ],
+              "total_child_cartons": 1,
+              "child_cartons": [
+                {
+                  "id": "11111111-2222-3333-4444-555555555555",
+                  "type": "Small Box",
+                  "length": 20,
+                  "breadth": 15,
+                  "height": 10,
+                  "weight": 5,
+                  "quantity": 1,
+                  "volumetric_weight": 6.2,
+                  "awb": [
+                    "AWB987654321"
+                  ],
+                  "uuid_awb": [
+                    "99999999-8888-7777-6666-555555555555"
+                  ]
+                }
+              ]
+            }
+          ],
+          "total_cartons": 1,
+          "total_dead_weight": 20.7,
+          "total_volumetric_weight": 22.3,
+          "warehouse_name": "Main Distribution Center",
+          "warehouse_address": "123 Industrial Park",
+          "warehouse_city": "Mumbai",
+          "warehouse_state": "Maharashtra",
+          "warehouse_pin": "400001",
+          "warehouse_phone": "+91-9876543210",
+          "warehouse_alternate_phone": "+91-9123456780",
+          "warehouse_email": "dispatch@warehouse.com",
+          "customer_warehouse_name": "ABC Retail Hub",
+          "customer_warehouse_address": "456 Market Road",
+          "customer_warehouse_city": "Pune",
+          "customer_warehouse_state": "Maharashtra",
+          "customer_warehouse_pin": "411001",
+          "customer_warehouse_phone": "+91-9988776655",
+          "customer_warehouse_alternate_phone": "+91-8877665544",
+          "customer_warehouse_email": "inbound@abcretail.com",
+          "files": []
+        }
+      },
+      "task_type": "email:carrier-appointment-notification"
+    }
+  },
+  "msg": "[worker] carrier appointment email payload",
+  "time": "17-08-2025 21:15:08"
+}
+{
+  "level": "info",
+  "log_data": {
+    "filename": "D:/Openleaf/Openleaf-Dev-B2B-Notification-Server/helpers/email.go:117",
+    "log_data": {
+      "cc": [
+        "sahil@openleaf.tech",
+        "nikhil@openleaf.tech"
+      ],
+      "from": "b2b@openleaf.tech",
+      "host": "smtp.gmail.com",
+      "port": 587,
+      "subject": "Delivery Appointment Scheduled for LRLR987654321 on 22 Aug 2025",
+      "to": [
+        "omkar@openleaf.tech"
+      ],
+      "useSTARTTLS": true,
+      "useTLS": false,
+      "username": "b2b@openleaf.tech"
+    }
+  },
+  "msg": "attempting to send email",
+  "time": "17-08-2025 21:15:08"
+}
+{
+  "level": "info",
+  "log_data": {
+    "filename": "D:/Openleaf/Openleaf-Dev-B2B-Notification-Server/workers/carrier/appointmentEmail.go:190",
+    "log_data": {
+      "data": {
+        "email": "omkar@openleaf.tech",
+        "name": "Shiprocket",
+        "cc": [
+          "sahil@openleaf.tech",
+          "nikhil@openleaf.tech"
+        ],
+        "send_at": "2025-08-17T21:04:00+05:30",
+        "is_reminder": false,
+        "reminder_send_at": [],
+        "data": {
+          "po_number": [
+            "PO12345",
+            "PO67890"
+          ],
+          "lr_number": "LR987654321",
+          "appointment_date": "2025-08-22T15:00:00Z",
+          "master_waybill": [
+            "MWB001",
+            "MWB002"
+          ],
+          "child_waybill": [
+            "CWB101",
+            "CWB102"
+          ],
+          "cartons": [
+            {
+              "id": "550e8400-e29b-41d4-a716-446655440000",
+              "type": "Box",
+              "length": 40,
+              "breadth": 30,
+              "height": 20,
+              "weight": 12.5,
+              "quantity": 1,
+              "volumetric_weight": 15.2,
+              "awb": [
+                "AWB123456789"
+              ],
+              "uuid_awb": [
+                "123e4567-e89b-12d3-a456-426614174000"
+              ],
+              "total_child_cartons": 1,
+              "child_cartons": [
+                {
+                  "id": "11111111-2222-3333-4444-555555555555",
+                  "type": "Small Box",
+                  "length": 20,
+                  "breadth": 15,
+                  "height": 10,
+                  "weight": 5,
+                  "quantity": 1,
+                  "volumetric_weight": 6.2,
+                  "awb": [
+                    "AWB987654321"
+                  ],
+                  "uuid_awb": [
+                    "99999999-8888-7777-6666-555555555555"
+                  ]
+                }
+              ]
+            }
+          ],
+          "total_cartons": 1,
+          "total_dead_weight": 20.7,
+          "total_volumetric_weight": 22.3,
+          "warehouse_name": "Main Distribution Center",
+          "warehouse_address": "123 Industrial Park",
+          "warehouse_city": "Mumbai",
+          "warehouse_state": "Maharashtra",
+          "warehouse_pin": "400001",
+          "warehouse_phone": "+91-9876543210",
+          "warehouse_alternate_phone": "+91-9123456780",
+          "warehouse_email": "dispatch@warehouse.com",
+          "customer_warehouse_name": "ABC Retail Hub",
+          "customer_warehouse_address": "456 Market Road",
+          "customer_warehouse_city": "Pune",
+          "customer_warehouse_state": "Maharashtra",
+          "customer_warehouse_pin": "411001",
+          "customer_warehouse_phone": "+91-9988776655",
+          "customer_warehouse_alternate_phone": "+91-8877665544",
+          "customer_warehouse_email": "inbound@abcretail.com",
+          "files": []
+        }
+      },
+      "task_type": "email:carrier-appointment-notification"
+    }
+  },
+  "msg": "[worker] appointment email sent successfully",
+  "time": "17-08-2025 21:15:14"
+}
+{
+  "level": "info",
+  "log_data": {
+    "filename": "D:/Openleaf/Openleaf-Dev-B2B-Notification-Server/controllers/scheduleEmail.go:79",
+    "log_data": {
+      "queue": "default",
+      "send_at": "2025-08-17T21:19:00+05:30",
+      "task_id": "d42f4148-c807-49de-aa37-9701bfe6e521",
+      "task_type": "email:carrier-appointment-notification"
+    }
+  },
+  "msg": "email task enqueued successfully",
+  "time": "17-08-2025 21:18:04"
+}
+{
+  "level": "info",
+  "log_data": {
+    "filename": "D:/Openleaf/Openleaf-Dev-B2B-Notification-Server/controllers/scheduleEmail.go:127",
+    "log_data": {
+      "queue": "default",
+      "send_at": "2025-08-17T21:22:00+05:30",
+      "task_id": "b5f24d32-d71f-4b8b-ba34-dc5ac3e211e9",
+      "task_type": "email:carrier-appointment-reminder"
+    }
+  },
+  "msg": "reminder email task enqueued successfully",
+  "time": "17-08-2025 21:18:04"
+}
+{
+  "level": "info",
+  "log_data": {
+    "filename": "D:/Openleaf/Openleaf-Dev-B2B-Notification-Server/workers/carrier/appointmentEmail.go:26",
+    "log_data": {
+      "payload": {
+        "cc": [
+          "sahil@openleaf.tech",
+          "nikhil@openleaf.tech",
+          "abhay@openleaf.tech"
+        ],
+        "data": {
+          "appointment_date": "2025-08-22T15:00:00Z",
+          "cartons": [
+            {
+              "awb": [
+                "AWB123456789"
+              ],
+              "breadth": 30,
+              "child_cartons": [
+                {
+                  "awb": [
+                    "AWB987654321"
+                  ],
+                  "breadth": 15,
+                  "height": 10,
+                  "id": "11111111-2222-3333-4444-555555555555",
+                  "length": 20,
+                  "quantity": 1,
+                  "type": "Small Box",
+                  "uuid_awb": [
+                    "99999999-8888-7777-6666-555555555555"
+                  ],
+                  "volumetric_weight": 6.2,
+                  "weight": 5
+                }
+              ],
+              "height": 20,
+              "id": "550e8400-e29b-41d4-a716-446655440000",
+              "length": 40,
+              "quantity": 1,
+              "total_child_cartons": 1,
+              "type": "Box",
+              "uuid_awb": [
+                "123e4567-e89b-12d3-a456-426614174000"
+              ],
+              "volumetric_weight": 15.2,
+              "weight": 12.5
+            }
+          ],
+          "child_waybill": [
+            "CWB101",
+            "CWB102"
+          ],
+          "customer_warehouse_address": "456 Market Road",
+          "customer_warehouse_alternate_phone": "+91-8877665544",
+          "customer_warehouse_city": "Pune",
+          "customer_warehouse_email": "inbound@abcretail.com",
+          "customer_warehouse_name": "ABC Retail Hub",
+          "customer_warehouse_phone": "+91-9988776655",
+          "customer_warehouse_pin": "411001",
+          "customer_warehouse_state": "Maharashtra",
+          "files": [],
+          "lr_number": "LR987654321",
+          "master_waybill": [
+            "MWB001",
+            "MWB002"
+          ],
+          "po_number": [
+            "PO12345",
+            "PO67890"
+          ],
+          "total_cartons": 1,
+          "total_dead_weight": 20.7,
+          "total_volumetric_weight": 22.3,
+          "warehouse_address": "123 Industrial Park",
+          "warehouse_alternate_phone": "+91-9123456780",
+          "warehouse_city": "Mumbai",
+          "warehouse_email": "dispatch@warehouse.com",
+          "warehouse_name": "Main Distribution Center",
+          "warehouse_phone": "+91-9876543210",
+          "warehouse_pin": "400001",
+          "warehouse_state": "Maharashtra"
+        },
+        "email": "omkar@openleaf.tech",
+        "is_reminder": true,
+        "name": "Delhivery",
+        "reminder_send_at": [
+          "2025-08-17T21:22:00+05:30"
+        ],
+        "send_at": "2025-08-17T21:19:00+05:30"
+      },
+      "task_type": "email:carrier-appointment-notification"
+    }
+  },
+  "msg": "[worker] carrier appointment email payload raw",
+  "time": "17-08-2025 21:19:03"
+}
+{
+  "level": "info",
+  "log_data": {
+    "filename": "D:/Openleaf/Openleaf-Dev-B2B-Notification-Server/workers/carrier/appointmentEmail.go:37",
+    "log_data": {
+      "data": {
+        "email": "omkar@openleaf.tech",
+        "name": "Delhivery",
+        "cc": [
+          "sahil@openleaf.tech",
+          "nikhil@openleaf.tech",
+          "abhay@openleaf.tech"
+        ],
+        "send_at": "2025-08-17T21:19:00+05:30",
+        "is_reminder": true,
+        "reminder_send_at": [
+          "2025-08-17T21:22:00+05:30"
+        ],
+        "data": {
+          "po_number": [
+            "PO12345",
+            "PO67890"
+          ],
+          "lr_number": "LR987654321",
+          "appointment_date": "2025-08-22T15:00:00Z",
+          "master_waybill": [
+            "MWB001",
+            "MWB002"
+          ],
+          "child_waybill": [
+            "CWB101",
+            "CWB102"
+          ],
+          "cartons": [
+            {
+              "id": "550e8400-e29b-41d4-a716-446655440000",
+              "type": "Box",
+              "length": 40,
+              "breadth": 30,
+              "height": 20,
+              "weight": 12.5,
+              "quantity": 1,
+              "volumetric_weight": 15.2,
+              "awb": [
+                "AWB123456789"
+              ],
+              "uuid_awb": [
+                "123e4567-e89b-12d3-a456-426614174000"
+              ],
+              "total_child_cartons": 1,
+              "child_cartons": [
+                {
+                  "id": "11111111-2222-3333-4444-555555555555",
+                  "type": "Small Box",
+                  "length": 20,
+                  "breadth": 15,
+                  "height": 10,
+                  "weight": 5,
+                  "quantity": 1,
+                  "volumetric_weight": 6.2,
+                  "awb": [
+                    "AWB987654321"
+                  ],
+                  "uuid_awb": [
+                    "99999999-8888-7777-6666-555555555555"
+                  ]
+                }
+              ]
+            }
+          ],
+          "total_cartons": 1,
+          "total_dead_weight": 20.7,
+          "total_volumetric_weight": 22.3,
+          "warehouse_name": "Main Distribution Center",
+          "warehouse_address": "123 Industrial Park",
+          "warehouse_city": "Mumbai",
+          "warehouse_state": "Maharashtra",
+          "warehouse_pin": "400001",
+          "warehouse_phone": "+91-9876543210",
+          "warehouse_alternate_phone": "+91-9123456780",
+          "warehouse_email": "dispatch@warehouse.com",
+          "customer_warehouse_name": "ABC Retail Hub",
+          "customer_warehouse_address": "456 Market Road",
+          "customer_warehouse_city": "Pune",
+          "customer_warehouse_state": "Maharashtra",
+          "customer_warehouse_pin": "411001",
+          "customer_warehouse_phone": "+91-9988776655",
+          "customer_warehouse_alternate_phone": "+91-8877665544",
+          "customer_warehouse_email": "inbound@abcretail.com",
+          "files": []
+        }
+      },
+      "task_type": "email:carrier-appointment-notification"
+    }
+  },
+  "msg": "[worker] carrier appointment email payload",
+  "time": "17-08-2025 21:19:03"
+}
+{
+  "level": "info",
+  "log_data": {
+    "filename": "D:/Openleaf/Openleaf-Dev-B2B-Notification-Server/helpers/email.go:117",
+    "log_data": {
+      "cc": [
+        "sahil@openleaf.tech",
+        "nikhil@openleaf.tech",
+        "abhay@openleaf.tech"
+      ],
+      "from": "b2b@openleaf.tech",
+      "host": "smtp.gmail.com",
+      "port": 587,
+      "subject": "Delivery Appointment Scheduled for LRLR987654321 on 22 Aug 2025",
+      "to": [
+        "omkar@openleaf.tech"
+      ],
+      "useSTARTTLS": true,
+      "useTLS": false,
+      "username": "b2b@openleaf.tech"
+    }
+  },
+  "msg": "attempting to send email",
+  "time": "17-08-2025 21:19:03"
+}
+{
+  "level": "info",
+  "log_data": {
+    "filename": "D:/Openleaf/Openleaf-Dev-B2B-Notification-Server/workers/carrier/appointmentEmail.go:190",
+    "log_data": {
+      "data": {
+        "email": "omkar@openleaf.tech",
+        "name": "Delhivery",
+        "cc": [
+          "sahil@openleaf.tech",
+          "nikhil@openleaf.tech",
+          "abhay@openleaf.tech"
+        ],
+        "send_at": "2025-08-17T21:19:00+05:30",
+        "is_reminder": true,
+        "reminder_send_at": [
+          "2025-08-17T21:22:00+05:30"
+        ],
+        "data": {
+          "po_number": [
+            "PO12345",
+            "PO67890"
+          ],
+          "lr_number": "LR987654321",
+          "appointment_date": "2025-08-22T15:00:00Z",
+          "master_waybill": [
+            "MWB001",
+            "MWB002"
+          ],
+          "child_waybill": [
+            "CWB101",
+            "CWB102"
+          ],
+          "cartons": [
+            {
+              "id": "550e8400-e29b-41d4-a716-446655440000",
+              "type": "Box",
+              "length": 40,
+              "breadth": 30,
+              "height": 20,
+              "weight": 12.5,
+              "quantity": 1,
+              "volumetric_weight": 15.2,
+              "awb": [
+                "AWB123456789"
+              ],
+              "uuid_awb": [
+                "123e4567-e89b-12d3-a456-426614174000"
+              ],
+              "total_child_cartons": 1,
+              "child_cartons": [
+                {
+                  "id": "11111111-2222-3333-4444-555555555555",
+                  "type": "Small Box",
+                  "length": 20,
+                  "breadth": 15,
+                  "height": 10,
+                  "weight": 5,
+                  "quantity": 1,
+                  "volumetric_weight": 6.2,
+                  "awb": [
+                    "AWB987654321"
+                  ],
+                  "uuid_awb": [
+                    "99999999-8888-7777-6666-555555555555"
+                  ]
+                }
+              ]
+            }
+          ],
+          "total_cartons": 1,
+          "total_dead_weight": 20.7,
+          "total_volumetric_weight": 22.3,
+          "warehouse_name": "Main Distribution Center",
+          "warehouse_address": "123 Industrial Park",
+          "warehouse_city": "Mumbai",
+          "warehouse_state": "Maharashtra",
+          "warehouse_pin": "400001",
+          "warehouse_phone": "+91-9876543210",
+          "warehouse_alternate_phone": "+91-9123456780",
+          "warehouse_email": "dispatch@warehouse.com",
+          "customer_warehouse_name": "ABC Retail Hub",
+          "customer_warehouse_address": "456 Market Road",
+          "customer_warehouse_city": "Pune",
+          "customer_warehouse_state": "Maharashtra",
+          "customer_warehouse_pin": "411001",
+          "customer_warehouse_phone": "+91-9988776655",
+          "customer_warehouse_alternate_phone": "+91-8877665544",
+          "customer_warehouse_email": "inbound@abcretail.com",
+          "files": []
+        }
+      },
+      "task_type": "email:carrier-appointment-notification"
+    }
+  },
+  "msg": "[worker] appointment email sent successfully",
+  "time": "17-08-2025 21:19:10"
+}
+{
+  "level": "info",
+  "log_data": {
+    "filename": "D:/Openleaf/Openleaf-Dev-B2B-Notification-Server/workers/carrier/appointmentEmail.go:211",
+    "log_data": {
+      "payload": {
+        "cc": [
+          "sahil@openleaf.tech",
+          "nikhil@openleaf.tech",
+          "abhay@openleaf.tech"
+        ],
+        "data": {
+          "appointment_date": "2025-08-22T15:00:00Z",
+          "cartons": [
+            {
+              "awb": [
+                "AWB123456789"
+              ],
+              "breadth": 30,
+              "child_cartons": [
+                {
+                  "awb": [
+                    "AWB987654321"
+                  ],
+                  "breadth": 15,
+                  "height": 10,
+                  "id": "11111111-2222-3333-4444-555555555555",
+                  "length": 20,
+                  "quantity": 1,
+                  "type": "Small Box",
+                  "uuid_awb": [
+                    "99999999-8888-7777-6666-555555555555"
+                  ],
+                  "volumetric_weight": 6.2,
+                  "weight": 5
+                }
+              ],
+              "height": 20,
+              "id": "550e8400-e29b-41d4-a716-446655440000",
+              "length": 40,
+              "quantity": 1,
+              "total_child_cartons": 1,
+              "type": "Box",
+              "uuid_awb": [
+                "123e4567-e89b-12d3-a456-426614174000"
+              ],
+              "volumetric_weight": 15.2,
+              "weight": 12.5
+            }
+          ],
+          "child_waybill": [
+            "CWB101",
+            "CWB102"
+          ],
+          "customer_warehouse_address": "456 Market Road",
+          "customer_warehouse_alternate_phone": "+91-8877665544",
+          "customer_warehouse_city": "Pune",
+          "customer_warehouse_email": "inbound@abcretail.com",
+          "customer_warehouse_name": "ABC Retail Hub",
+          "customer_warehouse_phone": "+91-9988776655",
+          "customer_warehouse_pin": "411001",
+          "customer_warehouse_state": "Maharashtra",
+          "files": [],
+          "lr_number": "LR987654321",
+          "master_waybill": [
+            "MWB001",
+            "MWB002"
+          ],
+          "po_number": [
+            "PO12345",
+            "PO67890"
+          ],
+          "total_cartons": 1,
+          "total_dead_weight": 20.7,
+          "total_volumetric_weight": 22.3,
+          "warehouse_address": "123 Industrial Park",
+          "warehouse_alternate_phone": "+91-9123456780",
+          "warehouse_city": "Mumbai",
+          "warehouse_email": "dispatch@warehouse.com",
+          "warehouse_name": "Main Distribution Center",
+          "warehouse_phone": "+91-9876543210",
+          "warehouse_pin": "400001",
+          "warehouse_state": "Maharashtra"
+        },
+        "email": "omkar@openleaf.tech",
+        "is_reminder": true,
+        "name": "Delhivery",
+        "reminder_send_at": [
+          "2025-08-17T21:22:00+05:30"
+        ],
+        "send_at": "2025-08-17T21:22:00+05:30"
+      },
+      "task_type": "email:carrier-appointment-reminder"
+    }
+  },
+  "msg": "[worker] carrier appointment reminder email payload raw",
+  "time": "17-08-2025 21:22:04"
+}
+{
+  "level": "info",
+  "log_data": {
+    "filename": "D:/Openleaf/Openleaf-Dev-B2B-Notification-Server/workers/carrier/appointmentEmail.go:222",
+    "log_data": {
+      "data": {
+        "email": "omkar@openleaf.tech",
+        "name": "Delhivery",
+        "cc": [
+          "sahil@openleaf.tech",
+          "nikhil@openleaf.tech",
+          "abhay@openleaf.tech"
+        ],
+        "send_at": "2025-08-17T21:22:00+05:30",
+        "is_reminder": true,
+        "reminder_send_at": [
+          "2025-08-17T21:22:00+05:30"
+        ],
+        "data": {
+          "po_number": [
+            "PO12345",
+            "PO67890"
+          ],
+          "lr_number": "LR987654321",
+          "appointment_date": "2025-08-22T15:00:00Z",
+          "master_waybill": [
+            "MWB001",
+            "MWB002"
+          ],
+          "child_waybill": [
+            "CWB101",
+            "CWB102"
+          ],
+          "cartons": [
+            {
+              "id": "550e8400-e29b-41d4-a716-446655440000",
+              "type": "Box",
+              "length": 40,
+              "breadth": 30,
+              "height": 20,
+              "weight": 12.5,
+              "quantity": 1,
+              "volumetric_weight": 15.2,
+              "awb": [
+                "AWB123456789"
+              ],
+              "uuid_awb": [
+                "123e4567-e89b-12d3-a456-426614174000"
+              ],
+              "total_child_cartons": 1,
+              "child_cartons": [
+                {
+                  "id": "11111111-2222-3333-4444-555555555555",
+                  "type": "Small Box",
+                  "length": 20,
+                  "breadth": 15,
+                  "height": 10,
+                  "weight": 5,
+                  "quantity": 1,
+                  "volumetric_weight": 6.2,
+                  "awb": [
+                    "AWB987654321"
+                  ],
+                  "uuid_awb": [
+                    "99999999-8888-7777-6666-555555555555"
+                  ]
+                }
+              ]
+            }
+          ],
+          "total_cartons": 1,
+          "total_dead_weight": 20.7,
+          "total_volumetric_weight": 22.3,
+          "warehouse_name": "Main Distribution Center",
+          "warehouse_address": "123 Industrial Park",
+          "warehouse_city": "Mumbai",
+          "warehouse_state": "Maharashtra",
+          "warehouse_pin": "400001",
+          "warehouse_phone": "+91-9876543210",
+          "warehouse_alternate_phone": "+91-9123456780",
+          "warehouse_email": "dispatch@warehouse.com",
+          "customer_warehouse_name": "ABC Retail Hub",
+          "customer_warehouse_address": "456 Market Road",
+          "customer_warehouse_city": "Pune",
+          "customer_warehouse_state": "Maharashtra",
+          "customer_warehouse_pin": "411001",
+          "customer_warehouse_phone": "+91-9988776655",
+          "customer_warehouse_alternate_phone": "+91-8877665544",
+          "customer_warehouse_email": "inbound@abcretail.com",
+          "files": []
+        }
+      },
+      "task_type": "email:carrier-appointment-reminder"
+    }
+  },
+  "msg": "[worker] carrier appointment reminder email payload",
+  "time": "17-08-2025 21:22:04"
+}
+{
+  "level": "info",
+  "log_data": {
+    "filename": "D:/Openleaf/Openleaf-Dev-B2B-Notification-Server/helpers/email.go:117",
+    "log_data": {
+      "cc": [
+        "sahil@openleaf.tech",
+        "nikhil@openleaf.tech",
+        "abhay@openleaf.tech"
+      ],
+      "from": "b2b@openleaf.tech",
+      "host": "smtp.gmail.com",
+      "port": 587,
+      "subject": "Reminder: Delivery for LRLR987654321 on 22 Aug 2025",
+      "to": [
+        "omkar@openleaf.tech"
+      ],
+      "useSTARTTLS": true,
+      "useTLS": false,
+      "username": "b2b@openleaf.tech"
+    }
+  },
+  "msg": "attempting to send email",
+  "time": "17-08-2025 21:22:04"
+}
+{
+  "level": "info",
+  "log_data": {
+    "filename": "D:/Openleaf/Openleaf-Dev-B2B-Notification-Server/workers/carrier/appointmentEmail.go:315",
+    "log_data": {
+      "data": {
+        "email": "omkar@openleaf.tech",
+        "name": "Delhivery",
+        "cc": [
+          "sahil@openleaf.tech",
+          "nikhil@openleaf.tech",
+          "abhay@openleaf.tech"
+        ],
+        "send_at": "2025-08-17T21:22:00+05:30",
+        "is_reminder": true,
+        "reminder_send_at": [
+          "2025-08-17T21:22:00+05:30"
+        ],
+        "data": {
+          "po_number": [
+            "PO12345",
+            "PO67890"
+          ],
+          "lr_number": "LR987654321",
+          "appointment_date": "2025-08-22T15:00:00Z",
+          "master_waybill": [
+            "MWB001",
+            "MWB002"
+          ],
+          "child_waybill": [
+            "CWB101",
+            "CWB102"
+          ],
+          "cartons": [
+            {
+              "id": "550e8400-e29b-41d4-a716-446655440000",
+              "type": "Box",
+              "length": 40,
+              "breadth": 30,
+              "height": 20,
+              "weight": 12.5,
+              "quantity": 1,
+              "volumetric_weight": 15.2,
+              "awb": [
+                "AWB123456789"
+              ],
+              "uuid_awb": [
+                "123e4567-e89b-12d3-a456-426614174000"
+              ],
+              "total_child_cartons": 1,
+              "child_cartons": [
+                {
+                  "id": "11111111-2222-3333-4444-555555555555",
+                  "type": "Small Box",
+                  "length": 20,
+                  "breadth": 15,
+                  "height": 10,
+                  "weight": 5,
+                  "quantity": 1,
+                  "volumetric_weight": 6.2,
+                  "awb": [
+                    "AWB987654321"
+                  ],
+                  "uuid_awb": [
+                    "99999999-8888-7777-6666-555555555555"
+                  ]
+                }
+              ]
+            }
+          ],
+          "total_cartons": 1,
+          "total_dead_weight": 20.7,
+          "total_volumetric_weight": 22.3,
+          "warehouse_name": "Main Distribution Center",
+          "warehouse_address": "123 Industrial Park",
+          "warehouse_city": "Mumbai",
+          "warehouse_state": "Maharashtra",
+          "warehouse_pin": "400001",
+          "warehouse_phone": "+91-9876543210",
+          "warehouse_alternate_phone": "+91-9123456780",
+          "warehouse_email": "dispatch@warehouse.com",
+          "customer_warehouse_name": "ABC Retail Hub",
+          "customer_warehouse_address": "456 Market Road",
+          "customer_warehouse_city": "Pune",
+          "customer_warehouse_state": "Maharashtra",
+          "customer_warehouse_pin": "411001",
+          "customer_warehouse_phone": "+91-9988776655",
+          "customer_warehouse_alternate_phone": "+91-8877665544",
+          "customer_warehouse_email": "inbound@abcretail.com",
+          "files": []
+        }
+      },
+      "task_type": "email:carrier-appointment-reminder"
+    }
+  },
+  "msg": "[worker] reminder email sent successfully",
+  "time": "17-08-2025 21:22:10"
+}
+{
+  "level": "info",
+  "log_data": {
+    "filename": "D:/Openleaf/Openleaf-Dev-B2B-Notification-Server/helpers/email.go:38",
+    "log_data": {
+      "host": "smtp.gmail.com",
+      "port": 587,
+      "username": "b2b@openleaf.tech"
+    }
+  },
+  "msg": "email configuration initialized",
+  "time": "17-08-2025 21:26:24"
+}
+{
+  "level": "info",
+  "log_data": {
+    "filename": "D:/Openleaf/Openleaf-Dev-B2B-Notification-Server/helpers/email.go:38",
+    "log_data": {
+      "host": "smtp.gmail.com",
+      "port": 587,
+      "username": "b2b@openleaf.tech"
+    }
+  },
+  "msg": "email configuration initialized",
+  "time": "17-08-2025 21:27:02"
+}
+{
+  "level": "info",
+  "log_data": {
+    "filename": "D:/Openleaf/Openleaf-Dev-B2B-Notification-Server/controllers/scheduleEmail.go:79",
+    "log_data": {
+      "queue": "default",
+      "send_at": "2025-08-17T21:28:00+05:30",
+      "task_id": "fc921139-a020-42cc-9d48-2144d8dfcf92",
+      "task_type": "email:carrier-appointment-notification"
+    }
+  },
+  "msg": "email task enqueued successfully",
+  "time": "17-08-2025 21:27:29"
+}
+{
+  "level": "info",
+  "log_data": {
+    "filename": "D:/Openleaf/Openleaf-Dev-B2B-Notification-Server/controllers/scheduleEmail.go:127",
+    "log_data": {
+      "queue": "default",
+      "send_at": "2025-08-17T21:29:00+05:30",
+      "task_id": "071a721c-1633-460d-b1ae-4828284960a6",
+      "task_type": "email:carrier-appointment-reminder"
+    }
+  },
+  "msg": "reminder email task enqueued successfully",
+  "time": "17-08-2025 21:27:29"
+}
+{
+  "level": "info",
+  "log_data": {
+    "filename": "D:/Openleaf/Openleaf-Dev-B2B-Notification-Server/workers/carrier/appointmentEmail.go:26",
+    "log_data": {
+      "payload": {
+        "cc": [
+          "sahil@openleaf.tech",
+          "nikhil@openleaf.tech",
+          "abhay@openleaf.tech"
+        ],
+        "data": {
+          "appointment_date": "2025-08-22T15:00:00Z",
+          "cartons": [
+            {
+              "awb": [
+                "AWB123456789"
+              ],
+              "breadth": 30,
+              "child_cartons": [
+                {
+                  "awb": [
+                    "AWB987654321"
+                  ],
+                  "breadth": 15,
+                  "height": 10,
+                  "id": "11111111-2222-3333-4444-555555555555",
+                  "length": 20,
+                  "quantity": 1,
+                  "type": "Small Box",
+                  "uuid_awb": [
+                    "99999999-8888-7777-6666-555555555555"
+                  ],
+                  "volumetric_weight": 6.2,
+                  "weight": 5
+                }
+              ],
+              "height": 20,
+              "id": "550e8400-e29b-41d4-a716-446655440000",
+              "length": 40,
+              "quantity": 1,
+              "total_child_cartons": 1,
+              "type": "Box",
+              "uuid_awb": [
+                "123e4567-e89b-12d3-a456-426614174000"
+              ],
+              "volumetric_weight": 15.2,
+              "weight": 12.5
+            }
+          ],
+          "child_waybill": [
+            "CWB101",
+            "CWB102"
+          ],
+          "customer_warehouse_address": "456 Market Road",
+          "customer_warehouse_alternate_phone": "+91-8877665544",
+          "customer_warehouse_city": "Pune",
+          "customer_warehouse_email": "inbound@abcretail.com",
+          "customer_warehouse_name": "ABC Retail Hub",
+          "customer_warehouse_phone": "+91-9988776655",
+          "customer_warehouse_pin": "411001",
+          "customer_warehouse_state": "Maharashtra",
+          "files": [],
+          "lr_number": "LR987654321",
+          "master_waybill": [
+            "MWB001",
+            "MWB002"
+          ],
+          "po_number": [
+            "PO12345",
+            "PO67890"
+          ],
+          "total_cartons": 1,
+          "total_dead_weight": 20.7,
+          "total_volumetric_weight": 22.3,
+          "warehouse_address": "123 Industrial Park",
+          "warehouse_alternate_phone": "+91-9123456780",
+          "warehouse_city": "Mumbai",
+          "warehouse_email": "dispatch@warehouse.com",
+          "warehouse_name": "Main Distribution Center",
+          "warehouse_phone": "+91-9876543210",
+          "warehouse_pin": "400001",
+          "warehouse_state": "Maharashtra"
+        },
+        "email": "omkar@openleaf.tech",
+        "is_reminder": true,
+        "name": "Gati",
+        "reminder_send_at": [
+          "2025-08-17T21:29:00+05:30"
+        ],
+        "send_at": "2025-08-17T21:28:00+05:30"
+      },
+      "task_type": "email:carrier-appointment-notification"
+    }
+  },
+  "msg": "[worker] carrier appointment email payload raw",
+  "time": "17-08-2025 21:28:01"
+}
+{
+  "level": "info",
+  "log_data": {
+    "filename": "D:/Openleaf/Openleaf-Dev-B2B-Notification-Server/workers/carrier/appointmentEmail.go:37",
+    "log_data": {
+      "data": {
+        "email": "omkar@openleaf.tech",
+        "name": "Gati",
+        "cc": [
+          "sahil@openleaf.tech",
+          "nikhil@openleaf.tech",
+          "abhay@openleaf.tech"
+        ],
+        "send_at": "2025-08-17T21:28:00+05:30",
+        "is_reminder": true,
+        "reminder_send_at": [
+          "2025-08-17T21:29:00+05:30"
+        ],
+        "data": {
+          "po_number": [
+            "PO12345",
+            "PO67890"
+          ],
+          "lr_number": "LR987654321",
+          "appointment_date": "2025-08-22T15:00:00Z",
+          "master_waybill": [
+            "MWB001",
+            "MWB002"
+          ],
+          "child_waybill": [
+            "CWB101",
+            "CWB102"
+          ],
+          "cartons": [
+            {
+              "id": "550e8400-e29b-41d4-a716-446655440000",
+              "type": "Box",
+              "length": 40,
+              "breadth": 30,
+              "height": 20,
+              "weight": 12.5,
+              "quantity": 1,
+              "volumetric_weight": 15.2,
+              "awb": [
+                "AWB123456789"
+              ],
+              "uuid_awb": [
+                "123e4567-e89b-12d3-a456-426614174000"
+              ],
+              "total_child_cartons": 1,
+              "child_cartons": [
+                {
+                  "id": "11111111-2222-3333-4444-555555555555",
+                  "type": "Small Box",
+                  "length": 20,
+                  "breadth": 15,
+                  "height": 10,
+                  "weight": 5,
+                  "quantity": 1,
+                  "volumetric_weight": 6.2,
+                  "awb": [
+                    "AWB987654321"
+                  ],
+                  "uuid_awb": [
+                    "99999999-8888-7777-6666-555555555555"
+                  ]
+                }
+              ]
+            }
+          ],
+          "total_cartons": 1,
+          "total_dead_weight": 20.7,
+          "total_volumetric_weight": 22.3,
+          "warehouse_name": "Main Distribution Center",
+          "warehouse_address": "123 Industrial Park",
+          "warehouse_city": "Mumbai",
+          "warehouse_state": "Maharashtra",
+          "warehouse_pin": "400001",
+          "warehouse_phone": "+91-9876543210",
+          "warehouse_alternate_phone": "+91-9123456780",
+          "warehouse_email": "dispatch@warehouse.com",
+          "customer_warehouse_name": "ABC Retail Hub",
+          "customer_warehouse_address": "456 Market Road",
+          "customer_warehouse_city": "Pune",
+          "customer_warehouse_state": "Maharashtra",
+          "customer_warehouse_pin": "411001",
+          "customer_warehouse_phone": "+91-9988776655",
+          "customer_warehouse_alternate_phone": "+91-8877665544",
+          "customer_warehouse_email": "inbound@abcretail.com",
+          "files": []
+        }
+      },
+      "task_type": "email:carrier-appointment-notification"
+    }
+  },
+  "msg": "[worker] carrier appointment email payload",
+  "time": "17-08-2025 21:28:01"
+}
+{
+  "level": "info",
+  "log_data": {
+    "filename": "D:/Openleaf/Openleaf-Dev-B2B-Notification-Server/helpers/email.go:81",
+    "log_data": {
+      "cc": [
+        "sahil@openleaf.tech",
+        "nikhil@openleaf.tech",
+        "abhay@openleaf.tech"
+      ],
+      "from": "b2b@openleaf.tech",
+      "host": "smtp.gmail.com",
+      "port": 587,
+      "subject": "Delivery Appointment Scheduled for LRLR987654321 on 22 Aug 2025",
+      "to": [
+        "omkar@openleaf.tech"
+      ],
+      "username": "b2b@openleaf.tech"
+    }
+  },
+  "msg": "attempting to send email",
+  "time": "17-08-2025 21:28:01"
+}
+{
+  "level": "info",
+  "log_data": {
+    "filename": "D:/Openleaf/Openleaf-Dev-B2B-Notification-Server/workers/carrier/appointmentEmail.go:189",
+    "log_data": {
+      "data": {
+        "email": "omkar@openleaf.tech",
+        "name": "Gati",
+        "cc": [
+          "sahil@openleaf.tech",
+          "nikhil@openleaf.tech",
+          "abhay@openleaf.tech"
+        ],
+        "send_at": "2025-08-17T21:28:00+05:30",
+        "is_reminder": true,
+        "reminder_send_at": [
+          "2025-08-17T21:29:00+05:30"
+        ],
+        "data": {
+          "po_number": [
+            "PO12345",
+            "PO67890"
+          ],
+          "lr_number": "LR987654321",
+          "appointment_date": "2025-08-22T15:00:00Z",
+          "master_waybill": [
+            "MWB001",
+            "MWB002"
+          ],
+          "child_waybill": [
+            "CWB101",
+            "CWB102"
+          ],
+          "cartons": [
+            {
+              "id": "550e8400-e29b-41d4-a716-446655440000",
+              "type": "Box",
+              "length": 40,
+              "breadth": 30,
+              "height": 20,
+              "weight": 12.5,
+              "quantity": 1,
+              "volumetric_weight": 15.2,
+              "awb": [
+                "AWB123456789"
+              ],
+              "uuid_awb": [
+                "123e4567-e89b-12d3-a456-426614174000"
+              ],
+              "total_child_cartons": 1,
+              "child_cartons": [
+                {
+                  "id": "11111111-2222-3333-4444-555555555555",
+                  "type": "Small Box",
+                  "length": 20,
+                  "breadth": 15,
+                  "height": 10,
+                  "weight": 5,
+                  "quantity": 1,
+                  "volumetric_weight": 6.2,
+                  "awb": [
+                    "AWB987654321"
+                  ],
+                  "uuid_awb": [
+                    "99999999-8888-7777-6666-555555555555"
+                  ]
+                }
+              ]
+            }
+          ],
+          "total_cartons": 1,
+          "total_dead_weight": 20.7,
+          "total_volumetric_weight": 22.3,
+          "warehouse_name": "Main Distribution Center",
+          "warehouse_address": "123 Industrial Park",
+          "warehouse_city": "Mumbai",
+          "warehouse_state": "Maharashtra",
+          "warehouse_pin": "400001",
+          "warehouse_phone": "+91-9876543210",
+          "warehouse_alternate_phone": "+91-9123456780",
+          "warehouse_email": "dispatch@warehouse.com",
+          "customer_warehouse_name": "ABC Retail Hub",
+          "customer_warehouse_address": "456 Market Road",
+          "customer_warehouse_city": "Pune",
+          "customer_warehouse_state": "Maharashtra",
+          "customer_warehouse_pin": "411001",
+          "customer_warehouse_phone": "+91-9988776655",
+          "customer_warehouse_alternate_phone": "+91-8877665544",
+          "customer_warehouse_email": "inbound@abcretail.com",
+          "files": []
+        }
+      },
+      "task_type": "email:carrier-appointment-notification"
+    }
+  },
+  "msg": "[worker] appointment email sent successfully",
+  "time": "17-08-2025 21:28:08"
+}
+{
+  "level": "info",
+  "log_data": {
+    "filename": "D:/Openleaf/Openleaf-Dev-B2B-Notification-Server/workers/carrier/appointmentEmail.go:210",
+    "log_data": {
+      "payload": {
+        "cc": [
+          "sahil@openleaf.tech",
+          "nikhil@openleaf.tech",
+          "abhay@openleaf.tech"
+        ],
+        "data": {
+          "appointment_date": "2025-08-22T15:00:00Z",
+          "cartons": [
+            {
+              "awb": [
+                "AWB123456789"
+              ],
+              "breadth": 30,
+              "child_cartons": [
+                {
+                  "awb": [
+                    "AWB987654321"
+                  ],
+                  "breadth": 15,
+                  "height": 10,
+                  "id": "11111111-2222-3333-4444-555555555555",
+                  "length": 20,
+                  "quantity": 1,
+                  "type": "Small Box",
+                  "uuid_awb": [
+                    "99999999-8888-7777-6666-555555555555"
+                  ],
+                  "volumetric_weight": 6.2,
+                  "weight": 5
+                }
+              ],
+              "height": 20,
+              "id": "550e8400-e29b-41d4-a716-446655440000",
+              "length": 40,
+              "quantity": 1,
+              "total_child_cartons": 1,
+              "type": "Box",
+              "uuid_awb": [
+                "123e4567-e89b-12d3-a456-426614174000"
+              ],
+              "volumetric_weight": 15.2,
+              "weight": 12.5
+            }
+          ],
+          "child_waybill": [
+            "CWB101",
+            "CWB102"
+          ],
+          "customer_warehouse_address": "456 Market Road",
+          "customer_warehouse_alternate_phone": "+91-8877665544",
+          "customer_warehouse_city": "Pune",
+          "customer_warehouse_email": "inbound@abcretail.com",
+          "customer_warehouse_name": "ABC Retail Hub",
+          "customer_warehouse_phone": "+91-9988776655",
+          "customer_warehouse_pin": "411001",
+          "customer_warehouse_state": "Maharashtra",
+          "files": [],
+          "lr_number": "LR987654321",
+          "master_waybill": [
+            "MWB001",
+            "MWB002"
+          ],
+          "po_number": [
+            "PO12345",
+            "PO67890"
+          ],
+          "total_cartons": 1,
+          "total_dead_weight": 20.7,
+          "total_volumetric_weight": 22.3,
+          "warehouse_address": "123 Industrial Park",
+          "warehouse_alternate_phone": "+91-9123456780",
+          "warehouse_city": "Mumbai",
+          "warehouse_email": "dispatch@warehouse.com",
+          "warehouse_name": "Main Distribution Center",
+          "warehouse_phone": "+91-9876543210",
+          "warehouse_pin": "400001",
+          "warehouse_state": "Maharashtra"
+        },
+        "email": "omkar@openleaf.tech",
+        "is_reminder": true,
+        "name": "Gati",
+        "reminder_send_at": [
+          "2025-08-17T21:29:00+05:30"
+        ],
+        "send_at": "2025-08-17T21:29:00+05:30"
+      },
+      "task_type": "email:carrier-appointment-reminder"
+    }
+  },
+  "msg": "[worker] carrier appointment reminder email payload raw",
+  "time": "17-08-2025 21:29:00"
+}
+{
+  "level": "info",
+  "log_data": {
+    "filename": "D:/Openleaf/Openleaf-Dev-B2B-Notification-Server/workers/carrier/appointmentEmail.go:221",
+    "log_data": {
+      "data": {
+        "email": "omkar@openleaf.tech",
+        "name": "Gati",
+        "cc": [
+          "sahil@openleaf.tech",
+          "nikhil@openleaf.tech",
+          "abhay@openleaf.tech"
+        ],
+        "send_at": "2025-08-17T21:29:00+05:30",
+        "is_reminder": true,
+        "reminder_send_at": [
+          "2025-08-17T21:29:00+05:30"
+        ],
+        "data": {
+          "po_number": [
+            "PO12345",
+            "PO67890"
+          ],
+          "lr_number": "LR987654321",
+          "appointment_date": "2025-08-22T15:00:00Z",
+          "master_waybill": [
+            "MWB001",
+            "MWB002"
+          ],
+          "child_waybill": [
+            "CWB101",
+            "CWB102"
+          ],
+          "cartons": [
+            {
+              "id": "550e8400-e29b-41d4-a716-446655440000",
+              "type": "Box",
+              "length": 40,
+              "breadth": 30,
+              "height": 20,
+              "weight": 12.5,
+              "quantity": 1,
+              "volumetric_weight": 15.2,
+              "awb": [
+                "AWB123456789"
+              ],
+              "uuid_awb": [
+                "123e4567-e89b-12d3-a456-426614174000"
+              ],
+              "total_child_cartons": 1,
+              "child_cartons": [
+                {
+                  "id": "11111111-2222-3333-4444-555555555555",
+                  "type": "Small Box",
+                  "length": 20,
+                  "breadth": 15,
+                  "height": 10,
+                  "weight": 5,
+                  "quantity": 1,
+                  "volumetric_weight": 6.2,
+                  "awb": [
+                    "AWB987654321"
+                  ],
+                  "uuid_awb": [
+                    "99999999-8888-7777-6666-555555555555"
+                  ]
+                }
+              ]
+            }
+          ],
+          "total_cartons": 1,
+          "total_dead_weight": 20.7,
+          "total_volumetric_weight": 22.3,
+          "warehouse_name": "Main Distribution Center",
+          "warehouse_address": "123 Industrial Park",
+          "warehouse_city": "Mumbai",
+          "warehouse_state": "Maharashtra",
+          "warehouse_pin": "400001",
+          "warehouse_phone": "+91-9876543210",
+          "warehouse_alternate_phone": "+91-9123456780",
+          "warehouse_email": "dispatch@warehouse.com",
+          "customer_warehouse_name": "ABC Retail Hub",
+          "customer_warehouse_address": "456 Market Road",
+          "customer_warehouse_city": "Pune",
+          "customer_warehouse_state": "Maharashtra",
+          "customer_warehouse_pin": "411001",
+          "customer_warehouse_phone": "+91-9988776655",
+          "customer_warehouse_alternate_phone": "+91-8877665544",
+          "customer_warehouse_email": "inbound@abcretail.com",
+          "files": []
+        }
+      },
+      "task_type": "email:carrier-appointment-reminder"
+    }
+  },
+  "msg": "[worker] carrier appointment reminder email payload",
+  "time": "17-08-2025 21:29:00"
+}
+{
+  "level": "info",
+  "log_data": {
+    "filename": "D:/Openleaf/Openleaf-Dev-B2B-Notification-Server/helpers/email.go:81",
+    "log_data": {
+      "cc": [
+        "sahil@openleaf.tech",
+        "nikhil@openleaf.tech",
+        "abhay@openleaf.tech"
+      ],
+      "from": "b2b@openleaf.tech",
+      "host": "smtp.gmail.com",
+      "port": 587,
+      "subject": "Reminder: Delivery for LRLR987654321 on 22 Aug 2025",
+      "to": [
+        "omkar@openleaf.tech"
+      ],
+      "username": "b2b@openleaf.tech"
+    }
+  },
+  "msg": "attempting to send email",
+  "time": "17-08-2025 21:29:00"
+}
+{
+  "level": "info",
+  "log_data": {
+    "filename": "D:/Openleaf/Openleaf-Dev-B2B-Notification-Server/workers/carrier/appointmentEmail.go:375",
+    "log_data": {
+      "data": {
+        "email": "omkar@openleaf.tech",
+        "name": "Gati",
+        "cc": [
+          "sahil@openleaf.tech",
+          "nikhil@openleaf.tech",
+          "abhay@openleaf.tech"
+        ],
+        "send_at": "2025-08-17T21:29:00+05:30",
+        "is_reminder": true,
+        "reminder_send_at": [
+          "2025-08-17T21:29:00+05:30"
+        ],
+        "data": {
+          "po_number": [
+            "PO12345",
+            "PO67890"
+          ],
+          "lr_number": "LR987654321",
+          "appointment_date": "2025-08-22T15:00:00Z",
+          "master_waybill": [
+            "MWB001",
+            "MWB002"
+          ],
+          "child_waybill": [
+            "CWB101",
+            "CWB102"
+          ],
+          "cartons": [
+            {
+              "id": "550e8400-e29b-41d4-a716-446655440000",
+              "type": "Box",
+              "length": 40,
+              "breadth": 30,
+              "height": 20,
+              "weight": 12.5,
+              "quantity": 1,
+              "volumetric_weight": 15.2,
+              "awb": [
+                "AWB123456789"
+              ],
+              "uuid_awb": [
+                "123e4567-e89b-12d3-a456-426614174000"
+              ],
+              "total_child_cartons": 1,
+              "child_cartons": [
+                {
+                  "id": "11111111-2222-3333-4444-555555555555",
+                  "type": "Small Box",
+                  "length": 20,
+                  "breadth": 15,
+                  "height": 10,
+                  "weight": 5,
+                  "quantity": 1,
+                  "volumetric_weight": 6.2,
+                  "awb": [
+                    "AWB987654321"
+                  ],
+                  "uuid_awb": [
+                    "99999999-8888-7777-6666-555555555555"
+                  ]
+                }
+              ]
+            }
+          ],
+          "total_cartons": 1,
+          "total_dead_weight": 20.7,
+          "total_volumetric_weight": 22.3,
+          "warehouse_name": "Main Distribution Center",
+          "warehouse_address": "123 Industrial Park",
+          "warehouse_city": "Mumbai",
+          "warehouse_state": "Maharashtra",
+          "warehouse_pin": "400001",
+          "warehouse_phone": "+91-9876543210",
+          "warehouse_alternate_phone": "+91-9123456780",
+          "warehouse_email": "dispatch@warehouse.com",
+          "customer_warehouse_name": "ABC Retail Hub",
+          "customer_warehouse_address": "456 Market Road",
+          "customer_warehouse_city": "Pune",
+          "customer_warehouse_state": "Maharashtra",
+          "customer_warehouse_pin": "411001",
+          "customer_warehouse_phone": "+91-9988776655",
+          "customer_warehouse_alternate_phone": "+91-8877665544",
+          "customer_warehouse_email": "inbound@abcretail.com",
+          "files": []
+        }
+      },
+      "task_type": "email:carrier-appointment-reminder"
+    }
+  },
+  "msg": "[worker] reminder email sent successfully",
+  "time": "17-08-2025 21:29:06"
+}
