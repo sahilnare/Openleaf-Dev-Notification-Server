@@ -7,6 +7,8 @@ import (
 )
 
 type ScheduleAppointmentEmailRequest struct {
+	OrderID uuid.UUID `json:"order_id" binding:"required"`
+
 	Email   string    `json:"email" binding:"required"`
 	Name    string    `json:"name"`
 	CC      []string  `json:"cc"`
@@ -26,6 +28,8 @@ type ScheduleAppointmentEmailData struct {
 	TotalCartons           *int             `json:"total_cartons"`
 	TotalDeadWeight        *float64         `json:"total_dead_weight"`
 	TotalVolumetricWeight  *float64         `json:"total_volumetric_weight"`
+
+	Channel string `json:"channel"`
 	
 	WarehouseName          *string          `json:"warehouse_name"`
 	WarehouseAddress       *string          `json:"warehouse_address"`

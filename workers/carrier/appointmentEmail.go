@@ -7,6 +7,7 @@ import (
 	"encoding/json"
 	"fmt"
 	"strings"
+	"time"
 
 	"github.com/hibiken/asynq"
 )
@@ -184,11 +185,47 @@ func SendAppointmentEmail(ctx context.Context, task *asynq.Task) error {
 		helpers.LogException("[worker] failed to send appointment email", map[string]interface{}{
 			"error": err.Error(),
 		})
+
+		notificationID, err := helpers.UpdateNotification(&models.Notification{
+			OrderID: data.OrderID,
+			Sender: data.Email,
+			CC: strings.Join(data.CC, ","),
+			Receiver: data.Email,
+			Type: "appointment",
+			Status: "worker_error",
+			SentAt: nil,
+		})
+
+		if err != nil {
+			helpers.LogException("[worker] failed to update notification", map[string]interface{}{
+				"error": err.Error(),
+				"notification_id": notificationID,
+				"order_id": data.OrderID,
+				"sender": data.Email,
+				"cc": strings.Join(data.CC, ","),
+				"receiver": data.Email,
+				"type": "appointment",
+			})
+		}
+
 	}
+
+	now := time.Now()
+
+	notificationID, _ := helpers.UpdateNotification(&models.Notification{
+		OrderID: data.OrderID,
+		Sender: data.Email,
+		CC: strings.Join(data.CC, ","),
+		Receiver: data.Email,
+		Type: "appointment",
+		Status: "sent",
+		SentAt: &now,
+	})
 
 	helpers.LogInfo("[worker] appointment email sent successfully", map[string]interface{}{
 		"task_type": task.Type(),
 		"data": data,
+		"notification_id": notificationID,
 	})
 
 	return nil
@@ -368,6 +405,28 @@ func SendAppointmentReminderEmail(ctx context.Context, task *asynq.Task) error {
 		helpers.LogException("[worker] failed to send reminder email", map[string]interface{}{
 			"error": err.Error(),
 		})
+
+		notificationID, err := helpers.UpdateNotification(&models.Notification{
+			OrderID: data.OrderID,
+			Sender: data.Email,
+			CC: strings.Join(data.CC, ","),
+			Receiver: data.Email,
+			Type: "appointment_reminder",
+			Status: "worker_error",
+			SentAt: nil,
+		})
+
+		if err != nil {
+			helpers.LogException("[worker] failed to update notification", map[string]interface{}{
+				"error": err.Error(),
+				"notification_id": notificationID,
+				"order_id": data.OrderID,
+				"sender": data.Email,
+				"cc": strings.Join(data.CC, ","),
+				"receiver": data.Email,
+				"type": "appointment_reminder",
+			})
+		}
 	}
 
 	helpers.LogInfo("[worker] reminder email sent successfully", map[string]interface{}{
@@ -375,7 +434,23 @@ func SendAppointmentReminderEmail(ctx context.Context, task *asynq.Task) error {
 		"data": data,
 	})
 
+	now := time.Now()
 
+	notificationID, _ := helpers.UpdateNotification(&models.Notification{
+		OrderID: data.OrderID,
+		Sender: data.Email,
+		CC: strings.Join(data.CC, ","),
+		Receiver: data.Email,
+		Type: "appointment_reminder",
+		Status: "sent",
+		SentAt: &now,
+	})
+
+	helpers.LogInfo("[worker] reminder email sent successfully", map[string]interface{}{
+		"task_type": task.Type(),
+		"data": data,
+		"notification_id": notificationID,
+	})
 
 	return nil
 

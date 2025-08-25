@@ -6,6 +6,7 @@ import (
 	"Notification-Server/queues"
 	"encoding/json"
 	"net/http"
+	"strings"
 	"time"
 
 	"github.com/gin-gonic/gin"
@@ -54,12 +55,13 @@ func ScheduleAppointmentEmail(c *gin.Context) {
 	task := asynq.NewTask("email:carrier-appointment-notification", payload)
 
 	if request.SendAt.Before(time.Now()) {
-		request.SendAt = time.Now().Add(time.Second * 10)
+		request.SendAt = time.Now().Add(time.Second * 5)
 	}
 
 	info, err := queues.EmailQueueClient.Enqueue(task, asynq.ProcessAt(request.SendAt))
 
 	if err != nil {
+
 		helpers.LogException("failed to enqueue email task", map[string]interface{}{
 			"request": request,
 			"request_headers": c.Request.Header,
@@ -67,6 +69,35 @@ func ScheduleAppointmentEmail(c *gin.Context) {
 			"request_method": c.Request.Method,	
 			"error": err.Error(),
 		})
+
+		_, err = helpers.InsertNotification(&models.Notification{
+			OrderID: request.OrderID,
+			Sender: request.Email,
+			CC: strings.Join(request.CC, ","),
+			Receiver: request.Email,
+			Type: "appointment",
+			Status: "error",
+			SentAt: nil,
+		})
+
+		if err != nil {
+			helpers.LogException("failed to insert notification", map[string]interface{}{
+				"request": request,
+				"request_headers": c.Request.Header,
+				"request_url": c.Request.URL,
+				"request_method": c.Request.Method,	
+				"error": err.Error(),
+			})
+
+			c.JSON(http.StatusInternalServerError, models.ServerResponse{
+				Success: false,
+				StatusCode: http.StatusInternalServerError,
+				Message: "Failed to insert notification",
+				Error: err.Error(),
+			})
+			return
+		}
+
 		c.JSON(http.StatusInternalServerError, models.ServerResponse{
 			Success: false,
 			StatusCode: http.StatusInternalServerError,
@@ -75,23 +106,46 @@ func ScheduleAppointmentEmail(c *gin.Context) {
 		})
 		return
 	}
-	
+
+	notificationID, err := helpers.InsertNotification(&models.Notification{
+		OrderID: request.OrderID,
+		Sender: request.Email,
+		CC: strings.Join(request.CC, ","),
+		Receiver: request.Email,
+		Type: "appointment",
+		Status: "pending",
+		SentAt: nil,
+	})
+
+	if err != nil {
+		helpers.LogException("failed to insert notification", map[string]interface{}{
+			"request": request,
+			"request_headers": c.Request.Header,
+			"request_url": c.Request.URL,
+			"request_method": c.Request.Method,	
+			"error": err.Error(),
+		})
+	}
+
 	helpers.LogInfo("email task enqueued successfully", map[string]interface{}{
 		"task_id": info.ID,
 		"queue": info.Queue,
 		"task_type": task.Type(),
 		"send_at": request.SendAt,
+		"notification_id": notificationID,
 	})
 
+	// # Check for reminders
 	if request.IsReminder != nil && *request.IsReminder {
 		
 		for _, reminderSendAt := range *request.ReminderSendAt {
 			request.SendAt = reminderSendAt
 			if reminderSendAt.Before(time.Now()) {
-				request.SendAt = time.Now().Add(time.Second * 30)
+				request.SendAt = time.Now().Add(time.Second * 5)
 			}
 			payload, err = json.Marshal(request)
 			if err != nil {
+
 				helpers.LogException("failed to marshal reminder request payload", map[string]interface{}{
 					"request": request,
 					"request_headers": c.Request.Header,
@@ -99,12 +153,42 @@ func ScheduleAppointmentEmail(c *gin.Context) {
 					"request_method": c.Request.Method,	
 					"error": err.Error(),
 				})
+
+				_, err = helpers.InsertNotification(&models.Notification{
+					OrderID: request.OrderID,
+					Sender: request.Email,
+					CC: strings.Join(request.CC, ","),
+					Receiver: request.Email,
+					Type: "appointment_reminder",
+					Status: "error",
+					SentAt: nil,
+				})
+
+				if err != nil {
+					helpers.LogException("failed to insert reminder notification", map[string]interface{}{
+						"request": request,
+						"request_headers": c.Request.Header,
+						"request_url": c.Request.URL,
+						"request_method": c.Request.Method,	
+						"error": err.Error(),
+					})
+
+					c.JSON(http.StatusInternalServerError, models.ServerResponse{
+						Success: false,
+						StatusCode: http.StatusInternalServerError,
+						Message: "Failed to insert reminder notification",
+						Error: err.Error(),
+					})
+					return
+				}
+
 				c.JSON(http.StatusInternalServerError, models.ServerResponse{
 					Success: false,
 					StatusCode: http.StatusInternalServerError,
 					Message: "Failed to marshal reminder request payload",
 					Error: err.Error(),
 				})
+				return
 			}
 
 			reminderTask := asynq.NewTask("email:carrier-appointment-reminder", payload)
@@ -117,6 +201,36 @@ func ScheduleAppointmentEmail(c *gin.Context) {
 					"request_method": c.Request.Method,	
 					"error": err.Error(),
 				})
+
+				_, err = helpers.InsertNotification(&models.Notification{
+					OrderID: request.OrderID,
+					Sender: request.Email,
+					CC: strings.Join(request.CC, ","),
+					Receiver: request.Email,
+					Type: "appointment_reminder",
+					Status: "error",
+					SentAt: nil,
+				})
+
+				if err != nil {
+
+					helpers.LogException("failed to insert reminder notification", map[string]interface{}{
+						"request": request,
+						"request_headers": c.Request.Header,
+						"request_url": c.Request.URL,
+						"request_method": c.Request.Method,	
+						"error": err.Error(),
+					})
+
+					c.JSON(http.StatusInternalServerError, models.ServerResponse{
+						Success: false,
+						StatusCode: http.StatusInternalServerError,
+						Message: "Failed to insert reminder notification",
+						Error: err.Error(),
+					})
+					return
+				}
+
 				c.JSON(http.StatusInternalServerError, models.ServerResponse{
 					Success: false,
 					StatusCode: http.StatusInternalServerError,
@@ -124,11 +238,41 @@ func ScheduleAppointmentEmail(c *gin.Context) {
 					Error: err.Error(),
 				})
 			} else {
+
+				_, err = helpers.InsertNotification(&models.Notification{
+					OrderID: request.OrderID,
+					Sender: request.Email,
+					CC: strings.Join(request.CC, ","),
+					Receiver: request.Email,
+					Type: "appointment_reminder",
+					Status: "pending",
+					SentAt: nil,
+				})
+
+				if err != nil {
+					helpers.LogException("failed to insert reminder notification", map[string]interface{}{
+						"request": request,
+						"request_headers": c.Request.Header,
+						"request_url": c.Request.URL,
+						"request_method": c.Request.Method,	
+						"error": err.Error(),
+					})
+
+					c.JSON(http.StatusInternalServerError, models.ServerResponse{
+						Success: false,
+						StatusCode: http.StatusInternalServerError,
+						Message: "Failed to insert reminder notification",
+						Error: err.Error(),
+					})
+					return
+				}
+
 				helpers.LogInfo("reminder email task enqueued successfully", map[string]interface{}{
 					"task_id": reminderInfo.ID,
 					"queue": reminderInfo.Queue,
 					"task_type": reminderTask.Type(),
 					"send_at": reminderSendAt,
+					"notification_id": notificationID,
 				})
 			}
 		}
@@ -140,12 +284,12 @@ func ScheduleAppointmentEmail(c *gin.Context) {
 		StatusCode: http.StatusOK,
 		Message: "Email scheduled successfully",
 		Data: map[string]any{
+			"order_id": request.OrderID,
 			"email": request.Email,
 			"cc": request.CC,
 			"send_at": request.SendAt,
 			"is_reminder": request.IsReminder,
 			"reminder_send_at": request.ReminderSendAt,
-			// "data": request.Data,
 		},
 	})
 
