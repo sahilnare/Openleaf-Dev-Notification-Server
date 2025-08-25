@@ -70,6 +70,13 @@ func ScheduleAppointmentEmail(c *gin.Context) {
 			"error": err.Error(),
 		})
 
+		c.JSON(http.StatusInternalServerError, models.ServerResponse{
+			Success: false,
+			StatusCode: http.StatusInternalServerError,
+			Message: "Failed to enqueue email task",
+			Error: err.Error(),
+		})
+
 		_, err = helpers.InsertNotification(&models.Notification{
 			OrderID: request.OrderID,
 			Sender: request.Email,
@@ -98,12 +105,6 @@ func ScheduleAppointmentEmail(c *gin.Context) {
 			return
 		}
 
-		c.JSON(http.StatusInternalServerError, models.ServerResponse{
-			Success: false,
-			StatusCode: http.StatusInternalServerError,
-			Message: "Failed to enqueue email task",
-			Error: err.Error(),
-		})
 		return
 	}
 
@@ -113,7 +114,7 @@ func ScheduleAppointmentEmail(c *gin.Context) {
 		CC: strings.Join(request.CC, ","),
 		Receiver: request.Email,
 		Type: "appointment",
-		Status: "pending",
+		Status: "scheduled",
 		SentAt: nil,
 	})
 
@@ -154,6 +155,13 @@ func ScheduleAppointmentEmail(c *gin.Context) {
 					"error": err.Error(),
 				})
 
+				c.JSON(http.StatusInternalServerError, models.ServerResponse{
+					Success: false,
+					StatusCode: http.StatusInternalServerError,
+					Message: "Failed to marshal reminder request payload",
+					Error: err.Error(),
+				})
+
 				_, err = helpers.InsertNotification(&models.Notification{
 					OrderID: request.OrderID,
 					Sender: request.Email,
@@ -182,12 +190,6 @@ func ScheduleAppointmentEmail(c *gin.Context) {
 					return
 				}
 
-				c.JSON(http.StatusInternalServerError, models.ServerResponse{
-					Success: false,
-					StatusCode: http.StatusInternalServerError,
-					Message: "Failed to marshal reminder request payload",
-					Error: err.Error(),
-				})
 				return
 			}
 
@@ -202,6 +204,13 @@ func ScheduleAppointmentEmail(c *gin.Context) {
 					"error": err.Error(),
 				})
 
+				c.JSON(http.StatusInternalServerError, models.ServerResponse{
+					Success: false,
+					StatusCode: http.StatusInternalServerError,
+					Message: "Failed to enqueue reminder email task",
+					Error: err.Error(),
+				})
+
 				_, err = helpers.InsertNotification(&models.Notification{
 					OrderID: request.OrderID,
 					Sender: request.Email,
@@ -231,12 +240,8 @@ func ScheduleAppointmentEmail(c *gin.Context) {
 					return
 				}
 
-				c.JSON(http.StatusInternalServerError, models.ServerResponse{
-					Success: false,
-					StatusCode: http.StatusInternalServerError,
-					Message: "Failed to enqueue reminder email task",
-					Error: err.Error(),
-				})
+				return
+
 			} else {
 
 				_, err = helpers.InsertNotification(&models.Notification{
@@ -245,7 +250,7 @@ func ScheduleAppointmentEmail(c *gin.Context) {
 					CC: strings.Join(request.CC, ","),
 					Receiver: request.Email,
 					Type: "appointment_reminder",
-					Status: "pending",
+					Status: "scheduled",
 					SentAt: nil,
 				})
 
@@ -282,7 +287,7 @@ func ScheduleAppointmentEmail(c *gin.Context) {
 	c.JSON(http.StatusOK, models.ServerResponse{
 		Success: true,
 		StatusCode: http.StatusOK,
-		Message: "Email scheduled successfully",
+		Message: "Appointment email scheduled successfully",
 		Data: map[string]any{
 			"order_id": request.OrderID,
 			"email": request.Email,
