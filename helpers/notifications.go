@@ -3,20 +3,22 @@ package helpers
 import (
 	"Notification-Server/db"
 	"Notification-Server/models"
+
+	"github.com/google/uuid"
 )
 
-func InsertNotification(n *models.Notification) (string, error) {
+func InsertNotificationLog(n *models.Notification) (uuid.UUID, error) {
 
 	query := `
 		INSERT INTO notifications (
-			order_id, sender, cc, receiver, type, status, sent_at
+			notification_id, order_id, sender, cc, receiver, type, status, sent_at
 		) VALUES (
-			$1, $2, $3, $4, $5, $6, $7
+			$1, $2, $3, $4, $5, $6, $7, $8
 		)
 		RETURNING notification_id
 	`
-	var notificationID string
 	err := db.GlobalDB.QueryRow(query,
+		n.NotificationID,
 		n.OrderID,
 		n.Sender,
 		n.CC,
@@ -24,16 +26,16 @@ func InsertNotification(n *models.Notification) (string, error) {
 		n.Type,
 		n.Status,
 		n.SentAt,
-	).Scan(&notificationID)
+	).Scan(&n.NotificationID)
 	if err != nil {
-		return "", err
+		return uuid.Nil, err
 	}
 
-	return notificationID, nil
+	return n.NotificationID, nil
 
 }
 
-func UpdateNotification(n *models.Notification) (string, error) {
+func UpdateNotification(n *models.Notification) (uuid.UUID, error) {
 
 	query := `
 		UPDATE notifications SET
@@ -57,7 +59,7 @@ func UpdateNotification(n *models.Notification) (string, error) {
 	)
 
 	if err != nil {
-		return "", err
+		return uuid.Nil, err
 	}
 
 	return n.NotificationID, nil

@@ -78,7 +78,7 @@ func main() {
 		})
 	})
 
-	r.POST("/api/scheduleAppointmentEmail", controllers.ScheduleAppointmentEmail)
+	r.POST("/api/scheduleCarrierAppointmentEmail", controllers.ScheduleCarrierAppointmentEmail)
 
 	log.Println("server setup routes")
 

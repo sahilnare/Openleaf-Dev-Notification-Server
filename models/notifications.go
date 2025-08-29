@@ -6,8 +6,14 @@ import (
 	"github.com/google/uuid"
 )
 
+const (
+	EmailCarrierAppointmentQueue = "email:carrier-appointment"
+	EmailCarrierAppointmentReminderQueue = "email:carrier-appointment-reminder"
+	EmailCarrierAppointmentBulkReminderQueue = "email:carrier-appointment-bulk-reminder"
+)
+
 type Notification struct {
-	NotificationID string `json:"notification_id"`
+	NotificationID uuid.UUID `json:"notification_id"`
 	
 	OrderID        uuid.UUID  `json:"order_id"`
 	Sender         string     `json:"sender"`
