@@ -513,10 +513,10 @@ func ScheduleCarrierAppointmentEmail(c *gin.Context) {
 			// # Schedule email
 			days := strings.Split(strings.TrimSpace(*notificationSettings.NotificationDays), ",")
 			for _, day := range days {
-				daysInt, _ := strconv.Atoi(strings.TrimSpace(day))
+				daysFloat, _ := strconv.ParseFloat(strings.TrimSpace(day), 64)
 				// Convert UTC time to IST timezone before adding days
 				istAppointmentTakenAt := appointmentTakenAt.In(istLocation)
-				sendAt = istAppointmentTakenAt.Add(time.Duration(daysInt) * time.Hour * 24)
+				sendAt = istAppointmentTakenAt.Add(time.Duration(daysFloat) * time.Hour * 24)
 
 				if sendAt.Before(time.Now()) {
 					sendAt = time.Now().Add(time.Second * 5)
@@ -609,10 +609,10 @@ func ScheduleCarrierAppointmentEmail(c *gin.Context) {
 
 			days := strings.Split(strings.TrimSpace(*notificationSettings.NotificationDays), ",")
 			for _, day := range days {
-				daysInt, _ := strconv.Atoi(strings.TrimSpace(day))
+				daysFloat, _ := strconv.ParseFloat(strings.TrimSpace(day), 64)
 				// Convert UTC time to IST timezone before adding days
 				istAppointmentScheduledAt := appointmentScheduledAt.In(istLocation)
-				sendAt = istAppointmentScheduledAt.Add(time.Duration(daysInt) * time.Hour * 24)
+				sendAt = istAppointmentScheduledAt.Add(time.Duration(daysFloat) * time.Hour * 24)
 
 				if sendAt.Before(time.Now()) {
 					sendAt = time.Now().Add(time.Second * 5)
@@ -701,10 +701,10 @@ func ScheduleCarrierAppointmentEmail(c *gin.Context) {
 			
 			days := strings.Split(strings.TrimSpace(*notificationSettings.NotificationDays), ",")
 			for _, day := range days {
-				daysInt, _ := strconv.Atoi(strings.TrimSpace(day))
+				daysFloat, _ := strconv.ParseFloat(strings.TrimSpace(day), 64)
 				// Convert UTC time to IST timezone before adding days
 				istExpectedDeliveryDate := expectedDeliveryDate.In(istLocation)
-				sendAt = istExpectedDeliveryDate.Add((-time.Duration(daysInt)) * time.Hour * 24)
+				sendAt = istExpectedDeliveryDate.Add((-time.Duration(daysFloat)) * time.Hour * 24)
 
 				if sendAt.Before(time.Now()) {
 					sendAt = time.Now().Add(time.Second * 5)
@@ -898,12 +898,139 @@ func ScheduleCarrierAppointmentEmail(c *gin.Context) {
 		sendAt := time.Now().Add(time.Second * 5)
 		
 		switch *notificationSettings.ReminderType {
+		case "after_appointment_taken":
+
+			// # Check if order placed or not
+			if orderPlacedAt == nil || orderPlacedAt.IsZero() {
+	
+				helpers.LogInfo("order placed at is nil or zero", map[string]interface{}{
+					"order_id": request.OrderID,
+					"order_placed_at": orderPlacedAt,
+				})
+
+				c.JSON(http.StatusBadRequest, models.ServerResponse{
+					Success: false,
+					StatusCode: http.StatusBadRequest,
+					Message: "Order placed at is nil or zero",
+				})
+
+				return
+			}
+
+			if appointmentTakenAt == nil || appointmentTakenAt.IsZero() {
+				helpers.LogInfo("appointment taken at is nil or zero", map[string]interface{}{
+					"order_id": request.OrderID,
+					"appointment_taken_at": appointmentTakenAt,
+				})
+				c.JSON(http.StatusBadRequest, models.ServerResponse{
+					Success: false,
+					StatusCode: http.StatusBadRequest,
+					Message: "Appointment taken at is nil or zero",
+				})
+				return
+			}
+
+			// # Schedule reminder email
+			days := strings.Split(strings.TrimSpace(*notificationSettings.ReminderDays), ",")
+			for _, day := range days {
+				daysFloat, _ := strconv.ParseFloat(strings.TrimSpace(day), 64)
+				// Convert UTC time to IST timezone before adding days
+				istAppointmentTakenAt := appointmentTakenAt.In(istLocation)
+				sendAt = istAppointmentTakenAt.Add(time.Duration(daysFloat) * time.Hour * 24)
+
+				if sendAt.Before(time.Now()) {
+					sendAt = time.Now().Add(time.Second * 5)
+				}
+
+				queueData.NotificationID = uuid.New()
+
+				// fmt.Println("sendAt", sendAt)
+				// fmt.Println("queueData", queueData.NotificationID)
+
+				payload, err := json.Marshal(queueData)
+				if err != nil {
+					helpers.LogException("failed to marshal request payload", map[string]interface{}{
+						"request": request,
+						"request_headers": c.Request.Header,
+						"request_url": c.Request.URL,
+						"request_method": c.Request.Method,	
+						"error": err.Error(),
+					})
+					c.JSON(http.StatusInternalServerError, models.ServerResponse{
+						Success: false,
+						StatusCode: http.StatusInternalServerError,
+						Message: "Failed to marshal request payload",
+						Error: err.Error(),
+					})
+					return
+				}
+
+				task := asynq.NewTask(models.EmailCarrierAppointmentReminderQueue, payload)
+
+				info, err := queues.EmailQueueClient.Enqueue(task, asynq.ProcessAt(sendAt))
+				if err != nil {
+					helpers.LogException("failed to enqueue email task", map[string]interface{}{
+						"request": request,
+						"settings": notificationSettings,
+						"payload": payload,
+						"error": err.Error(),
+					})
+
+
+					helpers.InsertNotificationLog(&models.Notification{
+						NotificationID: queueData.NotificationID,
+						OrderID: request.OrderID,
+						Sender: *notificationSettings.SenderEmailsForCarrier,
+						Receiver: *notificationSettings.ReceiverEmailsForCarrier,
+						SenderCC: notificationSettings.SenderCCEmailsForCarrier,
+						ReceiverCC: notificationSettings.ReceiverCCEmailsForCarrier,
+						Type: models.EmailCarrierAppointmentReminderQueue,
+						Method: "email",
+						Status: "error",
+						SentAt: nil,
+					})
+			
+					c.JSON(http.StatusInternalServerError, models.ServerResponse{
+						Success: false,
+						StatusCode: http.StatusInternalServerError,
+						Message: "Failed to enqueue email task",
+						Error: err.Error(),
+					})
+			
+					return
+				}
+
+				notificationID, _ := helpers.InsertNotificationLog(&models.Notification{
+					NotificationID: queueData.NotificationID,
+					OrderID: request.OrderID,
+					Sender: *notificationSettings.SenderEmailsForCarrier,
+					Receiver: *notificationSettings.ReceiverEmailsForCarrier,
+					SenderCC: notificationSettings.SenderCCEmailsForCarrier,
+					ReceiverCC: notificationSettings.ReceiverCCEmailsForCarrier,
+					Type: models.EmailCarrierAppointmentReminderQueue,
+					Method: "email",
+					Status: "scheduled",
+					SentAt: nil,
+				})
+
+				helpers.LogInfo("email task enqueued successfully", map[string]interface{}{
+					"task_id":  info.ID,
+					"queue":    info.Queue,
+					"task_type": task.Type(),
+					"send_at":  sendAt,
+					"type": "after_appointment_taken",
+					"notification_id": notificationID,
+				})
+
+				appointmentSendAt[queueData.NotificationID] = sendAt
+			}
+			
 		case "after_appointment_date":
 
 			days := strings.Split(strings.TrimSpace(*notificationSettings.ReminderDays), ",")
 			for _, day := range days {
-				daysInt, _ := strconv.Atoi(strings.TrimSpace(day))
-				sendAt = appointmentScheduledAt.Add(time.Duration(daysInt) * time.Hour * 24)
+				daysFloat, _ := strconv.ParseFloat(strings.TrimSpace(day), 64)
+				sendAt = appointmentScheduledAt.Add(time.Duration(daysFloat) * time.Hour * 24)
 
 				if sendAt.Before(time.Now()) {
 					sendAt = time.Now().Add(time.Second * 5)
@@ -986,8 +1113,8 @@ func ScheduleCarrierAppointmentEmail(c *gin.Context) {
 			
 			days := strings.Split(strings.TrimSpace(*notificationSettings.ReminderDays), ",")
 			for _, day := range days {
-				daysInt, _ := strconv.Atoi(strings.TrimSpace(day))
-				sendAt = expectedDeliveryDate.Add((-time.Duration(daysInt)) * time.Hour * 24)
+				daysFloat, _ := strconv.ParseFloat(strings.TrimSpace(day), 64)
+				sendAt = expectedDeliveryDate.Add((-time.Duration(daysFloat)) * time.Hour * 24)
 
 				if sendAt.Before(time.Now()) {
 					sendAt = time.Now().Add(time.Second * 5)

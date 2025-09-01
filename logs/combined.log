@@ -8993,3 +8993,2697 @@
   "msg": "[worker] appointment email sent successfully",
   "time": "01-09-2025 15:36:33"
 }
+{
+  "level": "info",
+  "log_data": {
+    "filename": "D:/Openleaf/Openleaf-Dev-B2B-Notification-Server/helpers/email.go:43",
+    "log_data": {
+      "host": "smtp.gmail.com",
+      "port": 587,
+      "username": "b2b@openleaf.tech"
+    }
+  },
+  "msg": "email configuration initialized",
+  "time": "01-09-2025 15:48:14"
+}
+{
+  "level": "info",
+  "log_data": {
+    "filename": "D:/Openleaf/Openleaf-Dev-B2B-Notification-Server/controllers/scheduleEmail.go:596",
+    "log_data": {
+      "notification_id": "bf313f3b-bc79-4d7f-92e3-02568c3c98bb",
+      "queue": "default",
+      "send_at": "2025-09-01T15:48:26.5311189+05:30",
+      "task_id": "9ba9de90-8c89-46eb-8d76-a6c215226648",
+      "task_type": "email:carrier-appointment-notification",
+      "type": "after_appointment_date"
+    }
+  },
+  "msg": "email task enqueued successfully",
+  "time": "01-09-2025 15:48:21"
+}
+{
+  "level": "info",
+  "log_data": {
+    "filename": "D:/Openleaf/Openleaf-Dev-B2B-Notification-Server/controllers/scheduleEmail.go:1016",
+    "log_data": {
+      "notification_id": "fe0121fd-c82a-4c07-b589-9adf2709dafb",
+      "queue": "default",
+      "send_at": "2025-09-01T15:48:26.6171054+05:30",
+      "task_id": "3a3d0074-5c25-426a-bac6-2abec9768e66",
+      "task_type": "email:carrier-appointment-reminder",
+      "type": "after_appointment_taken"
+    }
+  },
+  "msg": "email task enqueued successfully",
+  "time": "01-09-2025 15:48:21"
+}
+{
+  "level": "info",
+  "log_data": {
+    "filename": "D:/Openleaf/Openleaf-Dev-B2B-Notification-Server/workers/carrier/appointmentEmail.go:358",
+    "log_data": {
+      "payload_length": 3834,
+      "task_data": {
+        "admin_id": "1ecf71e1-1748-425b-9071-56e925a391a3",
+        "data": {
+          "appointment_date": "2025-08-30T11:21:00Z",
+          "appointment_scheduled_at": "2025-08-31T06:40:17.26664Z",
+          "appointment_taken_at": "2025-08-30T11:21:00Z",
+          "carrier_id": "a80948b5-5496-468e-8fee-98377c47bddd",
+          "carrier_name": "TestCarrier",
+          "cartons": [
+            {
+              "awb": [
+                "166320",
+                "345887"
+              ],
+              "breadth": 1000,
+              "child_cartons": [
+                {
+                  "awb": [
+                    "229561",
+                    "291680",
+                    "871550"
+                  ],
+                  "breadth": 500,
+                  "height": 500,
+                  "id": "1be5478f-3f7f-4e05-82f0-f32c3b193ef5",
+                  "length": 500,
+                  "quantity": 3,
+                  "type": "Type 1-1",
+                  "uuid_awb": [
+                    "1dbbcacd-66eb-4889-8365-b0c9f7474aeb",
+                    "da2e65db-303d-4a5d-8b9a-74eb6cd4c754",
+                    "85391c50-a4b2-405a-9719-1943c78f0b13"
+                  ],
+                  "volumetric_weight": 200000000,
+                  "weight": 25000
+                }
+              ],
+              "height": 1000,
+              "id": "3265eeb4-9d81-42ea-85f9-ddc899516f20",
+              "length": 1000,
+              "quantity": 2,
+              "total_child_cartons": 3,
+              "type": "Type 1",
+              "uuid_awb": [
+                "a1c42770-8a36-4ed7-9fd9-1b6399844c1b",
+                "c6471fd6-1b62-49d1-879d-01c314129929"
+              ],
+              "volumetric_weight": 400000000,
+              "weight": 50000
+            },
+            {
+              "awb": [
+                "266320",
+                "245887"
+              ],
+              "breadth": 2000,
+              "child_cartons": [
+                {
+                  "awb": [
+                    "108432",
+                    "479658",
+                    "275595",
+                    "120760"
+                  ],
+                  "breadth": 1000,
+                  "height": 1000,
+                  "id": "e29e7920-655b-4bf1-9dae-ccb48e1a5c05",
+                  "length": 1000,
+                  "quantity": 4,
+                  "type": "Type 2-1",
+                  "uuid_awb": [
+                    "7fa4e753-ae9c-427c-bb36-0527d8a2189f",
+                    "438eb7a7-9ac0-4974-ac82-8df0dcab62a7",
+                    "c7324e45-222e-45bb-aa11-b6c2ea2549f5",
+                    "fbf8a269-d48b-4323-a51f-cba15c6be411"
+                  ],
+                  "volumetric_weight": 100000000,
+                  "weight": 10000
+                }
+              ],
+              "height": 2000,
+              "id": "1cd0ab7b-3c71-4a52-a7f0-ce4770d2dfc1",
+              "length": 2000,
+              "quantity": 2,
+              "total_child_cartons": 4,
+              "type": "Type 2",
+              "uuid_awb": [
+                "a1c42770-8a36-4ed7-9fd9-1b6399844c1b",
+                "c6471fd6-1b62-49d1-879d-01c314129929"
+              ],
+              "volumetric_weight": 200000000,
+              "weight": 20000
+            }
+          ],
+          "channel": "nykaa",
+          "child_waybill": [
+            "WB502374"
+          ],
+          "customer_warehouse_address": "3/36 2nd Floor Roop Nagar, Delhi",
+          "customer_warehouse_alternate_phone": null,
+          "customer_warehouse_city": "Delhi",
+          "customer_warehouse_email": "",
+          "customer_warehouse_name": "MARS Cosmetics Pvt Ltd (MARSS)-302306",
+          "customer_warehouse_phone": "",
+          "customer_warehouse_pin": "110007",
+          "customer_warehouse_state": "Delhi",
+          "expected_delivery_date": "2025-08-17T18:30:00Z",
+          "files": [
+            "https://b2b-openleaf-bucket-1.s3.ap-south-1.amazonaws.com/order-documents/07fd42ef-ebec-4989-843d-3ffe7c6e3a2b--invoice_copy---Patna%20Hands.pdf"
+          ],
+          "is_appointment_confirmed": true,
+          "lr_number": "498027",
+          "master_waybill": [
+            "MWB503723"
+          ],
+          "order_placed_at": "2025-08-25T08:09:36.435938Z",
+          "po_number": [
+            "NHO1356502"
+          ],
+          "total_cartons": 2,
+          "total_dead_weight": 50000,
+          "total_volumetric_weight": 400000000,
+          "warehouse_address": "501, Lotus Residency, SV Road, Sion West, Mumbai, Maharashtra 400022",
+          "warehouse_alternate_phone": null,
+          "warehouse_city": "Mumbai",
+          "warehouse_email": "omkar.kamble@openleaf.tech",
+          "warehouse_name": "Mumbai Warehouse",
+          "warehouse_phone": "8104561330",
+          "warehouse_pin": "400022",
+          "warehouse_state": "Maharashtra"
+        },
+        "notification_id": "fe0121fd-c82a-4c07-b589-9adf2709dafb",
+        "order_id": "9e8c2221-d7c4-4ee3-8398-b74ad525e8fc",
+        "settings": {
+          "admin_id": "1ecf71e1-1748-425b-9071-56e925a391a3",
+          "ans_id": "00000000-0000-0000-0000-000000000000",
+          "bulk_reminder_days": null,
+          "bulk_reminder_type": "before_delivery",
+          "carrier_id": "all",
+          "channel": null,
+          "created_at": "2025-08-30T09:42:26.198482Z",
+          "notification_days": "0",
+          "notification_type": "after_appointment_taken",
+          "receiver_cc_emails_for_carrier": "sahil@openleaf.tech",
+          "receiver_cc_emails_for_channel": null,
+          "receiver_emails_for_carrier": "omkarkamble.work@gmail.com",
+          "receiver_emails_for_channel": null,
+          "reminder_days": "0",
+          "reminder_type": "after_appointment_taken",
+          "send_bulk_reminder": false,
+          "send_notification": true,
+          "send_reminder": true,
+          "sender_cc_emails_for_carrier": "omkar@openleaf.tech,nikhil@openleaf.tech",
+          "sender_cc_emails_for_channel": null,
+          "sender_emails_for_carrier": "b2b@openleaf.tech",
+          "sender_emails_for_channel": null,
+          "user_id": "21049097-9018-47ba-a1e7-8f6754d80aa5"
+        },
+        "user_id": "21049097-9018-47ba-a1e7-8f6754d80aa5"
+      },
+      "task_type": "email:carrier-appointment-reminder"
+    }
+  },
+  "msg": "[worker] carrier appointment reminder email worker started",
+  "time": "01-09-2025 15:48:28"
+}
+{
+  "level": "info",
+  "log_data": {
+    "filename": "D:/Openleaf/Openleaf-Dev-B2B-Notification-Server/workers/carrier/appointmentEmail.go:373",
+    "log_data": {
+      "payload": {
+        "admin_id": "1ecf71e1-1748-425b-9071-56e925a391a3",
+        "data": {
+          "appointment_date": "2025-08-30T11:21:00Z",
+          "appointment_scheduled_at": "2025-08-31T06:40:17.26664Z",
+          "appointment_taken_at": "2025-08-30T11:21:00Z",
+          "carrier_id": "a80948b5-5496-468e-8fee-98377c47bddd",
+          "carrier_name": "TestCarrier",
+          "cartons": [
+            {
+              "awb": [
+                "166320",
+                "345887"
+              ],
+              "breadth": 1000,
+              "child_cartons": [
+                {
+                  "awb": [
+                    "229561",
+                    "291680",
+                    "871550"
+                  ],
+                  "breadth": 500,
+                  "height": 500,
+                  "id": "1be5478f-3f7f-4e05-82f0-f32c3b193ef5",
+                  "length": 500,
+                  "quantity": 3,
+                  "type": "Type 1-1",
+                  "uuid_awb": [
+                    "1dbbcacd-66eb-4889-8365-b0c9f7474aeb",
+                    "da2e65db-303d-4a5d-8b9a-74eb6cd4c754",
+                    "85391c50-a4b2-405a-9719-1943c78f0b13"
+                  ],
+                  "volumetric_weight": 200000000,
+                  "weight": 25000
+                }
+              ],
+              "height": 1000,
+              "id": "3265eeb4-9d81-42ea-85f9-ddc899516f20",
+              "length": 1000,
+              "quantity": 2,
+              "total_child_cartons": 3,
+              "type": "Type 1",
+              "uuid_awb": [
+                "a1c42770-8a36-4ed7-9fd9-1b6399844c1b",
+                "c6471fd6-1b62-49d1-879d-01c314129929"
+              ],
+              "volumetric_weight": 400000000,
+              "weight": 50000
+            },
+            {
+              "awb": [
+                "266320",
+                "245887"
+              ],
+              "breadth": 2000,
+              "child_cartons": [
+                {
+                  "awb": [
+                    "108432",
+                    "479658",
+                    "275595",
+                    "120760"
+                  ],
+                  "breadth": 1000,
+                  "height": 1000,
+                  "id": "e29e7920-655b-4bf1-9dae-ccb48e1a5c05",
+                  "length": 1000,
+                  "quantity": 4,
+                  "type": "Type 2-1",
+                  "uuid_awb": [
+                    "7fa4e753-ae9c-427c-bb36-0527d8a2189f",
+                    "438eb7a7-9ac0-4974-ac82-8df0dcab62a7",
+                    "c7324e45-222e-45bb-aa11-b6c2ea2549f5",
+                    "fbf8a269-d48b-4323-a51f-cba15c6be411"
+                  ],
+                  "volumetric_weight": 100000000,
+                  "weight": 10000
+                }
+              ],
+              "height": 2000,
+              "id": "1cd0ab7b-3c71-4a52-a7f0-ce4770d2dfc1",
+              "length": 2000,
+              "quantity": 2,
+              "total_child_cartons": 4,
+              "type": "Type 2",
+              "uuid_awb": [
+                "a1c42770-8a36-4ed7-9fd9-1b6399844c1b",
+                "c6471fd6-1b62-49d1-879d-01c314129929"
+              ],
+              "volumetric_weight": 200000000,
+              "weight": 20000
+            }
+          ],
+          "channel": "nykaa",
+          "child_waybill": [
+            "WB502374"
+          ],
+          "customer_warehouse_address": "3/36 2nd Floor Roop Nagar, Delhi",
+          "customer_warehouse_alternate_phone": null,
+          "customer_warehouse_city": "Delhi",
+          "customer_warehouse_email": "",
+          "customer_warehouse_name": "MARS Cosmetics Pvt Ltd (MARSS)-302306",
+          "customer_warehouse_phone": "",
+          "customer_warehouse_pin": "110007",
+          "customer_warehouse_state": "Delhi",
+          "expected_delivery_date": "2025-08-17T18:30:00Z",
+          "files": [
+            "https://b2b-openleaf-bucket-1.s3.ap-south-1.amazonaws.com/order-documents/07fd42ef-ebec-4989-843d-3ffe7c6e3a2b--invoice_copy---Patna%20Hands.pdf"
+          ],
+          "is_appointment_confirmed": true,
+          "lr_number": "498027",
+          "master_waybill": [
+            "MWB503723"
+          ],
+          "order_placed_at": "2025-08-25T08:09:36.435938Z",
+          "po_number": [
+            "NHO1356502"
+          ],
+          "total_cartons": 2,
+          "total_dead_weight": 50000,
+          "total_volumetric_weight": 400000000,
+          "warehouse_address": "501, Lotus Residency, SV Road, Sion West, Mumbai, Maharashtra 400022",
+          "warehouse_alternate_phone": null,
+          "warehouse_city": "Mumbai",
+          "warehouse_email": "omkar.kamble@openleaf.tech",
+          "warehouse_name": "Mumbai Warehouse",
+          "warehouse_phone": "8104561330",
+          "warehouse_pin": "400022",
+          "warehouse_state": "Maharashtra"
+        },
+        "notification_id": "fe0121fd-c82a-4c07-b589-9adf2709dafb",
+        "order_id": "9e8c2221-d7c4-4ee3-8398-b74ad525e8fc",
+        "settings": {
+          "admin_id": "1ecf71e1-1748-425b-9071-56e925a391a3",
+          "ans_id": "00000000-0000-0000-0000-000000000000",
+          "bulk_reminder_days": null,
+          "bulk_reminder_type": "before_delivery",
+          "carrier_id": "all",
+          "channel": null,
+          "created_at": "2025-08-30T09:42:26.198482Z",
+          "notification_days": "0",
+          "notification_type": "after_appointment_taken",
+          "receiver_cc_emails_for_carrier": "sahil@openleaf.tech",
+          "receiver_cc_emails_for_channel": null,
+          "receiver_emails_for_carrier": "omkarkamble.work@gmail.com",
+          "receiver_emails_for_channel": null,
+          "reminder_days": "0",
+          "reminder_type": "after_appointment_taken",
+          "send_bulk_reminder": false,
+          "send_notification": true,
+          "send_reminder": true,
+          "sender_cc_emails_for_carrier": "omkar@openleaf.tech,nikhil@openleaf.tech",
+          "sender_cc_emails_for_channel": null,
+          "sender_emails_for_carrier": "b2b@openleaf.tech",
+          "sender_emails_for_channel": null,
+          "user_id": "21049097-9018-47ba-a1e7-8f6754d80aa5"
+        },
+        "user_id": "21049097-9018-47ba-a1e7-8f6754d80aa5"
+      },
+      "task_data": {
+        "admin_id": "1ecf71e1-1748-425b-9071-56e925a391a3",
+        "data": {
+          "appointment_date": "2025-08-30T11:21:00Z",
+          "appointment_scheduled_at": "2025-08-31T06:40:17.26664Z",
+          "appointment_taken_at": "2025-08-30T11:21:00Z",
+          "carrier_id": "a80948b5-5496-468e-8fee-98377c47bddd",
+          "carrier_name": "TestCarrier",
+          "cartons": [
+            {
+              "awb": [
+                "166320",
+                "345887"
+              ],
+              "breadth": 1000,
+              "child_cartons": [
+                {
+                  "awb": [
+                    "229561",
+                    "291680",
+                    "871550"
+                  ],
+                  "breadth": 500,
+                  "height": 500,
+                  "id": "1be5478f-3f7f-4e05-82f0-f32c3b193ef5",
+                  "length": 500,
+                  "quantity": 3,
+                  "type": "Type 1-1",
+                  "uuid_awb": [
+                    "1dbbcacd-66eb-4889-8365-b0c9f7474aeb",
+                    "da2e65db-303d-4a5d-8b9a-74eb6cd4c754",
+                    "85391c50-a4b2-405a-9719-1943c78f0b13"
+                  ],
+                  "volumetric_weight": 200000000,
+                  "weight": 25000
+                }
+              ],
+              "height": 1000,
+              "id": "3265eeb4-9d81-42ea-85f9-ddc899516f20",
+              "length": 1000,
+              "quantity": 2,
+              "total_child_cartons": 3,
+              "type": "Type 1",
+              "uuid_awb": [
+                "a1c42770-8a36-4ed7-9fd9-1b6399844c1b",
+                "c6471fd6-1b62-49d1-879d-01c314129929"
+              ],
+              "volumetric_weight": 400000000,
+              "weight": 50000
+            },
+            {
+              "awb": [
+                "266320",
+                "245887"
+              ],
+              "breadth": 2000,
+              "child_cartons": [
+                {
+                  "awb": [
+                    "108432",
+                    "479658",
+                    "275595",
+                    "120760"
+                  ],
+                  "breadth": 1000,
+                  "height": 1000,
+                  "id": "e29e7920-655b-4bf1-9dae-ccb48e1a5c05",
+                  "length": 1000,
+                  "quantity": 4,
+                  "type": "Type 2-1",
+                  "uuid_awb": [
+                    "7fa4e753-ae9c-427c-bb36-0527d8a2189f",
+                    "438eb7a7-9ac0-4974-ac82-8df0dcab62a7",
+                    "c7324e45-222e-45bb-aa11-b6c2ea2549f5",
+                    "fbf8a269-d48b-4323-a51f-cba15c6be411"
+                  ],
+                  "volumetric_weight": 100000000,
+                  "weight": 10000
+                }
+              ],
+              "height": 2000,
+              "id": "1cd0ab7b-3c71-4a52-a7f0-ce4770d2dfc1",
+              "length": 2000,
+              "quantity": 2,
+              "total_child_cartons": 4,
+              "type": "Type 2",
+              "uuid_awb": [
+                "a1c42770-8a36-4ed7-9fd9-1b6399844c1b",
+                "c6471fd6-1b62-49d1-879d-01c314129929"
+              ],
+              "volumetric_weight": 200000000,
+              "weight": 20000
+            }
+          ],
+          "channel": "nykaa",
+          "child_waybill": [
+            "WB502374"
+          ],
+          "customer_warehouse_address": "3/36 2nd Floor Roop Nagar, Delhi",
+          "customer_warehouse_alternate_phone": null,
+          "customer_warehouse_city": "Delhi",
+          "customer_warehouse_email": "",
+          "customer_warehouse_name": "MARS Cosmetics Pvt Ltd (MARSS)-302306",
+          "customer_warehouse_phone": "",
+          "customer_warehouse_pin": "110007",
+          "customer_warehouse_state": "Delhi",
+          "expected_delivery_date": "2025-08-17T18:30:00Z",
+          "files": [
+            "https://b2b-openleaf-bucket-1.s3.ap-south-1.amazonaws.com/order-documents/07fd42ef-ebec-4989-843d-3ffe7c6e3a2b--invoice_copy---Patna%20Hands.pdf"
+          ],
+          "is_appointment_confirmed": true,
+          "lr_number": "498027",
+          "master_waybill": [
+            "MWB503723"
+          ],
+          "order_placed_at": "2025-08-25T08:09:36.435938Z",
+          "po_number": [
+            "NHO1356502"
+          ],
+          "total_cartons": 2,
+          "total_dead_weight": 50000,
+          "total_volumetric_weight": 400000000,
+          "warehouse_address": "501, Lotus Residency, SV Road, Sion West, Mumbai, Maharashtra 400022",
+          "warehouse_alternate_phone": null,
+          "warehouse_city": "Mumbai",
+          "warehouse_email": "omkar.kamble@openleaf.tech",
+          "warehouse_name": "Mumbai Warehouse",
+          "warehouse_phone": "8104561330",
+          "warehouse_pin": "400022",
+          "warehouse_state": "Maharashtra"
+        },
+        "notification_id": "fe0121fd-c82a-4c07-b589-9adf2709dafb",
+        "order_id": "9e8c2221-d7c4-4ee3-8398-b74ad525e8fc",
+        "settings": {
+          "admin_id": "1ecf71e1-1748-425b-9071-56e925a391a3",
+          "ans_id": "00000000-0000-0000-0000-000000000000",
+          "bulk_reminder_days": null,
+          "bulk_reminder_type": "before_delivery",
+          "carrier_id": "all",
+          "channel": null,
+          "created_at": "2025-08-30T09:42:26.198482Z",
+          "notification_days": "0",
+          "notification_type": "after_appointment_taken",
+          "receiver_cc_emails_for_carrier": "sahil@openleaf.tech",
+          "receiver_cc_emails_for_channel": null,
+          "receiver_emails_for_carrier": "omkarkamble.work@gmail.com",
+          "receiver_emails_for_channel": null,
+          "reminder_days": "0",
+          "reminder_type": "after_appointment_taken",
+          "send_bulk_reminder": false,
+          "send_notification": true,
+          "send_reminder": true,
+          "sender_cc_emails_for_carrier": "omkar@openleaf.tech,nikhil@openleaf.tech",
+          "sender_cc_emails_for_channel": null,
+          "sender_emails_for_carrier": "b2b@openleaf.tech",
+          "sender_emails_for_channel": null,
+          "user_id": "21049097-9018-47ba-a1e7-8f6754d80aa5"
+        },
+        "user_id": "21049097-9018-47ba-a1e7-8f6754d80aa5"
+      },
+      "task_type": "email:carrier-appointment-reminder"
+    }
+  },
+  "msg": "[worker] carrier appointment reminder email payload raw",
+  "time": "01-09-2025 15:48:28"
+}
+{
+  "level": "info",
+  "log_data": {
+    "filename": "D:/Openleaf/Openleaf-Dev-B2B-Notification-Server/workers/carrier/appointmentEmail.go:391",
+    "log_data": {
+      "data": {
+        "notification_id": "fe0121fd-c82a-4c07-b589-9adf2709dafb",
+        "order_id": "9e8c2221-d7c4-4ee3-8398-b74ad525e8fc",
+        "admin_id": "1ecf71e1-1748-425b-9071-56e925a391a3",
+        "user_id": "21049097-9018-47ba-a1e7-8f6754d80aa5",
+        "data": {
+          "po_number": [
+            "NHO1356502"
+          ],
+          "lr_number": "498027",
+          "appointment_date": "2025-08-30T11:21:00Z",
+          "master_waybill": [
+            "MWB503723"
+          ],
+          "child_waybill": [
+            "WB502374"
+          ],
+          "cartons": [
+            {
+              "id": "3265eeb4-9d81-42ea-85f9-ddc899516f20",
+              "type": "Type 1",
+              "length": 1000,
+              "breadth": 1000,
+              "height": 1000,
+              "weight": 50000,
+              "quantity": 2,
+              "volumetric_weight": 400000000,
+              "awb": [
+                "166320",
+                "345887"
+              ],
+              "uuid_awb": [
+                "a1c42770-8a36-4ed7-9fd9-1b6399844c1b",
+                "c6471fd6-1b62-49d1-879d-01c314129929"
+              ],
+              "total_child_cartons": 3,
+              "child_cartons": [
+                {
+                  "id": "1be5478f-3f7f-4e05-82f0-f32c3b193ef5",
+                  "type": "Type 1-1",
+                  "length": 500,
+                  "breadth": 500,
+                  "height": 500,
+                  "weight": 25000,
+                  "quantity": 3,
+                  "volumetric_weight": 200000000,
+                  "awb": [
+                    "229561",
+                    "291680",
+                    "871550"
+                  ],
+                  "uuid_awb": [
+                    "1dbbcacd-66eb-4889-8365-b0c9f7474aeb",
+                    "da2e65db-303d-4a5d-8b9a-74eb6cd4c754",
+                    "85391c50-a4b2-405a-9719-1943c78f0b13"
+                  ]
+                }
+              ]
+            },
+            {
+              "id": "1cd0ab7b-3c71-4a52-a7f0-ce4770d2dfc1",
+              "type": "Type 2",
+              "length": 2000,
+              "breadth": 2000,
+              "height": 2000,
+              "weight": 20000,
+              "quantity": 2,
+              "volumetric_weight": 200000000,
+              "awb": [
+                "266320",
+                "245887"
+              ],
+              "uuid_awb": [
+                "a1c42770-8a36-4ed7-9fd9-1b6399844c1b",
+                "c6471fd6-1b62-49d1-879d-01c314129929"
+              ],
+              "total_child_cartons": 4,
+              "child_cartons": [
+                {
+                  "id": "e29e7920-655b-4bf1-9dae-ccb48e1a5c05",
+                  "type": "Type 2-1",
+                  "length": 1000,
+                  "breadth": 1000,
+                  "height": 1000,
+                  "weight": 10000,
+                  "quantity": 4,
+                  "volumetric_weight": 100000000,
+                  "awb": [
+                    "108432",
+                    "479658",
+                    "275595",
+                    "120760"
+                  ],
+                  "uuid_awb": [
+                    "7fa4e753-ae9c-427c-bb36-0527d8a2189f",
+                    "438eb7a7-9ac0-4974-ac82-8df0dcab62a7",
+                    "c7324e45-222e-45bb-aa11-b6c2ea2549f5",
+                    "fbf8a269-d48b-4323-a51f-cba15c6be411"
+                  ]
+                }
+              ]
+            }
+          ],
+          "total_cartons": 2,
+          "total_dead_weight": 50000,
+          "total_volumetric_weight": 400000000,
+          "carrier_id": "a80948b5-5496-468e-8fee-98377c47bddd",
+          "carrier_name": "TestCarrier",
+          "channel": "nykaa",
+          "warehouse_name": "Mumbai Warehouse",
+          "warehouse_address": "501, Lotus Residency, SV Road, Sion West, Mumbai, Maharashtra 400022",
+          "warehouse_city": "Mumbai",
+          "warehouse_state": "Maharashtra",
+          "warehouse_pin": "400022",
+          "warehouse_phone": "8104561330",
+          "warehouse_alternate_phone": null,
+          "warehouse_email": "omkar.kamble@openleaf.tech",
+          "customer_warehouse_name": "MARS Cosmetics Pvt Ltd (MARSS)-302306",
+          "customer_warehouse_address": "3/36 2nd Floor Roop Nagar, Delhi",
+          "customer_warehouse_city": "Delhi",
+          "customer_warehouse_state": "Delhi",
+          "customer_warehouse_pin": "110007",
+          "customer_warehouse_phone": "",
+          "customer_warehouse_alternate_phone": null,
+          "customer_warehouse_email": "",
+          "order_placed_at": "2025-08-25T08:09:36.435938Z",
+          "expected_delivery_date": "2025-08-17T18:30:00Z",
+          "appointment_scheduled_at": "2025-08-31T06:40:17.26664Z",
+          "appointment_taken_at": "2025-08-30T11:21:00Z",
+          "is_appointment_confirmed": true,
+          "files": [
+            "https://b2b-openleaf-bucket-1.s3.ap-south-1.amazonaws.com/order-documents/07fd42ef-ebec-4989-843d-3ffe7c6e3a2b--invoice_copy---Patna%20Hands.pdf"
+          ]
+        },
+        "settings": {
+          "ans_id": "00000000-0000-0000-0000-000000000000",
+          "admin_id": "1ecf71e1-1748-425b-9071-56e925a391a3",
+          "user_id": "21049097-9018-47ba-a1e7-8f6754d80aa5",
+          "channel": null,
+          "carrier_id": "all",
+          "sender_emails_for_channel": null,
+          "sender_cc_emails_for_channel": null,
+          "receiver_emails_for_channel": null,
+          "receiver_cc_emails_for_channel": null,
+          "sender_emails_for_carrier": "b2b@openleaf.tech",
+          "sender_cc_emails_for_carrier": "omkar@openleaf.tech,nikhil@openleaf.tech",
+          "receiver_emails_for_carrier": "omkarkamble.work@gmail.com",
+          "receiver_cc_emails_for_carrier": "sahil@openleaf.tech",
+          "send_notification": true,
+          "notification_days": "0",
+          "notification_type": "after_appointment_taken",
+          "send_reminder": true,
+          "reminder_days": "0",
+          "reminder_type": "after_appointment_taken",
+          "send_bulk_reminder": false,
+          "bulk_reminder_days": null,
+          "bulk_reminder_type": "before_delivery",
+          "created_at": "2025-08-30T09:42:26.198482Z"
+        }
+      },
+      "notification_id": "fe0121fd-c82a-4c07-b589-9adf2709dafb",
+      "order_id": "9e8c2221-d7c4-4ee3-8398-b74ad525e8fc",
+      "task_data": {
+        "admin_id": "1ecf71e1-1748-425b-9071-56e925a391a3",
+        "data": {
+          "appointment_date": "2025-08-30T11:21:00Z",
+          "appointment_scheduled_at": "2025-08-31T06:40:17.26664Z",
+          "appointment_taken_at": "2025-08-30T11:21:00Z",
+          "carrier_id": "a80948b5-5496-468e-8fee-98377c47bddd",
+          "carrier_name": "TestCarrier",
+          "cartons": [
+            {
+              "awb": [
+                "166320",
+                "345887"
+              ],
+              "breadth": 1000,
+              "child_cartons": [
+                {
+                  "awb": [
+                    "229561",
+                    "291680",
+                    "871550"
+                  ],
+                  "breadth": 500,
+                  "height": 500,
+                  "id": "1be5478f-3f7f-4e05-82f0-f32c3b193ef5",
+                  "length": 500,
+                  "quantity": 3,
+                  "type": "Type 1-1",
+                  "uuid_awb": [
+                    "1dbbcacd-66eb-4889-8365-b0c9f7474aeb",
+                    "da2e65db-303d-4a5d-8b9a-74eb6cd4c754",
+                    "85391c50-a4b2-405a-9719-1943c78f0b13"
+                  ],
+                  "volumetric_weight": 200000000,
+                  "weight": 25000
+                }
+              ],
+              "height": 1000,
+              "id": "3265eeb4-9d81-42ea-85f9-ddc899516f20",
+              "length": 1000,
+              "quantity": 2,
+              "total_child_cartons": 3,
+              "type": "Type 1",
+              "uuid_awb": [
+                "a1c42770-8a36-4ed7-9fd9-1b6399844c1b",
+                "c6471fd6-1b62-49d1-879d-01c314129929"
+              ],
+              "volumetric_weight": 400000000,
+              "weight": 50000
+            },
+            {
+              "awb": [
+                "266320",
+                "245887"
+              ],
+              "breadth": 2000,
+              "child_cartons": [
+                {
+                  "awb": [
+                    "108432",
+                    "479658",
+                    "275595",
+                    "120760"
+                  ],
+                  "breadth": 1000,
+                  "height": 1000,
+                  "id": "e29e7920-655b-4bf1-9dae-ccb48e1a5c05",
+                  "length": 1000,
+                  "quantity": 4,
+                  "type": "Type 2-1",
+                  "uuid_awb": [
+                    "7fa4e753-ae9c-427c-bb36-0527d8a2189f",
+                    "438eb7a7-9ac0-4974-ac82-8df0dcab62a7",
+                    "c7324e45-222e-45bb-aa11-b6c2ea2549f5",
+                    "fbf8a269-d48b-4323-a51f-cba15c6be411"
+                  ],
+                  "volumetric_weight": 100000000,
+                  "weight": 10000
+                }
+              ],
+              "height": 2000,
+              "id": "1cd0ab7b-3c71-4a52-a7f0-ce4770d2dfc1",
+              "length": 2000,
+              "quantity": 2,
+              "total_child_cartons": 4,
+              "type": "Type 2",
+              "uuid_awb": [
+                "a1c42770-8a36-4ed7-9fd9-1b6399844c1b",
+                "c6471fd6-1b62-49d1-879d-01c314129929"
+              ],
+              "volumetric_weight": 200000000,
+              "weight": 20000
+            }
+          ],
+          "channel": "nykaa",
+          "child_waybill": [
+            "WB502374"
+          ],
+          "customer_warehouse_address": "3/36 2nd Floor Roop Nagar, Delhi",
+          "customer_warehouse_alternate_phone": null,
+          "customer_warehouse_city": "Delhi",
+          "customer_warehouse_email": "",
+          "customer_warehouse_name": "MARS Cosmetics Pvt Ltd (MARSS)-302306",
+          "customer_warehouse_phone": "",
+          "customer_warehouse_pin": "110007",
+          "customer_warehouse_state": "Delhi",
+          "expected_delivery_date": "2025-08-17T18:30:00Z",
+          "files": [
+            "https://b2b-openleaf-bucket-1.s3.ap-south-1.amazonaws.com/order-documents/07fd42ef-ebec-4989-843d-3ffe7c6e3a2b--invoice_copy---Patna%20Hands.pdf"
+          ],
+          "is_appointment_confirmed": true,
+          "lr_number": "498027",
+          "master_waybill": [
+            "MWB503723"
+          ],
+          "order_placed_at": "2025-08-25T08:09:36.435938Z",
+          "po_number": [
+            "NHO1356502"
+          ],
+          "total_cartons": 2,
+          "total_dead_weight": 50000,
+          "total_volumetric_weight": 400000000,
+          "warehouse_address": "501, Lotus Residency, SV Road, Sion West, Mumbai, Maharashtra 400022",
+          "warehouse_alternate_phone": null,
+          "warehouse_city": "Mumbai",
+          "warehouse_email": "omkar.kamble@openleaf.tech",
+          "warehouse_name": "Mumbai Warehouse",
+          "warehouse_phone": "8104561330",
+          "warehouse_pin": "400022",
+          "warehouse_state": "Maharashtra"
+        },
+        "notification_id": "fe0121fd-c82a-4c07-b589-9adf2709dafb",
+        "order_id": "9e8c2221-d7c4-4ee3-8398-b74ad525e8fc",
+        "settings": {
+          "admin_id": "1ecf71e1-1748-425b-9071-56e925a391a3",
+          "ans_id": "00000000-0000-0000-0000-000000000000",
+          "bulk_reminder_days": null,
+          "bulk_reminder_type": "before_delivery",
+          "carrier_id": "all",
+          "channel": null,
+          "created_at": "2025-08-30T09:42:26.198482Z",
+          "notification_days": "0",
+          "notification_type": "after_appointment_taken",
+          "receiver_cc_emails_for_carrier": "sahil@openleaf.tech",
+          "receiver_cc_emails_for_channel": null,
+          "receiver_emails_for_carrier": "omkarkamble.work@gmail.com",
+          "receiver_emails_for_channel": null,
+          "reminder_days": "0",
+          "reminder_type": "after_appointment_taken",
+          "send_bulk_reminder": false,
+          "send_notification": true,
+          "send_reminder": true,
+          "sender_cc_emails_for_carrier": "omkar@openleaf.tech,nikhil@openleaf.tech",
+          "sender_cc_emails_for_channel": null,
+          "sender_emails_for_carrier": "b2b@openleaf.tech",
+          "sender_emails_for_channel": null,
+          "user_id": "21049097-9018-47ba-a1e7-8f6754d80aa5"
+        },
+        "user_id": "21049097-9018-47ba-a1e7-8f6754d80aa5"
+      },
+      "task_type": "email:carrier-appointment-reminder"
+    }
+  },
+  "msg": "[worker] carrier appointment reminder email payload",
+  "time": "01-09-2025 15:48:28"
+}
+{
+  "level": "info",
+  "log_data": {
+    "filename": "D:/Openleaf/Openleaf-Dev-B2B-Notification-Server/workers/carrier/appointmentEmail.go:582",
+    "log_data": {
+      "body_length": 3869,
+      "cc": [
+        "sahil@openleaf.tech",
+        "omkar@openleaf.tech",
+        "nikhil@openleaf.tech"
+      ],
+      "files_count": 1,
+      "from": "b2b@openleaf.tech",
+      "subject": "Reminder: Delivery for LR 498027 on 30 Aug 2025",
+      "to": [
+        "omkarkamble.work@gmail.com"
+      ]
+    }
+  },
+  "msg": "[worker] attempting to send reminder email",
+  "time": "01-09-2025 15:48:28"
+}
+{
+  "level": "info",
+  "log_data": {
+    "filename": "D:/Openleaf/Openleaf-Dev-B2B-Notification-Server/helpers/email.go:84",
+    "log_data": {
+      "index": 1,
+      "total": 1,
+      "url": "https://b2b-openleaf-bucket-1.s3.ap-south-1.amazonaws.com/order-documents/07fd42ef-ebec-4989-843d-3ffe7c6e3a2b--invoice_copy---Patna%20Hands.pdf"
+    }
+  },
+  "msg": "downloading attachment",
+  "time": "01-09-2025 15:48:28"
+}
+{
+  "level": "info",
+  "log_data": {
+    "filename": "D:/Openleaf/Openleaf-Dev-B2B-Notification-Server/workers/carrier/appointmentEmail.go:27",
+    "log_data": {
+      "payload_length": 3834,
+      "task_data": {
+        "admin_id": "1ecf71e1-1748-425b-9071-56e925a391a3",
+        "data": {
+          "appointment_date": "2025-08-30T11:21:00Z",
+          "appointment_scheduled_at": "2025-08-31T06:40:17.26664Z",
+          "appointment_taken_at": "2025-08-30T11:21:00Z",
+          "carrier_id": "a80948b5-5496-468e-8fee-98377c47bddd",
+          "carrier_name": "TestCarrier",
+          "cartons": [
+            {
+              "awb": [
+                "166320",
+                "345887"
+              ],
+              "breadth": 1000,
+              "child_cartons": [
+                {
+                  "awb": [
+                    "229561",
+                    "291680",
+                    "871550"
+                  ],
+                  "breadth": 500,
+                  "height": 500,
+                  "id": "1be5478f-3f7f-4e05-82f0-f32c3b193ef5",
+                  "length": 500,
+                  "quantity": 3,
+                  "type": "Type 1-1",
+                  "uuid_awb": [
+                    "1dbbcacd-66eb-4889-8365-b0c9f7474aeb",
+                    "da2e65db-303d-4a5d-8b9a-74eb6cd4c754",
+                    "85391c50-a4b2-405a-9719-1943c78f0b13"
+                  ],
+                  "volumetric_weight": 200000000,
+                  "weight": 25000
+                }
+              ],
+              "height": 1000,
+              "id": "3265eeb4-9d81-42ea-85f9-ddc899516f20",
+              "length": 1000,
+              "quantity": 2,
+              "total_child_cartons": 3,
+              "type": "Type 1",
+              "uuid_awb": [
+                "a1c42770-8a36-4ed7-9fd9-1b6399844c1b",
+                "c6471fd6-1b62-49d1-879d-01c314129929"
+              ],
+              "volumetric_weight": 400000000,
+              "weight": 50000
+            },
+            {
+              "awb": [
+                "266320",
+                "245887"
+              ],
+              "breadth": 2000,
+              "child_cartons": [
+                {
+                  "awb": [
+                    "108432",
+                    "479658",
+                    "275595",
+                    "120760"
+                  ],
+                  "breadth": 1000,
+                  "height": 1000,
+                  "id": "e29e7920-655b-4bf1-9dae-ccb48e1a5c05",
+                  "length": 1000,
+                  "quantity": 4,
+                  "type": "Type 2-1",
+                  "uuid_awb": [
+                    "7fa4e753-ae9c-427c-bb36-0527d8a2189f",
+                    "438eb7a7-9ac0-4974-ac82-8df0dcab62a7",
+                    "c7324e45-222e-45bb-aa11-b6c2ea2549f5",
+                    "fbf8a269-d48b-4323-a51f-cba15c6be411"
+                  ],
+                  "volumetric_weight": 100000000,
+                  "weight": 10000
+                }
+              ],
+              "height": 2000,
+              "id": "1cd0ab7b-3c71-4a52-a7f0-ce4770d2dfc1",
+              "length": 2000,
+              "quantity": 2,
+              "total_child_cartons": 4,
+              "type": "Type 2",
+              "uuid_awb": [
+                "a1c42770-8a36-4ed7-9fd9-1b6399844c1b",
+                "c6471fd6-1b62-49d1-879d-01c314129929"
+              ],
+              "volumetric_weight": 200000000,
+              "weight": 20000
+            }
+          ],
+          "channel": "nykaa",
+          "child_waybill": [
+            "WB502374"
+          ],
+          "customer_warehouse_address": "3/36 2nd Floor Roop Nagar, Delhi",
+          "customer_warehouse_alternate_phone": null,
+          "customer_warehouse_city": "Delhi",
+          "customer_warehouse_email": "",
+          "customer_warehouse_name": "MARS Cosmetics Pvt Ltd (MARSS)-302306",
+          "customer_warehouse_phone": "",
+          "customer_warehouse_pin": "110007",
+          "customer_warehouse_state": "Delhi",
+          "expected_delivery_date": "2025-08-17T18:30:00Z",
+          "files": [
+            "https://b2b-openleaf-bucket-1.s3.ap-south-1.amazonaws.com/order-documents/07fd42ef-ebec-4989-843d-3ffe7c6e3a2b--invoice_copy---Patna%20Hands.pdf"
+          ],
+          "is_appointment_confirmed": true,
+          "lr_number": "498027",
+          "master_waybill": [
+            "MWB503723"
+          ],
+          "order_placed_at": "2025-08-25T08:09:36.435938Z",
+          "po_number": [
+            "NHO1356502"
+          ],
+          "total_cartons": 2,
+          "total_dead_weight": 50000,
+          "total_volumetric_weight": 400000000,
+          "warehouse_address": "501, Lotus Residency, SV Road, Sion West, Mumbai, Maharashtra 400022",
+          "warehouse_alternate_phone": null,
+          "warehouse_city": "Mumbai",
+          "warehouse_email": "omkar.kamble@openleaf.tech",
+          "warehouse_name": "Mumbai Warehouse",
+          "warehouse_phone": "8104561330",
+          "warehouse_pin": "400022",
+          "warehouse_state": "Maharashtra"
+        },
+        "notification_id": "bf313f3b-bc79-4d7f-92e3-02568c3c98bb",
+        "order_id": "9e8c2221-d7c4-4ee3-8398-b74ad525e8fc",
+        "settings": {
+          "admin_id": "1ecf71e1-1748-425b-9071-56e925a391a3",
+          "ans_id": "00000000-0000-0000-0000-000000000000",
+          "bulk_reminder_days": null,
+          "bulk_reminder_type": "before_delivery",
+          "carrier_id": "all",
+          "channel": null,
+          "created_at": "2025-08-30T09:42:26.198482Z",
+          "notification_days": "0",
+          "notification_type": "after_appointment_taken",
+          "receiver_cc_emails_for_carrier": "sahil@openleaf.tech",
+          "receiver_cc_emails_for_channel": null,
+          "receiver_emails_for_carrier": "omkarkamble.work@gmail.com",
+          "receiver_emails_for_channel": null,
+          "reminder_days": "0",
+          "reminder_type": "after_appointment_taken",
+          "send_bulk_reminder": false,
+          "send_notification": true,
+          "send_reminder": true,
+          "sender_cc_emails_for_carrier": "omkar@openleaf.tech,nikhil@openleaf.tech",
+          "sender_cc_emails_for_channel": null,
+          "sender_emails_for_carrier": "b2b@openleaf.tech",
+          "sender_emails_for_channel": null,
+          "user_id": "21049097-9018-47ba-a1e7-8f6754d80aa5"
+        },
+        "user_id": "21049097-9018-47ba-a1e7-8f6754d80aa5"
+      },
+      "task_type": "email:carrier-appointment-notification"
+    }
+  },
+  "msg": "[worker] carrier appointment email worker started",
+  "time": "01-09-2025 15:48:28"
+}
+{
+  "level": "info",
+  "log_data": {
+    "filename": "D:/Openleaf/Openleaf-Dev-B2B-Notification-Server/workers/carrier/appointmentEmail.go:43",
+    "log_data": {
+      "payload": {
+        "admin_id": "1ecf71e1-1748-425b-9071-56e925a391a3",
+        "data": {
+          "appointment_date": "2025-08-30T11:21:00Z",
+          "appointment_scheduled_at": "2025-08-31T06:40:17.26664Z",
+          "appointment_taken_at": "2025-08-30T11:21:00Z",
+          "carrier_id": "a80948b5-5496-468e-8fee-98377c47bddd",
+          "carrier_name": "TestCarrier",
+          "cartons": [
+            {
+              "awb": [
+                "166320",
+                "345887"
+              ],
+              "breadth": 1000,
+              "child_cartons": [
+                {
+                  "awb": [
+                    "229561",
+                    "291680",
+                    "871550"
+                  ],
+                  "breadth": 500,
+                  "height": 500,
+                  "id": "1be5478f-3f7f-4e05-82f0-f32c3b193ef5",
+                  "length": 500,
+                  "quantity": 3,
+                  "type": "Type 1-1",
+                  "uuid_awb": [
+                    "1dbbcacd-66eb-4889-8365-b0c9f7474aeb",
+                    "da2e65db-303d-4a5d-8b9a-74eb6cd4c754",
+                    "85391c50-a4b2-405a-9719-1943c78f0b13"
+                  ],
+                  "volumetric_weight": 200000000,
+                  "weight": 25000
+                }
+              ],
+              "height": 1000,
+              "id": "3265eeb4-9d81-42ea-85f9-ddc899516f20",
+              "length": 1000,
+              "quantity": 2,
+              "total_child_cartons": 3,
+              "type": "Type 1",
+              "uuid_awb": [
+                "a1c42770-8a36-4ed7-9fd9-1b6399844c1b",
+                "c6471fd6-1b62-49d1-879d-01c314129929"
+              ],
+              "volumetric_weight": 400000000,
+              "weight": 50000
+            },
+            {
+              "awb": [
+                "266320",
+                "245887"
+              ],
+              "breadth": 2000,
+              "child_cartons": [
+                {
+                  "awb": [
+                    "108432",
+                    "479658",
+                    "275595",
+                    "120760"
+                  ],
+                  "breadth": 1000,
+                  "height": 1000,
+                  "id": "e29e7920-655b-4bf1-9dae-ccb48e1a5c05",
+                  "length": 1000,
+                  "quantity": 4,
+                  "type": "Type 2-1",
+                  "uuid_awb": [
+                    "7fa4e753-ae9c-427c-bb36-0527d8a2189f",
+                    "438eb7a7-9ac0-4974-ac82-8df0dcab62a7",
+                    "c7324e45-222e-45bb-aa11-b6c2ea2549f5",
+                    "fbf8a269-d48b-4323-a51f-cba15c6be411"
+                  ],
+                  "volumetric_weight": 100000000,
+                  "weight": 10000
+                }
+              ],
+              "height": 2000,
+              "id": "1cd0ab7b-3c71-4a52-a7f0-ce4770d2dfc1",
+              "length": 2000,
+              "quantity": 2,
+              "total_child_cartons": 4,
+              "type": "Type 2",
+              "uuid_awb": [
+                "a1c42770-8a36-4ed7-9fd9-1b6399844c1b",
+                "c6471fd6-1b62-49d1-879d-01c314129929"
+              ],
+              "volumetric_weight": 200000000,
+              "weight": 20000
+            }
+          ],
+          "channel": "nykaa",
+          "child_waybill": [
+            "WB502374"
+          ],
+          "customer_warehouse_address": "3/36 2nd Floor Roop Nagar, Delhi",
+          "customer_warehouse_alternate_phone": null,
+          "customer_warehouse_city": "Delhi",
+          "customer_warehouse_email": "",
+          "customer_warehouse_name": "MARS Cosmetics Pvt Ltd (MARSS)-302306",
+          "customer_warehouse_phone": "",
+          "customer_warehouse_pin": "110007",
+          "customer_warehouse_state": "Delhi",
+          "expected_delivery_date": "2025-08-17T18:30:00Z",
+          "files": [
+            "https://b2b-openleaf-bucket-1.s3.ap-south-1.amazonaws.com/order-documents/07fd42ef-ebec-4989-843d-3ffe7c6e3a2b--invoice_copy---Patna%20Hands.pdf"
+          ],
+          "is_appointment_confirmed": true,
+          "lr_number": "498027",
+          "master_waybill": [
+            "MWB503723"
+          ],
+          "order_placed_at": "2025-08-25T08:09:36.435938Z",
+          "po_number": [
+            "NHO1356502"
+          ],
+          "total_cartons": 2,
+          "total_dead_weight": 50000,
+          "total_volumetric_weight": 400000000,
+          "warehouse_address": "501, Lotus Residency, SV Road, Sion West, Mumbai, Maharashtra 400022",
+          "warehouse_alternate_phone": null,
+          "warehouse_city": "Mumbai",
+          "warehouse_email": "omkar.kamble@openleaf.tech",
+          "warehouse_name": "Mumbai Warehouse",
+          "warehouse_phone": "8104561330",
+          "warehouse_pin": "400022",
+          "warehouse_state": "Maharashtra"
+        },
+        "notification_id": "bf313f3b-bc79-4d7f-92e3-02568c3c98bb",
+        "order_id": "9e8c2221-d7c4-4ee3-8398-b74ad525e8fc",
+        "settings": {
+          "admin_id": "1ecf71e1-1748-425b-9071-56e925a391a3",
+          "ans_id": "00000000-0000-0000-0000-000000000000",
+          "bulk_reminder_days": null,
+          "bulk_reminder_type": "before_delivery",
+          "carrier_id": "all",
+          "channel": null,
+          "created_at": "2025-08-30T09:42:26.198482Z",
+          "notification_days": "0",
+          "notification_type": "after_appointment_taken",
+          "receiver_cc_emails_for_carrier": "sahil@openleaf.tech",
+          "receiver_cc_emails_for_channel": null,
+          "receiver_emails_for_carrier": "omkarkamble.work@gmail.com",
+          "receiver_emails_for_channel": null,
+          "reminder_days": "0",
+          "reminder_type": "after_appointment_taken",
+          "send_bulk_reminder": false,
+          "send_notification": true,
+          "send_reminder": true,
+          "sender_cc_emails_for_carrier": "omkar@openleaf.tech,nikhil@openleaf.tech",
+          "sender_cc_emails_for_channel": null,
+          "sender_emails_for_carrier": "b2b@openleaf.tech",
+          "sender_emails_for_channel": null,
+          "user_id": "21049097-9018-47ba-a1e7-8f6754d80aa5"
+        },
+        "user_id": "21049097-9018-47ba-a1e7-8f6754d80aa5"
+      },
+      "task_data": {
+        "admin_id": "1ecf71e1-1748-425b-9071-56e925a391a3",
+        "data": {
+          "appointment_date": "2025-08-30T11:21:00Z",
+          "appointment_scheduled_at": "2025-08-31T06:40:17.26664Z",
+          "appointment_taken_at": "2025-08-30T11:21:00Z",
+          "carrier_id": "a80948b5-5496-468e-8fee-98377c47bddd",
+          "carrier_name": "TestCarrier",
+          "cartons": [
+            {
+              "awb": [
+                "166320",
+                "345887"
+              ],
+              "breadth": 1000,
+              "child_cartons": [
+                {
+                  "awb": [
+                    "229561",
+                    "291680",
+                    "871550"
+                  ],
+                  "breadth": 500,
+                  "height": 500,
+                  "id": "1be5478f-3f7f-4e05-82f0-f32c3b193ef5",
+                  "length": 500,
+                  "quantity": 3,
+                  "type": "Type 1-1",
+                  "uuid_awb": [
+                    "1dbbcacd-66eb-4889-8365-b0c9f7474aeb",
+                    "da2e65db-303d-4a5d-8b9a-74eb6cd4c754",
+                    "85391c50-a4b2-405a-9719-1943c78f0b13"
+                  ],
+                  "volumetric_weight": 200000000,
+                  "weight": 25000
+                }
+              ],
+              "height": 1000,
+              "id": "3265eeb4-9d81-42ea-85f9-ddc899516f20",
+              "length": 1000,
+              "quantity": 2,
+              "total_child_cartons": 3,
+              "type": "Type 1",
+              "uuid_awb": [
+                "a1c42770-8a36-4ed7-9fd9-1b6399844c1b",
+                "c6471fd6-1b62-49d1-879d-01c314129929"
+              ],
+              "volumetric_weight": 400000000,
+              "weight": 50000
+            },
+            {
+              "awb": [
+                "266320",
+                "245887"
+              ],
+              "breadth": 2000,
+              "child_cartons": [
+                {
+                  "awb": [
+                    "108432",
+                    "479658",
+                    "275595",
+                    "120760"
+                  ],
+                  "breadth": 1000,
+                  "height": 1000,
+                  "id": "e29e7920-655b-4bf1-9dae-ccb48e1a5c05",
+                  "length": 1000,
+                  "quantity": 4,
+                  "type": "Type 2-1",
+                  "uuid_awb": [
+                    "7fa4e753-ae9c-427c-bb36-0527d8a2189f",
+                    "438eb7a7-9ac0-4974-ac82-8df0dcab62a7",
+                    "c7324e45-222e-45bb-aa11-b6c2ea2549f5",
+                    "fbf8a269-d48b-4323-a51f-cba15c6be411"
+                  ],
+                  "volumetric_weight": 100000000,
+                  "weight": 10000
+                }
+              ],
+              "height": 2000,
+              "id": "1cd0ab7b-3c71-4a52-a7f0-ce4770d2dfc1",
+              "length": 2000,
+              "quantity": 2,
+              "total_child_cartons": 4,
+              "type": "Type 2",
+              "uuid_awb": [
+                "a1c42770-8a36-4ed7-9fd9-1b6399844c1b",
+                "c6471fd6-1b62-49d1-879d-01c314129929"
+              ],
+              "volumetric_weight": 200000000,
+              "weight": 20000
+            }
+          ],
+          "channel": "nykaa",
+          "child_waybill": [
+            "WB502374"
+          ],
+          "customer_warehouse_address": "3/36 2nd Floor Roop Nagar, Delhi",
+          "customer_warehouse_alternate_phone": null,
+          "customer_warehouse_city": "Delhi",
+          "customer_warehouse_email": "",
+          "customer_warehouse_name": "MARS Cosmetics Pvt Ltd (MARSS)-302306",
+          "customer_warehouse_phone": "",
+          "customer_warehouse_pin": "110007",
+          "customer_warehouse_state": "Delhi",
+          "expected_delivery_date": "2025-08-17T18:30:00Z",
+          "files": [
+            "https://b2b-openleaf-bucket-1.s3.ap-south-1.amazonaws.com/order-documents/07fd42ef-ebec-4989-843d-3ffe7c6e3a2b--invoice_copy---Patna%20Hands.pdf"
+          ],
+          "is_appointment_confirmed": true,
+          "lr_number": "498027",
+          "master_waybill": [
+            "MWB503723"
+          ],
+          "order_placed_at": "2025-08-25T08:09:36.435938Z",
+          "po_number": [
+            "NHO1356502"
+          ],
+          "total_cartons": 2,
+          "total_dead_weight": 50000,
+          "total_volumetric_weight": 400000000,
+          "warehouse_address": "501, Lotus Residency, SV Road, Sion West, Mumbai, Maharashtra 400022",
+          "warehouse_alternate_phone": null,
+          "warehouse_city": "Mumbai",
+          "warehouse_email": "omkar.kamble@openleaf.tech",
+          "warehouse_name": "Mumbai Warehouse",
+          "warehouse_phone": "8104561330",
+          "warehouse_pin": "400022",
+          "warehouse_state": "Maharashtra"
+        },
+        "notification_id": "bf313f3b-bc79-4d7f-92e3-02568c3c98bb",
+        "order_id": "9e8c2221-d7c4-4ee3-8398-b74ad525e8fc",
+        "settings": {
+          "admin_id": "1ecf71e1-1748-425b-9071-56e925a391a3",
+          "ans_id": "00000000-0000-0000-0000-000000000000",
+          "bulk_reminder_days": null,
+          "bulk_reminder_type": "before_delivery",
+          "carrier_id": "all",
+          "channel": null,
+          "created_at": "2025-08-30T09:42:26.198482Z",
+          "notification_days": "0",
+          "notification_type": "after_appointment_taken",
+          "receiver_cc_emails_for_carrier": "sahil@openleaf.tech",
+          "receiver_cc_emails_for_channel": null,
+          "receiver_emails_for_carrier": "omkarkamble.work@gmail.com",
+          "receiver_emails_for_channel": null,
+          "reminder_days": "0",
+          "reminder_type": "after_appointment_taken",
+          "send_bulk_reminder": false,
+          "send_notification": true,
+          "send_reminder": true,
+          "sender_cc_emails_for_carrier": "omkar@openleaf.tech,nikhil@openleaf.tech",
+          "sender_cc_emails_for_channel": null,
+          "sender_emails_for_carrier": "b2b@openleaf.tech",
+          "sender_emails_for_channel": null,
+          "user_id": "21049097-9018-47ba-a1e7-8f6754d80aa5"
+        },
+        "user_id": "21049097-9018-47ba-a1e7-8f6754d80aa5"
+      },
+      "task_type": "email:carrier-appointment-notification"
+    }
+  },
+  "msg": "[worker] carrier appointment email payload raw",
+  "time": "01-09-2025 15:48:28"
+}
+{
+  "level": "info",
+  "log_data": {
+    "filename": "D:/Openleaf/Openleaf-Dev-B2B-Notification-Server/workers/carrier/appointmentEmail.go:61",
+    "log_data": {
+      "data": {
+        "notification_id": "bf313f3b-bc79-4d7f-92e3-02568c3c98bb",
+        "order_id": "9e8c2221-d7c4-4ee3-8398-b74ad525e8fc",
+        "admin_id": "1ecf71e1-1748-425b-9071-56e925a391a3",
+        "user_id": "21049097-9018-47ba-a1e7-8f6754d80aa5",
+        "data": {
+          "po_number": [
+            "NHO1356502"
+          ],
+          "lr_number": "498027",
+          "appointment_date": "2025-08-30T11:21:00Z",
+          "master_waybill": [
+            "MWB503723"
+          ],
+          "child_waybill": [
+            "WB502374"
+          ],
+          "cartons": [
+            {
+              "id": "3265eeb4-9d81-42ea-85f9-ddc899516f20",
+              "type": "Type 1",
+              "length": 1000,
+              "breadth": 1000,
+              "height": 1000,
+              "weight": 50000,
+              "quantity": 2,
+              "volumetric_weight": 400000000,
+              "awb": [
+                "166320",
+                "345887"
+              ],
+              "uuid_awb": [
+                "a1c42770-8a36-4ed7-9fd9-1b6399844c1b",
+                "c6471fd6-1b62-49d1-879d-01c314129929"
+              ],
+              "total_child_cartons": 3,
+              "child_cartons": [
+                {
+                  "id": "1be5478f-3f7f-4e05-82f0-f32c3b193ef5",
+                  "type": "Type 1-1",
+                  "length": 500,
+                  "breadth": 500,
+                  "height": 500,
+                  "weight": 25000,
+                  "quantity": 3,
+                  "volumetric_weight": 200000000,
+                  "awb": [
+                    "229561",
+                    "291680",
+                    "871550"
+                  ],
+                  "uuid_awb": [
+                    "1dbbcacd-66eb-4889-8365-b0c9f7474aeb",
+                    "da2e65db-303d-4a5d-8b9a-74eb6cd4c754",
+                    "85391c50-a4b2-405a-9719-1943c78f0b13"
+                  ]
+                }
+              ]
+            },
+            {
+              "id": "1cd0ab7b-3c71-4a52-a7f0-ce4770d2dfc1",
+              "type": "Type 2",
+              "length": 2000,
+              "breadth": 2000,
+              "height": 2000,
+              "weight": 20000,
+              "quantity": 2,
+              "volumetric_weight": 200000000,
+              "awb": [
+                "266320",
+                "245887"
+              ],
+              "uuid_awb": [
+                "a1c42770-8a36-4ed7-9fd9-1b6399844c1b",
+                "c6471fd6-1b62-49d1-879d-01c314129929"
+              ],
+              "total_child_cartons": 4,
+              "child_cartons": [
+                {
+                  "id": "e29e7920-655b-4bf1-9dae-ccb48e1a5c05",
+                  "type": "Type 2-1",
+                  "length": 1000,
+                  "breadth": 1000,
+                  "height": 1000,
+                  "weight": 10000,
+                  "quantity": 4,
+                  "volumetric_weight": 100000000,
+                  "awb": [
+                    "108432",
+                    "479658",
+                    "275595",
+                    "120760"
+                  ],
+                  "uuid_awb": [
+                    "7fa4e753-ae9c-427c-bb36-0527d8a2189f",
+                    "438eb7a7-9ac0-4974-ac82-8df0dcab62a7",
+                    "c7324e45-222e-45bb-aa11-b6c2ea2549f5",
+                    "fbf8a269-d48b-4323-a51f-cba15c6be411"
+                  ]
+                }
+              ]
+            }
+          ],
+          "total_cartons": 2,
+          "total_dead_weight": 50000,
+          "total_volumetric_weight": 400000000,
+          "carrier_id": "a80948b5-5496-468e-8fee-98377c47bddd",
+          "carrier_name": "TestCarrier",
+          "channel": "nykaa",
+          "warehouse_name": "Mumbai Warehouse",
+          "warehouse_address": "501, Lotus Residency, SV Road, Sion West, Mumbai, Maharashtra 400022",
+          "warehouse_city": "Mumbai",
+          "warehouse_state": "Maharashtra",
+          "warehouse_pin": "400022",
+          "warehouse_phone": "8104561330",
+          "warehouse_alternate_phone": null,
+          "warehouse_email": "omkar.kamble@openleaf.tech",
+          "customer_warehouse_name": "MARS Cosmetics Pvt Ltd (MARSS)-302306",
+          "customer_warehouse_address": "3/36 2nd Floor Roop Nagar, Delhi",
+          "customer_warehouse_city": "Delhi",
+          "customer_warehouse_state": "Delhi",
+          "customer_warehouse_pin": "110007",
+          "customer_warehouse_phone": "",
+          "customer_warehouse_alternate_phone": null,
+          "customer_warehouse_email": "",
+          "order_placed_at": "2025-08-25T08:09:36.435938Z",
+          "expected_delivery_date": "2025-08-17T18:30:00Z",
+          "appointment_scheduled_at": "2025-08-31T06:40:17.26664Z",
+          "appointment_taken_at": "2025-08-30T11:21:00Z",
+          "is_appointment_confirmed": true,
+          "files": [
+            "https://b2b-openleaf-bucket-1.s3.ap-south-1.amazonaws.com/order-documents/07fd42ef-ebec-4989-843d-3ffe7c6e3a2b--invoice_copy---Patna%20Hands.pdf"
+          ]
+        },
+        "settings": {
+          "ans_id": "00000000-0000-0000-0000-000000000000",
+          "admin_id": "1ecf71e1-1748-425b-9071-56e925a391a3",
+          "user_id": "21049097-9018-47ba-a1e7-8f6754d80aa5",
+          "channel": null,
+          "carrier_id": "all",
+          "sender_emails_for_channel": null,
+          "sender_cc_emails_for_channel": null,
+          "receiver_emails_for_channel": null,
+          "receiver_cc_emails_for_channel": null,
+          "sender_emails_for_carrier": "b2b@openleaf.tech",
+          "sender_cc_emails_for_carrier": "omkar@openleaf.tech,nikhil@openleaf.tech",
+          "receiver_emails_for_carrier": "omkarkamble.work@gmail.com",
+          "receiver_cc_emails_for_carrier": "sahil@openleaf.tech",
+          "send_notification": true,
+          "notification_days": "0",
+          "notification_type": "after_appointment_taken",
+          "send_reminder": true,
+          "reminder_days": "0",
+          "reminder_type": "after_appointment_taken",
+          "send_bulk_reminder": false,
+          "bulk_reminder_days": null,
+          "bulk_reminder_type": "before_delivery",
+          "created_at": "2025-08-30T09:42:26.198482Z"
+        }
+      },
+      "notification_id": "bf313f3b-bc79-4d7f-92e3-02568c3c98bb",
+      "order_id": "9e8c2221-d7c4-4ee3-8398-b74ad525e8fc",
+      "task_data": {
+        "admin_id": "1ecf71e1-1748-425b-9071-56e925a391a3",
+        "data": {
+          "appointment_date": "2025-08-30T11:21:00Z",
+          "appointment_scheduled_at": "2025-08-31T06:40:17.26664Z",
+          "appointment_taken_at": "2025-08-30T11:21:00Z",
+          "carrier_id": "a80948b5-5496-468e-8fee-98377c47bddd",
+          "carrier_name": "TestCarrier",
+          "cartons": [
+            {
+              "awb": [
+                "166320",
+                "345887"
+              ],
+              "breadth": 1000,
+              "child_cartons": [
+                {
+                  "awb": [
+                    "229561",
+                    "291680",
+                    "871550"
+                  ],
+                  "breadth": 500,
+                  "height": 500,
+                  "id": "1be5478f-3f7f-4e05-82f0-f32c3b193ef5",
+                  "length": 500,
+                  "quantity": 3,
+                  "type": "Type 1-1",
+                  "uuid_awb": [
+                    "1dbbcacd-66eb-4889-8365-b0c9f7474aeb",
+                    "da2e65db-303d-4a5d-8b9a-74eb6cd4c754",
+                    "85391c50-a4b2-405a-9719-1943c78f0b13"
+                  ],
+                  "volumetric_weight": 200000000,
+                  "weight": 25000
+                }
+              ],
+              "height": 1000,
+              "id": "3265eeb4-9d81-42ea-85f9-ddc899516f20",
+              "length": 1000,
+              "quantity": 2,
+              "total_child_cartons": 3,
+              "type": "Type 1",
+              "uuid_awb": [
+                "a1c42770-8a36-4ed7-9fd9-1b6399844c1b",
+                "c6471fd6-1b62-49d1-879d-01c314129929"
+              ],
+              "volumetric_weight": 400000000,
+              "weight": 50000
+            },
+            {
+              "awb": [
+                "266320",
+                "245887"
+              ],
+              "breadth": 2000,
+              "child_cartons": [
+                {
+                  "awb": [
+                    "108432",
+                    "479658",
+                    "275595",
+                    "120760"
+                  ],
+                  "breadth": 1000,
+                  "height": 1000,
+                  "id": "e29e7920-655b-4bf1-9dae-ccb48e1a5c05",
+                  "length": 1000,
+                  "quantity": 4,
+                  "type": "Type 2-1",
+                  "uuid_awb": [
+                    "7fa4e753-ae9c-427c-bb36-0527d8a2189f",
+                    "438eb7a7-9ac0-4974-ac82-8df0dcab62a7",
+                    "c7324e45-222e-45bb-aa11-b6c2ea2549f5",
+                    "fbf8a269-d48b-4323-a51f-cba15c6be411"
+                  ],
+                  "volumetric_weight": 100000000,
+                  "weight": 10000
+                }
+              ],
+              "height": 2000,
+              "id": "1cd0ab7b-3c71-4a52-a7f0-ce4770d2dfc1",
+              "length": 2000,
+              "quantity": 2,
+              "total_child_cartons": 4,
+              "type": "Type 2",
+              "uuid_awb": [
+                "a1c42770-8a36-4ed7-9fd9-1b6399844c1b",
+                "c6471fd6-1b62-49d1-879d-01c314129929"
+              ],
+              "volumetric_weight": 200000000,
+              "weight": 20000
+            }
+          ],
+          "channel": "nykaa",
+          "child_waybill": [
+            "WB502374"
+          ],
+          "customer_warehouse_address": "3/36 2nd Floor Roop Nagar, Delhi",
+          "customer_warehouse_alternate_phone": null,
+          "customer_warehouse_city": "Delhi",
+          "customer_warehouse_email": "",
+          "customer_warehouse_name": "MARS Cosmetics Pvt Ltd (MARSS)-302306",
+          "customer_warehouse_phone": "",
+          "customer_warehouse_pin": "110007",
+          "customer_warehouse_state": "Delhi",
+          "expected_delivery_date": "2025-08-17T18:30:00Z",
+          "files": [
+            "https://b2b-openleaf-bucket-1.s3.ap-south-1.amazonaws.com/order-documents/07fd42ef-ebec-4989-843d-3ffe7c6e3a2b--invoice_copy---Patna%20Hands.pdf"
+          ],
+          "is_appointment_confirmed": true,
+          "lr_number": "498027",
+          "master_waybill": [
+            "MWB503723"
+          ],
+          "order_placed_at": "2025-08-25T08:09:36.435938Z",
+          "po_number": [
+            "NHO1356502"
+          ],
+          "total_cartons": 2,
+          "total_dead_weight": 50000,
+          "total_volumetric_weight": 400000000,
+          "warehouse_address": "501, Lotus Residency, SV Road, Sion West, Mumbai, Maharashtra 400022",
+          "warehouse_alternate_phone": null,
+          "warehouse_city": "Mumbai",
+          "warehouse_email": "omkar.kamble@openleaf.tech",
+          "warehouse_name": "Mumbai Warehouse",
+          "warehouse_phone": "8104561330",
+          "warehouse_pin": "400022",
+          "warehouse_state": "Maharashtra"
+        },
+        "notification_id": "bf313f3b-bc79-4d7f-92e3-02568c3c98bb",
+        "order_id": "9e8c2221-d7c4-4ee3-8398-b74ad525e8fc",
+        "settings": {
+          "admin_id": "1ecf71e1-1748-425b-9071-56e925a391a3",
+          "ans_id": "00000000-0000-0000-0000-000000000000",
+          "bulk_reminder_days": null,
+          "bulk_reminder_type": "before_delivery",
+          "carrier_id": "all",
+          "channel": null,
+          "created_at": "2025-08-30T09:42:26.198482Z",
+          "notification_days": "0",
+          "notification_type": "after_appointment_taken",
+          "receiver_cc_emails_for_carrier": "sahil@openleaf.tech",
+          "receiver_cc_emails_for_channel": null,
+          "receiver_emails_for_carrier": "omkarkamble.work@gmail.com",
+          "receiver_emails_for_channel": null,
+          "reminder_days": "0",
+          "reminder_type": "after_appointment_taken",
+          "send_bulk_reminder": false,
+          "send_notification": true,
+          "send_reminder": true,
+          "sender_cc_emails_for_carrier": "omkar@openleaf.tech,nikhil@openleaf.tech",
+          "sender_cc_emails_for_channel": null,
+          "sender_emails_for_carrier": "b2b@openleaf.tech",
+          "sender_emails_for_channel": null,
+          "user_id": "21049097-9018-47ba-a1e7-8f6754d80aa5"
+        },
+        "user_id": "21049097-9018-47ba-a1e7-8f6754d80aa5"
+      },
+      "task_type": "email:carrier-appointment-notification"
+    }
+  },
+  "msg": "[worker] carrier appointment email payload",
+  "time": "01-09-2025 15:48:28"
+}
+{
+  "level": "info",
+  "log_data": {
+    "filename": "D:/Openleaf/Openleaf-Dev-B2B-Notification-Server/workers/carrier/appointmentEmail.go:254",
+    "log_data": {
+      "body_length": 3789,
+      "cc": [
+        "sahil@openleaf.tech",
+        "omkar@openleaf.tech",
+        "nikhil@openleaf.tech"
+      ],
+      "files_count": 1,
+      "from": "b2b@openleaf.tech",
+      "subject": "Delivery Scheduled for LR 498027 on 30 Aug 2025",
+      "to": [
+        "omkarkamble.work@gmail.com"
+      ]
+    }
+  },
+  "msg": "[worker] attempting to send email",
+  "time": "01-09-2025 15:48:28"
+}
+{
+  "level": "info",
+  "log_data": {
+    "filename": "D:/Openleaf/Openleaf-Dev-B2B-Notification-Server/helpers/email.go:84",
+    "log_data": {
+      "index": 1,
+      "total": 1,
+      "url": "https://b2b-openleaf-bucket-1.s3.ap-south-1.amazonaws.com/order-documents/07fd42ef-ebec-4989-843d-3ffe7c6e3a2b--invoice_copy---Patna%20Hands.pdf"
+    }
+  },
+  "msg": "downloading attachment",
+  "time": "01-09-2025 15:48:28"
+}
+{
+  "level": "info",
+  "log_data": {
+    "filename": "D:/Openleaf/Openleaf-Dev-B2B-Notification-Server/helpers/email.go:106",
+    "log_data": {
+      "index": 1,
+      "temp_path": "C:\\Users\\omkar\\AppData\\Local\\Temp\\07fd42ef-ebec-4989-843d-3ffe7c6e3a2b--invoice_copy---Patna%20Hands.pdf482805909",
+      "url": "https://b2b-openleaf-bucket-1.s3.ap-south-1.amazonaws.com/order-documents/07fd42ef-ebec-4989-843d-3ffe7c6e3a2b--invoice_copy---Patna%20Hands.pdf"
+    }
+  },
+  "msg": "downloaded attachment successfully",
+  "time": "01-09-2025 15:48:28"
+}
+{
+  "level": "info",
+  "log_data": {
+    "filename": "D:/Openleaf/Openleaf-Dev-B2B-Notification-Server/helpers/email.go:130",
+    "log_data": {
+      "cc": [
+        "sahil@openleaf.tech",
+        "omkar@openleaf.tech",
+        "nikhil@openleaf.tech"
+      ],
+      "from": "b2b@openleaf.tech",
+      "host": "smtp.gmail.com",
+      "port": 587,
+      "subject": "Delivery Scheduled for LR 498027 on 30 Aug 2025",
+      "to": [
+        "omkarkamble.work@gmail.com"
+      ],
+      "username": "b2b@openleaf.tech"
+    }
+  },
+  "msg": "attempting to send email",
+  "time": "01-09-2025 15:48:28"
+}
+{
+  "level": "info",
+  "log_data": {
+    "filename": "D:/Openleaf/Openleaf-Dev-B2B-Notification-Server/helpers/email.go:106",
+    "log_data": {
+      "index": 1,
+      "temp_path": "C:\\Users\\omkar\\AppData\\Local\\Temp\\07fd42ef-ebec-4989-843d-3ffe7c6e3a2b--invoice_copy---Patna%20Hands.pdf433912686",
+      "url": "https://b2b-openleaf-bucket-1.s3.ap-south-1.amazonaws.com/order-documents/07fd42ef-ebec-4989-843d-3ffe7c6e3a2b--invoice_copy---Patna%20Hands.pdf"
+    }
+  },
+  "msg": "downloaded attachment successfully",
+  "time": "01-09-2025 15:48:28"
+}
+{
+  "level": "info",
+  "log_data": {
+    "filename": "D:/Openleaf/Openleaf-Dev-B2B-Notification-Server/helpers/email.go:130",
+    "log_data": {
+      "cc": [
+        "sahil@openleaf.tech",
+        "omkar@openleaf.tech",
+        "nikhil@openleaf.tech"
+      ],
+      "from": "b2b@openleaf.tech",
+      "host": "smtp.gmail.com",
+      "port": 587,
+      "subject": "Reminder: Delivery for LR 498027 on 30 Aug 2025",
+      "to": [
+        "omkarkamble.work@gmail.com"
+      ],
+      "username": "b2b@openleaf.tech"
+    }
+  },
+  "msg": "attempting to send email",
+  "time": "01-09-2025 15:48:28"
+}
+{
+  "level": "info",
+  "log_data": {
+    "filename": "D:/Openleaf/Openleaf-Dev-B2B-Notification-Server/workers/carrier/appointmentEmail.go:336",
+    "log_data": {
+      "data": {
+        "notification_id": "bf313f3b-bc79-4d7f-92e3-02568c3c98bb",
+        "order_id": "9e8c2221-d7c4-4ee3-8398-b74ad525e8fc",
+        "admin_id": "1ecf71e1-1748-425b-9071-56e925a391a3",
+        "user_id": "21049097-9018-47ba-a1e7-8f6754d80aa5",
+        "data": {
+          "po_number": [
+            "NHO1356502"
+          ],
+          "lr_number": "498027",
+          "appointment_date": "2025-08-30T11:21:00Z",
+          "master_waybill": [
+            "MWB503723"
+          ],
+          "child_waybill": [
+            "WB502374"
+          ],
+          "cartons": [
+            {
+              "id": "3265eeb4-9d81-42ea-85f9-ddc899516f20",
+              "type": "Type 1",
+              "length": 1000,
+              "breadth": 1000,
+              "height": 1000,
+              "weight": 50000,
+              "quantity": 2,
+              "volumetric_weight": 400000000,
+              "awb": [
+                "166320",
+                "345887"
+              ],
+              "uuid_awb": [
+                "a1c42770-8a36-4ed7-9fd9-1b6399844c1b",
+                "c6471fd6-1b62-49d1-879d-01c314129929"
+              ],
+              "total_child_cartons": 3,
+              "child_cartons": [
+                {
+                  "id": "1be5478f-3f7f-4e05-82f0-f32c3b193ef5",
+                  "type": "Type 1-1",
+                  "length": 500,
+                  "breadth": 500,
+                  "height": 500,
+                  "weight": 25000,
+                  "quantity": 3,
+                  "volumetric_weight": 200000000,
+                  "awb": [
+                    "229561",
+                    "291680",
+                    "871550"
+                  ],
+                  "uuid_awb": [
+                    "1dbbcacd-66eb-4889-8365-b0c9f7474aeb",
+                    "da2e65db-303d-4a5d-8b9a-74eb6cd4c754",
+                    "85391c50-a4b2-405a-9719-1943c78f0b13"
+                  ]
+                }
+              ]
+            },
+            {
+              "id": "1cd0ab7b-3c71-4a52-a7f0-ce4770d2dfc1",
+              "type": "Type 2",
+              "length": 2000,
+              "breadth": 2000,
+              "height": 2000,
+              "weight": 20000,
+              "quantity": 2,
+              "volumetric_weight": 200000000,
+              "awb": [
+                "266320",
+                "245887"
+              ],
+              "uuid_awb": [
+                "a1c42770-8a36-4ed7-9fd9-1b6399844c1b",
+                "c6471fd6-1b62-49d1-879d-01c314129929"
+              ],
+              "total_child_cartons": 4,
+              "child_cartons": [
+                {
+                  "id": "e29e7920-655b-4bf1-9dae-ccb48e1a5c05",
+                  "type": "Type 2-1",
+                  "length": 1000,
+                  "breadth": 1000,
+                  "height": 1000,
+                  "weight": 10000,
+                  "quantity": 4,
+                  "volumetric_weight": 100000000,
+                  "awb": [
+                    "108432",
+                    "479658",
+                    "275595",
+                    "120760"
+                  ],
+                  "uuid_awb": [
+                    "7fa4e753-ae9c-427c-bb36-0527d8a2189f",
+                    "438eb7a7-9ac0-4974-ac82-8df0dcab62a7",
+                    "c7324e45-222e-45bb-aa11-b6c2ea2549f5",
+                    "fbf8a269-d48b-4323-a51f-cba15c6be411"
+                  ]
+                }
+              ]
+            }
+          ],
+          "total_cartons": 2,
+          "total_dead_weight": 50000,
+          "total_volumetric_weight": 400000000,
+          "carrier_id": "a80948b5-5496-468e-8fee-98377c47bddd",
+          "carrier_name": "TestCarrier",
+          "channel": "nykaa",
+          "warehouse_name": "Mumbai Warehouse",
+          "warehouse_address": "501, Lotus Residency, SV Road, Sion West, Mumbai, Maharashtra 400022",
+          "warehouse_city": "Mumbai",
+          "warehouse_state": "Maharashtra",
+          "warehouse_pin": "400022",
+          "warehouse_phone": "8104561330",
+          "warehouse_alternate_phone": null,
+          "warehouse_email": "omkar.kamble@openleaf.tech",
+          "customer_warehouse_name": "MARS Cosmetics Pvt Ltd (MARSS)-302306",
+          "customer_warehouse_address": "3/36 2nd Floor Roop Nagar, Delhi",
+          "customer_warehouse_city": "Delhi",
+          "customer_warehouse_state": "Delhi",
+          "customer_warehouse_pin": "110007",
+          "customer_warehouse_phone": "",
+          "customer_warehouse_alternate_phone": null,
+          "customer_warehouse_email": "",
+          "order_placed_at": "2025-08-25T08:09:36.435938Z",
+          "expected_delivery_date": "2025-08-17T18:30:00Z",
+          "appointment_scheduled_at": "2025-08-31T06:40:17.26664Z",
+          "appointment_taken_at": "2025-08-30T11:21:00Z",
+          "is_appointment_confirmed": true,
+          "files": [
+            "https://b2b-openleaf-bucket-1.s3.ap-south-1.amazonaws.com/order-documents/07fd42ef-ebec-4989-843d-3ffe7c6e3a2b--invoice_copy---Patna%20Hands.pdf"
+          ]
+        },
+        "settings": {
+          "ans_id": "00000000-0000-0000-0000-000000000000",
+          "admin_id": "1ecf71e1-1748-425b-9071-56e925a391a3",
+          "user_id": "21049097-9018-47ba-a1e7-8f6754d80aa5",
+          "channel": null,
+          "carrier_id": "all",
+          "sender_emails_for_channel": null,
+          "sender_cc_emails_for_channel": null,
+          "receiver_emails_for_channel": null,
+          "receiver_cc_emails_for_channel": null,
+          "sender_emails_for_carrier": "b2b@openleaf.tech",
+          "sender_cc_emails_for_carrier": "omkar@openleaf.tech,nikhil@openleaf.tech",
+          "receiver_emails_for_carrier": "omkarkamble.work@gmail.com",
+          "receiver_cc_emails_for_carrier": "sahil@openleaf.tech",
+          "send_notification": true,
+          "notification_days": "0",
+          "notification_type": "after_appointment_taken",
+          "send_reminder": true,
+          "reminder_days": "0",
+          "reminder_type": "after_appointment_taken",
+          "send_bulk_reminder": false,
+          "bulk_reminder_days": null,
+          "bulk_reminder_type": "before_delivery",
+          "created_at": "2025-08-30T09:42:26.198482Z"
+        }
+      },
+      "notification_id": "bf313f3b-bc79-4d7f-92e3-02568c3c98bb",
+      "task_type": "email:carrier-appointment-notification"
+    }
+  },
+  "msg": "[worker] appointment email sent successfully",
+  "time": "01-09-2025 15:48:33"
+}
+{
+  "level": "info",
+  "log_data": {
+    "filename": "D:/Openleaf/Openleaf-Dev-B2B-Notification-Server/workers/carrier/appointmentEmail.go:643",
+    "log_data": {
+      "data": {
+        "notification_id": "fe0121fd-c82a-4c07-b589-9adf2709dafb",
+        "order_id": "9e8c2221-d7c4-4ee3-8398-b74ad525e8fc",
+        "admin_id": "1ecf71e1-1748-425b-9071-56e925a391a3",
+        "user_id": "21049097-9018-47ba-a1e7-8f6754d80aa5",
+        "data": {
+          "po_number": [
+            "NHO1356502"
+          ],
+          "lr_number": "498027",
+          "appointment_date": "2025-08-30T11:21:00Z",
+          "master_waybill": [
+            "MWB503723"
+          ],
+          "child_waybill": [
+            "WB502374"
+          ],
+          "cartons": [
+            {
+              "id": "3265eeb4-9d81-42ea-85f9-ddc899516f20",
+              "type": "Type 1",
+              "length": 1000,
+              "breadth": 1000,
+              "height": 1000,
+              "weight": 50000,
+              "quantity": 2,
+              "volumetric_weight": 400000000,
+              "awb": [
+                "166320",
+                "345887"
+              ],
+              "uuid_awb": [
+                "a1c42770-8a36-4ed7-9fd9-1b6399844c1b",
+                "c6471fd6-1b62-49d1-879d-01c314129929"
+              ],
+              "total_child_cartons": 3,
+              "child_cartons": [
+                {
+                  "id": "1be5478f-3f7f-4e05-82f0-f32c3b193ef5",
+                  "type": "Type 1-1",
+                  "length": 500,
+                  "breadth": 500,
+                  "height": 500,
+                  "weight": 25000,
+                  "quantity": 3,
+                  "volumetric_weight": 200000000,
+                  "awb": [
+                    "229561",
+                    "291680",
+                    "871550"
+                  ],
+                  "uuid_awb": [
+                    "1dbbcacd-66eb-4889-8365-b0c9f7474aeb",
+                    "da2e65db-303d-4a5d-8b9a-74eb6cd4c754",
+                    "85391c50-a4b2-405a-9719-1943c78f0b13"
+                  ]
+                }
+              ]
+            },
+            {
+              "id": "1cd0ab7b-3c71-4a52-a7f0-ce4770d2dfc1",
+              "type": "Type 2",
+              "length": 2000,
+              "breadth": 2000,
+              "height": 2000,
+              "weight": 20000,
+              "quantity": 2,
+              "volumetric_weight": 200000000,
+              "awb": [
+                "266320",
+                "245887"
+              ],
+              "uuid_awb": [
+                "a1c42770-8a36-4ed7-9fd9-1b6399844c1b",
+                "c6471fd6-1b62-49d1-879d-01c314129929"
+              ],
+              "total_child_cartons": 4,
+              "child_cartons": [
+                {
+                  "id": "e29e7920-655b-4bf1-9dae-ccb48e1a5c05",
+                  "type": "Type 2-1",
+                  "length": 1000,
+                  "breadth": 1000,
+                  "height": 1000,
+                  "weight": 10000,
+                  "quantity": 4,
+                  "volumetric_weight": 100000000,
+                  "awb": [
+                    "108432",
+                    "479658",
+                    "275595",
+                    "120760"
+                  ],
+                  "uuid_awb": [
+                    "7fa4e753-ae9c-427c-bb36-0527d8a2189f",
+                    "438eb7a7-9ac0-4974-ac82-8df0dcab62a7",
+                    "c7324e45-222e-45bb-aa11-b6c2ea2549f5",
+                    "fbf8a269-d48b-4323-a51f-cba15c6be411"
+                  ]
+                }
+              ]
+            }
+          ],
+          "total_cartons": 2,
+          "total_dead_weight": 50000,
+          "total_volumetric_weight": 400000000,
+          "carrier_id": "a80948b5-5496-468e-8fee-98377c47bddd",
+          "carrier_name": "TestCarrier",
+          "channel": "nykaa",
+          "warehouse_name": "Mumbai Warehouse",
+          "warehouse_address": "501, Lotus Residency, SV Road, Sion West, Mumbai, Maharashtra 400022",
+          "warehouse_city": "Mumbai",
+          "warehouse_state": "Maharashtra",
+          "warehouse_pin": "400022",
+          "warehouse_phone": "8104561330",
+          "warehouse_alternate_phone": null,
+          "warehouse_email": "omkar.kamble@openleaf.tech",
+          "customer_warehouse_name": "MARS Cosmetics Pvt Ltd (MARSS)-302306",
+          "customer_warehouse_address": "3/36 2nd Floor Roop Nagar, Delhi",
+          "customer_warehouse_city": "Delhi",
+          "customer_warehouse_state": "Delhi",
+          "customer_warehouse_pin": "110007",
+          "customer_warehouse_phone": "",
+          "customer_warehouse_alternate_phone": null,
+          "customer_warehouse_email": "",
+          "order_placed_at": "2025-08-25T08:09:36.435938Z",
+          "expected_delivery_date": "2025-08-17T18:30:00Z",
+          "appointment_scheduled_at": "2025-08-31T06:40:17.26664Z",
+          "appointment_taken_at": "2025-08-30T11:21:00Z",
+          "is_appointment_confirmed": true,
+          "files": [
+            "https://b2b-openleaf-bucket-1.s3.ap-south-1.amazonaws.com/order-documents/07fd42ef-ebec-4989-843d-3ffe7c6e3a2b--invoice_copy---Patna%20Hands.pdf"
+          ]
+        },
+        "settings": {
+          "ans_id": "00000000-0000-0000-0000-000000000000",
+          "admin_id": "1ecf71e1-1748-425b-9071-56e925a391a3",
+          "user_id": "21049097-9018-47ba-a1e7-8f6754d80aa5",
+          "channel": null,
+          "carrier_id": "all",
+          "sender_emails_for_channel": null,
+          "sender_cc_emails_for_channel": null,
+          "receiver_emails_for_channel": null,
+          "receiver_cc_emails_for_channel": null,
+          "sender_emails_for_carrier": "b2b@openleaf.tech",
+          "sender_cc_emails_for_carrier": "omkar@openleaf.tech,nikhil@openleaf.tech",
+          "receiver_emails_for_carrier": "omkarkamble.work@gmail.com",
+          "receiver_cc_emails_for_carrier": "sahil@openleaf.tech",
+          "send_notification": true,
+          "notification_days": "0",
+          "notification_type": "after_appointment_taken",
+          "send_reminder": true,
+          "reminder_days": "0",
+          "reminder_type": "after_appointment_taken",
+          "send_bulk_reminder": false,
+          "bulk_reminder_days": null,
+          "bulk_reminder_type": "before_delivery",
+          "created_at": "2025-08-30T09:42:26.198482Z"
+        }
+      },
+      "task_data": {
+        "admin_id": "1ecf71e1-1748-425b-9071-56e925a391a3",
+        "data": {
+          "appointment_date": "2025-08-30T11:21:00Z",
+          "appointment_scheduled_at": "2025-08-31T06:40:17.26664Z",
+          "appointment_taken_at": "2025-08-30T11:21:00Z",
+          "carrier_id": "a80948b5-5496-468e-8fee-98377c47bddd",
+          "carrier_name": "TestCarrier",
+          "cartons": [
+            {
+              "awb": [
+                "166320",
+                "345887"
+              ],
+              "breadth": 1000,
+              "child_cartons": [
+                {
+                  "awb": [
+                    "229561",
+                    "291680",
+                    "871550"
+                  ],
+                  "breadth": 500,
+                  "height": 500,
+                  "id": "1be5478f-3f7f-4e05-82f0-f32c3b193ef5",
+                  "length": 500,
+                  "quantity": 3,
+                  "type": "Type 1-1",
+                  "uuid_awb": [
+                    "1dbbcacd-66eb-4889-8365-b0c9f7474aeb",
+                    "da2e65db-303d-4a5d-8b9a-74eb6cd4c754",
+                    "85391c50-a4b2-405a-9719-1943c78f0b13"
+                  ],
+                  "volumetric_weight": 200000000,
+                  "weight": 25000
+                }
+              ],
+              "height": 1000,
+              "id": "3265eeb4-9d81-42ea-85f9-ddc899516f20",
+              "length": 1000,
+              "quantity": 2,
+              "total_child_cartons": 3,
+              "type": "Type 1",
+              "uuid_awb": [
+                "a1c42770-8a36-4ed7-9fd9-1b6399844c1b",
+                "c6471fd6-1b62-49d1-879d-01c314129929"
+              ],
+              "volumetric_weight": 400000000,
+              "weight": 50000
+            },
+            {
+              "awb": [
+                "266320",
+                "245887"
+              ],
+              "breadth": 2000,
+              "child_cartons": [
+                {
+                  "awb": [
+                    "108432",
+                    "479658",
+                    "275595",
+                    "120760"
+                  ],
+                  "breadth": 1000,
+                  "height": 1000,
+                  "id": "e29e7920-655b-4bf1-9dae-ccb48e1a5c05",
+                  "length": 1000,
+                  "quantity": 4,
+                  "type": "Type 2-1",
+                  "uuid_awb": [
+                    "7fa4e753-ae9c-427c-bb36-0527d8a2189f",
+                    "438eb7a7-9ac0-4974-ac82-8df0dcab62a7",
+                    "c7324e45-222e-45bb-aa11-b6c2ea2549f5",
+                    "fbf8a269-d48b-4323-a51f-cba15c6be411"
+                  ],
+                  "volumetric_weight": 100000000,
+                  "weight": 10000
+                }
+              ],
+              "height": 2000,
+              "id": "1cd0ab7b-3c71-4a52-a7f0-ce4770d2dfc1",
+              "length": 2000,
+              "quantity": 2,
+              "total_child_cartons": 4,
+              "type": "Type 2",
+              "uuid_awb": [
+                "a1c42770-8a36-4ed7-9fd9-1b6399844c1b",
+                "c6471fd6-1b62-49d1-879d-01c314129929"
+              ],
+              "volumetric_weight": 200000000,
+              "weight": 20000
+            }
+          ],
+          "channel": "nykaa",
+          "child_waybill": [
+            "WB502374"
+          ],
+          "customer_warehouse_address": "3/36 2nd Floor Roop Nagar, Delhi",
+          "customer_warehouse_alternate_phone": null,
+          "customer_warehouse_city": "Delhi",
+          "customer_warehouse_email": "",
+          "customer_warehouse_name": "MARS Cosmetics Pvt Ltd (MARSS)-302306",
+          "customer_warehouse_phone": "",
+          "customer_warehouse_pin": "110007",
+          "customer_warehouse_state": "Delhi",
+          "expected_delivery_date": "2025-08-17T18:30:00Z",
+          "files": [
+            "https://b2b-openleaf-bucket-1.s3.ap-south-1.amazonaws.com/order-documents/07fd42ef-ebec-4989-843d-3ffe7c6e3a2b--invoice_copy---Patna%20Hands.pdf"
+          ],
+          "is_appointment_confirmed": true,
+          "lr_number": "498027",
+          "master_waybill": [
+            "MWB503723"
+          ],
+          "order_placed_at": "2025-08-25T08:09:36.435938Z",
+          "po_number": [
+            "NHO1356502"
+          ],
+          "total_cartons": 2,
+          "total_dead_weight": 50000,
+          "total_volumetric_weight": 400000000,
+          "warehouse_address": "501, Lotus Residency, SV Road, Sion West, Mumbai, Maharashtra 400022",
+          "warehouse_alternate_phone": null,
+          "warehouse_city": "Mumbai",
+          "warehouse_email": "omkar.kamble@openleaf.tech",
+          "warehouse_name": "Mumbai Warehouse",
+          "warehouse_phone": "8104561330",
+          "warehouse_pin": "400022",
+          "warehouse_state": "Maharashtra"
+        },
+        "notification_id": "fe0121fd-c82a-4c07-b589-9adf2709dafb",
+        "order_id": "9e8c2221-d7c4-4ee3-8398-b74ad525e8fc",
+        "settings": {
+          "admin_id": "1ecf71e1-1748-425b-9071-56e925a391a3",
+          "ans_id": "00000000-0000-0000-0000-000000000000",
+          "bulk_reminder_days": null,
+          "bulk_reminder_type": "before_delivery",
+          "carrier_id": "all",
+          "channel": null,
+          "created_at": "2025-08-30T09:42:26.198482Z",
+          "notification_days": "0",
+          "notification_type": "after_appointment_taken",
+          "receiver_cc_emails_for_carrier": "sahil@openleaf.tech",
+          "receiver_cc_emails_for_channel": null,
+          "receiver_emails_for_carrier": "omkarkamble.work@gmail.com",
+          "receiver_emails_for_channel": null,
+          "reminder_days": "0",
+          "reminder_type": "after_appointment_taken",
+          "send_bulk_reminder": false,
+          "send_notification": true,
+          "send_reminder": true,
+          "sender_cc_emails_for_carrier": "omkar@openleaf.tech,nikhil@openleaf.tech",
+          "sender_cc_emails_for_channel": null,
+          "sender_emails_for_carrier": "b2b@openleaf.tech",
+          "sender_emails_for_channel": null,
+          "user_id": "21049097-9018-47ba-a1e7-8f6754d80aa5"
+        },
+        "user_id": "21049097-9018-47ba-a1e7-8f6754d80aa5"
+      },
+      "task_type": "email:carrier-appointment-reminder"
+    }
+  },
+  "msg": "[worker] reminder email sent successfully",
+  "time": "01-09-2025 15:48:33"
+}
+{
+  "level": "info",
+  "log_data": {
+    "filename": "D:/Openleaf/Openleaf-Dev-B2B-Notification-Server/workers/carrier/appointmentEmail.go:672",
+    "log_data": {
+      "data": {
+        "notification_id": "fe0121fd-c82a-4c07-b589-9adf2709dafb",
+        "order_id": "9e8c2221-d7c4-4ee3-8398-b74ad525e8fc",
+        "admin_id": "1ecf71e1-1748-425b-9071-56e925a391a3",
+        "user_id": "21049097-9018-47ba-a1e7-8f6754d80aa5",
+        "data": {
+          "po_number": [
+            "NHO1356502"
+          ],
+          "lr_number": "498027",
+          "appointment_date": "2025-08-30T11:21:00Z",
+          "master_waybill": [
+            "MWB503723"
+          ],
+          "child_waybill": [
+            "WB502374"
+          ],
+          "cartons": [
+            {
+              "id": "3265eeb4-9d81-42ea-85f9-ddc899516f20",
+              "type": "Type 1",
+              "length": 1000,
+              "breadth": 1000,
+              "height": 1000,
+              "weight": 50000,
+              "quantity": 2,
+              "volumetric_weight": 400000000,
+              "awb": [
+                "166320",
+                "345887"
+              ],
+              "uuid_awb": [
+                "a1c42770-8a36-4ed7-9fd9-1b6399844c1b",
+                "c6471fd6-1b62-49d1-879d-01c314129929"
+              ],
+              "total_child_cartons": 3,
+              "child_cartons": [
+                {
+                  "id": "1be5478f-3f7f-4e05-82f0-f32c3b193ef5",
+                  "type": "Type 1-1",
+                  "length": 500,
+                  "breadth": 500,
+                  "height": 500,
+                  "weight": 25000,
+                  "quantity": 3,
+                  "volumetric_weight": 200000000,
+                  "awb": [
+                    "229561",
+                    "291680",
+                    "871550"
+                  ],
+                  "uuid_awb": [
+                    "1dbbcacd-66eb-4889-8365-b0c9f7474aeb",
+                    "da2e65db-303d-4a5d-8b9a-74eb6cd4c754",
+                    "85391c50-a4b2-405a-9719-1943c78f0b13"
+                  ]
+                }
+              ]
+            },
+            {
+              "id": "1cd0ab7b-3c71-4a52-a7f0-ce4770d2dfc1",
+              "type": "Type 2",
+              "length": 2000,
+              "breadth": 2000,
+              "height": 2000,
+              "weight": 20000,
+              "quantity": 2,
+              "volumetric_weight": 200000000,
+              "awb": [
+                "266320",
+                "245887"
+              ],
+              "uuid_awb": [
+                "a1c42770-8a36-4ed7-9fd9-1b6399844c1b",
+                "c6471fd6-1b62-49d1-879d-01c314129929"
+              ],
+              "total_child_cartons": 4,
+              "child_cartons": [
+                {
+                  "id": "e29e7920-655b-4bf1-9dae-ccb48e1a5c05",
+                  "type": "Type 2-1",
+                  "length": 1000,
+                  "breadth": 1000,
+                  "height": 1000,
+                  "weight": 10000,
+                  "quantity": 4,
+                  "volumetric_weight": 100000000,
+                  "awb": [
+                    "108432",
+                    "479658",
+                    "275595",
+                    "120760"
+                  ],
+                  "uuid_awb": [
+                    "7fa4e753-ae9c-427c-bb36-0527d8a2189f",
+                    "438eb7a7-9ac0-4974-ac82-8df0dcab62a7",
+                    "c7324e45-222e-45bb-aa11-b6c2ea2549f5",
+                    "fbf8a269-d48b-4323-a51f-cba15c6be411"
+                  ]
+                }
+              ]
+            }
+          ],
+          "total_cartons": 2,
+          "total_dead_weight": 50000,
+          "total_volumetric_weight": 400000000,
+          "carrier_id": "a80948b5-5496-468e-8fee-98377c47bddd",
+          "carrier_name": "TestCarrier",
+          "channel": "nykaa",
+          "warehouse_name": "Mumbai Warehouse",
+          "warehouse_address": "501, Lotus Residency, SV Road, Sion West, Mumbai, Maharashtra 400022",
+          "warehouse_city": "Mumbai",
+          "warehouse_state": "Maharashtra",
+          "warehouse_pin": "400022",
+          "warehouse_phone": "8104561330",
+          "warehouse_alternate_phone": null,
+          "warehouse_email": "omkar.kamble@openleaf.tech",
+          "customer_warehouse_name": "MARS Cosmetics Pvt Ltd (MARSS)-302306",
+          "customer_warehouse_address": "3/36 2nd Floor Roop Nagar, Delhi",
+          "customer_warehouse_city": "Delhi",
+          "customer_warehouse_state": "Delhi",
+          "customer_warehouse_pin": "110007",
+          "customer_warehouse_phone": "",
+          "customer_warehouse_alternate_phone": null,
+          "customer_warehouse_email": "",
+          "order_placed_at": "2025-08-25T08:09:36.435938Z",
+          "expected_delivery_date": "2025-08-17T18:30:00Z",
+          "appointment_scheduled_at": "2025-08-31T06:40:17.26664Z",
+          "appointment_taken_at": "2025-08-30T11:21:00Z",
+          "is_appointment_confirmed": true,
+          "files": [
+            "https://b2b-openleaf-bucket-1.s3.ap-south-1.amazonaws.com/order-documents/07fd42ef-ebec-4989-843d-3ffe7c6e3a2b--invoice_copy---Patna%20Hands.pdf"
+          ]
+        },
+        "settings": {
+          "ans_id": "00000000-0000-0000-0000-000000000000",
+          "admin_id": "1ecf71e1-1748-425b-9071-56e925a391a3",
+          "user_id": "21049097-9018-47ba-a1e7-8f6754d80aa5",
+          "channel": null,
+          "carrier_id": "all",
+          "sender_emails_for_channel": null,
+          "sender_cc_emails_for_channel": null,
+          "receiver_emails_for_channel": null,
+          "receiver_cc_emails_for_channel": null,
+          "sender_emails_for_carrier": "b2b@openleaf.tech",
+          "sender_cc_emails_for_carrier": "omkar@openleaf.tech,nikhil@openleaf.tech",
+          "receiver_emails_for_carrier": "omkarkamble.work@gmail.com",
+          "receiver_cc_emails_for_carrier": "sahil@openleaf.tech",
+          "send_notification": true,
+          "notification_days": "0",
+          "notification_type": "after_appointment_taken",
+          "send_reminder": true,
+          "reminder_days": "0",
+          "reminder_type": "after_appointment_taken",
+          "send_bulk_reminder": false,
+          "bulk_reminder_days": null,
+          "bulk_reminder_type": "before_delivery",
+          "created_at": "2025-08-30T09:42:26.198482Z"
+        }
+      },
+      "notification_id": "fe0121fd-c82a-4c07-b589-9adf2709dafb",
+      "task_data": {
+        "admin_id": "1ecf71e1-1748-425b-9071-56e925a391a3",
+        "data": {
+          "appointment_date": "2025-08-30T11:21:00Z",
+          "appointment_scheduled_at": "2025-08-31T06:40:17.26664Z",
+          "appointment_taken_at": "2025-08-30T11:21:00Z",
+          "carrier_id": "a80948b5-5496-468e-8fee-98377c47bddd",
+          "carrier_name": "TestCarrier",
+          "cartons": [
+            {
+              "awb": [
+                "166320",
+                "345887"
+              ],
+              "breadth": 1000,
+              "child_cartons": [
+                {
+                  "awb": [
+                    "229561",
+                    "291680",
+                    "871550"
+                  ],
+                  "breadth": 500,
+                  "height": 500,
+                  "id": "1be5478f-3f7f-4e05-82f0-f32c3b193ef5",
+                  "length": 500,
+                  "quantity": 3,
+                  "type": "Type 1-1",
+                  "uuid_awb": [
+                    "1dbbcacd-66eb-4889-8365-b0c9f7474aeb",
+                    "da2e65db-303d-4a5d-8b9a-74eb6cd4c754",
+                    "85391c50-a4b2-405a-9719-1943c78f0b13"
+                  ],
+                  "volumetric_weight": 200000000,
+                  "weight": 25000
+                }
+              ],
+              "height": 1000,
+              "id": "3265eeb4-9d81-42ea-85f9-ddc899516f20",
+              "length": 1000,
+              "quantity": 2,
+              "total_child_cartons": 3,
+              "type": "Type 1",
+              "uuid_awb": [
+                "a1c42770-8a36-4ed7-9fd9-1b6399844c1b",
+                "c6471fd6-1b62-49d1-879d-01c314129929"
+              ],
+              "volumetric_weight": 400000000,
+              "weight": 50000
+            },
+            {
+              "awb": [
+                "266320",
+                "245887"
+              ],
+              "breadth": 2000,
+              "child_cartons": [
+                {
+                  "awb": [
+                    "108432",
+                    "479658",
+                    "275595",
+                    "120760"
+                  ],
+                  "breadth": 1000,
+                  "height": 1000,
+                  "id": "e29e7920-655b-4bf1-9dae-ccb48e1a5c05",
+                  "length": 1000,
+                  "quantity": 4,
+                  "type": "Type 2-1",
+                  "uuid_awb": [
+                    "7fa4e753-ae9c-427c-bb36-0527d8a2189f",
+                    "438eb7a7-9ac0-4974-ac82-8df0dcab62a7",
+                    "c7324e45-222e-45bb-aa11-b6c2ea2549f5",
+                    "fbf8a269-d48b-4323-a51f-cba15c6be411"
+                  ],
+                  "volumetric_weight": 100000000,
+                  "weight": 10000
+                }
+              ],
+              "height": 2000,
+              "id": "1cd0ab7b-3c71-4a52-a7f0-ce4770d2dfc1",
+              "length": 2000,
+              "quantity": 2,
+              "total_child_cartons": 4,
+              "type": "Type 2",
+              "uuid_awb": [
+                "a1c42770-8a36-4ed7-9fd9-1b6399844c1b",
+                "c6471fd6-1b62-49d1-879d-01c314129929"
+              ],
+              "volumetric_weight": 200000000,
+              "weight": 20000
+            }
+          ],
+          "channel": "nykaa",
+          "child_waybill": [
+            "WB502374"
+          ],
+          "customer_warehouse_address": "3/36 2nd Floor Roop Nagar, Delhi",
+          "customer_warehouse_alternate_phone": null,
+          "customer_warehouse_city": "Delhi",
+          "customer_warehouse_email": "",
+          "customer_warehouse_name": "MARS Cosmetics Pvt Ltd (MARSS)-302306",
+          "customer_warehouse_phone": "",
+          "customer_warehouse_pin": "110007",
+          "customer_warehouse_state": "Delhi",
+          "expected_delivery_date": "2025-08-17T18:30:00Z",
+          "files": [
+            "https://b2b-openleaf-bucket-1.s3.ap-south-1.amazonaws.com/order-documents/07fd42ef-ebec-4989-843d-3ffe7c6e3a2b--invoice_copy---Patna%20Hands.pdf"
+          ],
+          "is_appointment_confirmed": true,
+          "lr_number": "498027",
+          "master_waybill": [
+            "MWB503723"
+          ],
+          "order_placed_at": "2025-08-25T08:09:36.435938Z",
+          "po_number": [
+            "NHO1356502"
+          ],
+          "total_cartons": 2,
+          "total_dead_weight": 50000,
+          "total_volumetric_weight": 400000000,
+          "warehouse_address": "501, Lotus Residency, SV Road, Sion West, Mumbai, Maharashtra 400022",
+          "warehouse_alternate_phone": null,
+          "warehouse_city": "Mumbai",
+          "warehouse_email": "omkar.kamble@openleaf.tech",
+          "warehouse_name": "Mumbai Warehouse",
+          "warehouse_phone": "8104561330",
+          "warehouse_pin": "400022",
+          "warehouse_state": "Maharashtra"
+        },
+        "notification_id": "fe0121fd-c82a-4c07-b589-9adf2709dafb",
+        "order_id": "9e8c2221-d7c4-4ee3-8398-b74ad525e8fc",
+        "settings": {
+          "admin_id": "1ecf71e1-1748-425b-9071-56e925a391a3",
+          "ans_id": "00000000-0000-0000-0000-000000000000",
+          "bulk_reminder_days": null,
+          "bulk_reminder_type": "before_delivery",
+          "carrier_id": "all",
+          "channel": null,
+          "created_at": "2025-08-30T09:42:26.198482Z",
+          "notification_days": "0",
+          "notification_type": "after_appointment_taken",
+          "receiver_cc_emails_for_carrier": "sahil@openleaf.tech",
+          "receiver_cc_emails_for_channel": null,
+          "receiver_emails_for_carrier": "omkarkamble.work@gmail.com",
+          "receiver_emails_for_channel": null,
+          "reminder_days": "0",
+          "reminder_type": "after_appointment_taken",
+          "send_bulk_reminder": false,
+          "send_notification": true,
+          "send_reminder": true,
+          "sender_cc_emails_for_carrier": "omkar@openleaf.tech,nikhil@openleaf.tech",
+          "sender_cc_emails_for_channel": null,
+          "sender_emails_for_carrier": "b2b@openleaf.tech",
+          "sender_emails_for_channel": null,
+          "user_id": "21049097-9018-47ba-a1e7-8f6754d80aa5"
+        },
+        "user_id": "21049097-9018-47ba-a1e7-8f6754d80aa5"
+      },
+      "task_type": "email:carrier-appointment-reminder"
+    }
+  },
+  "msg": "[worker] reminder email sent successfully",
+  "time": "01-09-2025 15:48:33"
+}
