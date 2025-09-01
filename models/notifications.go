@@ -7,7 +7,7 @@ import (
 )
 
 const (
-	EmailCarrierAppointmentQueue = "email:carrier-appointment"
+	EmailCarrierAppointmentQueue = "email:carrier-appointment-notification"
 	EmailCarrierAppointmentReminderQueue = "email:carrier-appointment-reminder"
 	EmailCarrierAppointmentBulkReminderQueue = "email:carrier-appointment-bulk-reminder"
 )
@@ -16,9 +16,13 @@ type Notification struct {
 	NotificationID uuid.UUID `json:"notification_id"`
 	
 	OrderID        uuid.UUID  `json:"order_id"`
+
 	Sender         string     `json:"sender"`
-	CC             string     `json:"cc"`
+	SenderCC       *string     `json:"sender_cc"`
 	Receiver       string     `json:"receiver"`
+	ReceiverCC     *string     `json:"receiver_cc"`
+
+	Method string `json:"method"`
 	Type           string     `json:"type"`
 	Status         string     `json:"status"`
 	SentAt         *time.Time `json:"sent_at"`

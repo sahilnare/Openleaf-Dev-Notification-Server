@@ -64,6 +64,13 @@ func main() {
 
 	log.Println("server setup email configuration")
 
+	// # Setup workers
+	setupWorkers()
+
+	time.Sleep(2 * time.Second)
+
+	log.Println("server setup workers")
+
 
 	// # Routes
 	r.GET("/health", func(c *gin.Context) {
