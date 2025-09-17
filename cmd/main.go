@@ -12,6 +12,7 @@ import (
 	"log"
 	"net/http"
 	"os"
+	"strings"
 	"time"
 
 	"github.com/gin-gonic/gin"
@@ -78,6 +79,29 @@ func main() {
 	time.Sleep(2 * time.Second)
 
 	log.Println("server setup scheduler")
+
+	r.Use(func(c *gin.Context) {
+		authHeader := c.GetHeader("Authorization")
+		if authHeader == "" || strings.HasPrefix(authHeader, "Bearer ") {
+			c.AbortWithStatusJSON(http.StatusUnauthorized, map[string]interface{}{
+				"success":    false,
+				"statusCode": http.StatusUnauthorized,
+				"message":    "Missing or invalid Authorization header",
+			})
+			return
+		}
+		token := authHeader[len("Bearer "):]
+		expectedToken := os.Getenv("NOTIFICAION_SERVER_TOKEN")
+		if expectedToken == "" || token != expectedToken {
+			c.AbortWithStatusJSON(http.StatusUnauthorized, map[string]interface{}{
+				"success":    false,
+				"statusCode": http.StatusUnauthorized,
+				"message":    "Invalid or expired token",
+			})
+			return
+		}
+		c.Next()
+	})
 
 
 	// # Routes
