@@ -25,13 +25,13 @@ var username string
 var password string
 
 func InitEmailConfig() {
-	host = os.Getenv("EMAIL_HOST")
-	username = os.Getenv("EMAIL_USERNAME")
-	password = os.Getenv("EMAIL_PASSWORD")
-	port, _ = strconv.Atoi(os.Getenv("EMAIL_PORT"))
+	host = os.Getenv("NOTIFICAION_SERVER_EMAIL_HOST")
+	username = os.Getenv("NOTIFICAION_SERVER_EMAIL_USERNAME")
+	password = os.Getenv("NOTIFICAION_SERVER_EMAIL_PASSWORD")
+	port, _ = strconv.Atoi(os.Getenv("NOTIFICAION_SERVER_EMAIL_PORT"))
 
 	if host == "" || username == "" || password == ""  {
-		LogException("email configuration incomplete", map[string]interface{}{
+		LogException("notification server email configuration incomplete", map[string]interface{}{
 			"host":        host,
 			"port":        port,
 			"username":    username,
@@ -40,7 +40,7 @@ func InitEmailConfig() {
 		return
 	}
 
-	LogInfo("email configuration initialized", map[string]interface{}{
+	LogInfo("notification server email configuration initialized", map[string]interface{}{
 		"host":        host,
 		"port":        port,
 		"username":    username,

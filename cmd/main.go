@@ -24,7 +24,7 @@ func main() {
 		panic("Error loading .env file: " + err.Error())
 	}
 
-	port := os.Getenv("PORT")
+	port := os.Getenv("NOTIFICAION_SERVER_PORT")
 	if port == "" {
 		port = "8080"
 	}
