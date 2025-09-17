@@ -545,9 +545,14 @@ func ScheduleCarrierAppointmentEmail(c *gin.Context) {
 					return
 				}
 
+				options := []asynq.Option{
+					asynq.MaxRetry(3),
+					asynq.ProcessAt(sendAt),
+				}
+
 				task := asynq.NewTask(models.EmailCarrierAppointmentQueue, payload)
 
-				info, err := queues.EmailQueueClient.Enqueue(task, asynq.ProcessAt(sendAt))
+				info, err := queues.EmailQueueClient.Enqueue(task, options...)
 				if err != nil {
 					helpers.LogException("failed to enqueue email task", map[string]interface{}{
 						"request": request,
@@ -638,9 +643,14 @@ func ScheduleCarrierAppointmentEmail(c *gin.Context) {
 					return
 				}
 
+				options := []asynq.Option{
+					asynq.MaxRetry(3),
+					asynq.ProcessAt(sendAt),
+				}
+
 				task := asynq.NewTask(models.EmailCarrierAppointmentQueue, payload)
 
-				info, err := queues.EmailQueueClient.Enqueue(task, asynq.ProcessAt(sendAt))
+				info, err := queues.EmailQueueClient.Enqueue(task, options...)
 				if err != nil {
 					helpers.LogException("failed to enqueue email task", map[string]interface{}{
 						"request": request,
@@ -730,9 +740,14 @@ func ScheduleCarrierAppointmentEmail(c *gin.Context) {
 					return
 				}
 
+				options := []asynq.Option{
+					asynq.MaxRetry(3),
+					asynq.ProcessAt(sendAt),
+				}
+
 				task := asynq.NewTask(models.EmailCarrierAppointmentQueue, payload)
 
-				info, err := queues.EmailQueueClient.Enqueue(task, asynq.ProcessAt(sendAt))
+				info, err := queues.EmailQueueClient.Enqueue(task, options...)
 				if err != nil {
 					helpers.LogException("failed to enqueue email task", map[string]interface{}{
 						"request": request,
@@ -815,9 +830,14 @@ func ScheduleCarrierAppointmentEmail(c *gin.Context) {
 				return
 			}
 
+			options := []asynq.Option{
+				asynq.MaxRetry(3),
+				asynq.ProcessAt(sendAt),
+			}
+
 			task := asynq.NewTask(models.EmailCarrierAppointmentQueue, payload)
 
-			info, err := queues.EmailQueueClient.Enqueue(task, asynq.ProcessAt(sendAt))
+			info, err := queues.EmailQueueClient.Enqueue(task, options...)
 			if err != nil {
 				helpers.LogException("failed to enqueue email task", map[string]interface{}{
 					"request": request,
@@ -965,9 +985,14 @@ func ScheduleCarrierAppointmentEmail(c *gin.Context) {
 					return
 				}
 
+				options := []asynq.Option{
+					asynq.MaxRetry(3),
+					asynq.ProcessAt(sendAt),
+				}
+
 				task := asynq.NewTask(models.EmailCarrierAppointmentReminderQueue, payload)
 
-				info, err := queues.EmailQueueClient.Enqueue(task, asynq.ProcessAt(sendAt))
+				info, err := queues.EmailQueueClient.Enqueue(task, options...)
 				if err != nil {
 					helpers.LogException("failed to enqueue email task", map[string]interface{}{
 						"request": request,
@@ -1049,9 +1074,14 @@ func ScheduleCarrierAppointmentEmail(c *gin.Context) {
 					})
 				}
 
+				options := []asynq.Option{
+					asynq.MaxRetry(3),
+					asynq.ProcessAt(sendAt),
+				}
+
 				task := asynq.NewTask(models.EmailCarrierAppointmentReminderQueue, payload)
 
-				info, err := queues.EmailQueueClient.Enqueue(task, asynq.ProcessAt(sendAt))
+				info, err := queues.EmailQueueClient.Enqueue(task, options...)
 				if err != nil {
 					helpers.LogException("failed to enqueue reminder email task", map[string]interface{}{
 						"request": request,
@@ -1133,9 +1163,14 @@ func ScheduleCarrierAppointmentEmail(c *gin.Context) {
 					})
 				}
 
+				options := []asynq.Option{
+					asynq.MaxRetry(3),
+					asynq.ProcessAt(sendAt),
+				}
+
 				task := asynq.NewTask(models.EmailCarrierAppointmentReminderQueue, payload)
 
-				info, err := queues.EmailQueueClient.Enqueue(task, asynq.ProcessAt(sendAt))
+				info, err := queues.EmailQueueClient.Enqueue(task, options...)
 				if err != nil {
 					helpers.LogException("failed to enqueue reminder email task", map[string]interface{}{
 						"request": request,
@@ -1212,9 +1247,14 @@ func ScheduleCarrierAppointmentEmail(c *gin.Context) {
 				})
 			}
 
+			options := []asynq.Option{
+				asynq.MaxRetry(3),
+				asynq.ProcessAt(sendAt),
+			}
+
 			task := asynq.NewTask(models.EmailCarrierAppointmentReminderQueue, payload)
 
-			info, err := queues.EmailQueueClient.Enqueue(task, asynq.ProcessAt(sendAt))
+			info, err := queues.EmailQueueClient.Enqueue(task, options...)
 			if err != nil {
 				helpers.LogException("failed to enqueue reminder email task", map[string]interface{}{
 					"request": request,

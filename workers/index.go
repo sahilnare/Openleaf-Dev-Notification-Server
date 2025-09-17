@@ -2,6 +2,7 @@ package workers
 
 import (
 	"Notification-Server/helpers"
+	"Notification-Server/models"
 	carrierWorker "Notification-Server/workers/carrier"
 	"crypto/tls"
 	"fmt"
@@ -42,12 +43,13 @@ func InitWorkers() {
 	mux := asynq.NewServeMux()
 
 	// # Routes
-	mux.HandleFunc("email:carrier-appointment-notification", carrierWorker.SendAppointmentEmail)
-	mux.HandleFunc("email:carrier-appointment-reminder", carrierWorker.SendAppointmentReminderEmail)
+	mux.HandleFunc(models.EmailCarrierAppointmentQueue, carrierWorker.SendAppointmentEmail)
+	mux.HandleFunc(models.EmailCarrierAppointmentReminderQueue, carrierWorker.SendAppointmentReminderEmail)
+	mux.HandleFunc(models.EmailCarrierBulkPickupNotificationQueue, carrierWorker.SendCarrierBulkPickupEmail)
 
 	log.Println("Starting Asynq worker server...")
 	if err := server.Run(mux); err != nil {
-		log.Fatalf("could not run Asynq server: %v", err)
+		panic("could not run Asynq server: " + err.Error())
 	}
 
 }

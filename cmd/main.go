@@ -6,6 +6,7 @@ import (
 	"Notification-Server/helpers"
 	"Notification-Server/models"
 	"Notification-Server/queues"
+	"Notification-Server/scheduler"
 	"Notification-Server/workers"
 	"fmt"
 	"log"
@@ -20,7 +21,7 @@ import (
 func main() {
 
 	if err := godotenv.Load(); err != nil {
-		log.Fatal("Error loading .env file", err.Error())
+		panic("Error loading .env file: " + err.Error())
 	}
 
 	port := os.Getenv("PORT")
@@ -71,6 +72,13 @@ func main() {
 
 	log.Println("server setup workers")
 
+	// # Setup scheduler
+	setupScheduler()
+
+	time.Sleep(2 * time.Second)
+
+	log.Println("server setup scheduler")
+
 
 	// # Routes
 	r.GET("/health", func(c *gin.Context) {
@@ -106,7 +114,12 @@ func setupQueues() {
 }
 
 func setupWorkers() {
-	go workers.InitWorkers()
+	workers.InitWorkers()
+}
+
+func setupScheduler() {
+	scheduler.InitScheduler()
+	scheduler.StartScheduler()
 }
 
 func corsMiddleware() gin.HandlerFunc {

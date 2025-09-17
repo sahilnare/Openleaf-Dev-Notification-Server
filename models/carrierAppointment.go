@@ -139,6 +139,10 @@ type CarrierAppointmentEmailSettings struct {
 	BulkReminderDays        *string    `json:"bulk_reminder_days" db:"bulk_reminder_days"` // 2,3
 	BulkReminderType        *string    `json:"bulk_reminder_type" db:"bulk_reminder_type"`
 
+	SendPickupWeightNotification     bool     `json:"send_pickup_weight_notification" db:"send_pickup_weight_notification"`
+	PickupWeightNotificationTime     *string  `json:"pickup_weight_notification_time" db:"pickup_weight_notification_time"`
+	PickupWeightNotificationDaysRange *string `json:"pickup_weight_notification_days_range" db:"pickup_weight_notification_days_range"`	
+
 	CreatedAt               time.Time `json:"created_at" db:"created_at"`
 }
 
@@ -151,4 +155,21 @@ type CarrierAppointmentEmailWorkerData struct {
 	
 	Data     CarrierAppointmentEmailData     `json:"data"`
 	Settings CarrierAppointmentEmailSettings `json:"settings"`
+}
+
+
+type CarrierBulkPickupEmailWorkerData struct {
+	NotificationID uuid.UUID `json:"notification_id"`
+
+	AdminID uuid.UUID `json:"admin_id"`
+	UserID uuid.UUID `json:"user_id"`
+	
+	Data	CarrierBulkPickupEmailWorkerDataData `json:"data"`
+
+	Settings CarrierAppointmentEmailSettings `json:"settings"`
+}
+
+type CarrierBulkPickupEmailWorkerDataData struct {
+	CarrierID string `json:"carrier_id"`
+	Day *string `json:"day"`
 }

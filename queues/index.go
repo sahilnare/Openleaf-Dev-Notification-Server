@@ -35,7 +35,7 @@ func InitEmailQueueClient() {
 	})
 
 	if EmailQueueClient == nil {
-		log.Fatal("Failed to create email queue client")
+		panic("Failed to create email queue client")
 	}
 
 	// Test the connection by trying to ping Redis
