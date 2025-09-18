@@ -94,3 +94,4 @@ func CmToInch(cm *float64) float64 {
 	}
 	return math.Round(*cm * 0.393701 * 100) / 100
 }
+
