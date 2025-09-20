@@ -38,7 +38,12 @@ func InitEmailQueueClient() {
 	}
 
 	// Test the connection by trying to ping Redis
-	log.Println("Testing Redis connection with ping...")
+	err := EmailQueueClient.Ping()
+	if err != nil {
+		panic("Failed to connect to Redis for email queue client: " + err.Error())
+	} else {
+		log.Println("Ping successful")
+	}
 
 	time.Sleep(1 * time.Second)
 
