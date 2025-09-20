@@ -20,10 +20,9 @@ func GetRedisConfig() (string, string, string, string) {
 	if redisUsername == "" {
 		panic("Redis configuration is incomplete. NOTIFICAION_SERVER_REDIS_USERNAME must be set")
 	}
-	if redisPassword == "" {
-		panic("Redis configuration is incomplete. NOTIFICAION_SERVER_REDIS_PASSWORD must be set")
-	}
-
+	// if redisPassword == "" {
+	// 	panic("Redis configuration is incomplete. NOTIFICAION_SERVER_REDIS_PASSWORD must be set")
+	// }
 
 	return redisHost, redisPassword, redisUsername, redisPort
 }

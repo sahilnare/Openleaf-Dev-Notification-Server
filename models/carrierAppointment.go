@@ -157,7 +157,7 @@ type CarrierAppointmentEmailWorkerData struct {
 }
 
 type CarrierBulkPickupEmailData struct {
-	Channel                string             `json:"channel"`
+	Channel                string             `json:"channel" db:"channel"`
 	PONumber               *JSONBArrayString  `json:"po_number" db:"po_number"`
 	CustomerWarehouseCity  *string            `json:"customer_warehouse_city" db:"customer_city"`
 	WarehousePin           *string            `json:"warehouse_pin" db:"customer_pincode"`

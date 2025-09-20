@@ -76,7 +76,7 @@ func InitCarrierBulkPickupNotification() error {
 
 	// # Schedule the cron for separate carriers
 	for _, setting := range notificationSettings {
-		
+
 		helpers.LogInfo("InitCarrierBulkPickupNotification carrier bulk pickup notification setting", map[string]interface{}{
 			"setting": setting,
 		})
@@ -115,13 +115,13 @@ func InitCarrierBulkPickupNotification() error {
 			continue
 		}
 
-		days := strings.SplitSeq(strings.TrimSpace(*setting.PickupWeightNotificationDaysRange), ",")
+		days := strings.Split(strings.TrimSpace(*setting.PickupWeightNotificationDaysRange), ",")
 
-		for day := range days {
+		for _, day := range days {
 
-			times := strings.SplitSeq(strings.TrimSpace(*setting.PickupWeightNotificationTime), ",")
-			
-			for time := range times {
+			times := strings.Split(strings.TrimSpace(*setting.PickupWeightNotificationTime), ",")
+
+			for _, time := range times {
 
 				hours, minutes, _ := strings.Cut(strings.TrimSpace(time), ":")
 
@@ -129,11 +129,11 @@ func InitCarrierBulkPickupNotification() error {
 
 				payload := models.CarrierBulkPickupEmailWorkerData{
 					NotificationID: setting.AnsID,
-					AdminID: setting.AdminID,
-					UserID: setting.UserID,
+					AdminID:        setting.AdminID,
+					UserID:         setting.UserID,
 					Data: models.CarrierBulkPickupEmailWorkerDataData{
 						CarrierID: setting.CarrierID,
-						Day: &day,
+						Day:       &day,
 					},
 					Settings: setting,
 				}
@@ -141,15 +141,31 @@ func InitCarrierBulkPickupNotification() error {
 				payloadBytes, err := json.Marshal(payload)
 				if err != nil {
 					helpers.LogException("failed to marshal payload", map[string]interface{}{
-						"error": err.Error(),
+						"error":   err.Error(),
 						"payload": payload,
 					})
 				}
 
-				task := asynq.NewTask(models.EmailCarrierBulkPickupNotificationQueue, payloadBytes)
-		
-				Scheduler.Register(cronExpr, task)
+				helpers.LogException("successfully marshal payload", map[string]interface{}{
+					"error":   err.Error(),
+					"payload": payload,
+				})
 
+				task := asynq.NewTask(models.EmailCarrierBulkPickupNotificationQueue, payloadBytes)
+
+				id, err := Scheduler.Register(cronExpr, task)
+				if err != nil {
+					helpers.LogException("failed to register task with scheduler", map[string]interface{}{
+						"error":   err.Error(),
+						"payload": payload,
+					})
+				} else {
+					helpers.LogInfo("InitCarrierBulkPickupNotification: scheduled task with scheduler", map[string]interface{}{
+						"task_id":   id,
+						"cron_expr": cronExpr,
+						"payload":   payload,
+					})
+				}
 
 				//#  Remove carrierID from carrierIDs after scheduling the task
 				for i, id := range carrierIDs {
@@ -158,23 +174,30 @@ func InitCarrierBulkPickupNotification() error {
 						break
 					}
 				}
-		
 			}
 
 		}
-		
+
 	}
 
 	// # Schedule the cron for all carriers
 	for _, setting := range notificationSettings {
-		
+
 		helpers.LogInfo("InitCarrierBulkPickupNotification carrier bulk pickup notification setting", map[string]interface{}{
 			"setting": setting,
 		})
 
 		if !setting.SendPickupWeightNotification {
+			helpers.LogInfo("InitCarrierBulkPickupNotification: skipping setting, notifications disabled", map[string]interface{}{
+				"setting_id": setting.AnsID,
+			})
+
 			continue
 		}
+
+		helpers.LogInfo("InitCarrierBulkPickupNotification: fetching carriers for user", map[string]interface{}{
+			"user_id": setting.UserID,
+		})
 
 		// # Get all the user carriers
 		var carrierIDs []string
@@ -200,13 +223,24 @@ func InitCarrierBulkPickupNotification() error {
 			defer rows.Close()
 		}
 
-		days := strings.SplitSeq(strings.TrimSpace(*setting.PickupWeightNotificationDaysRange), ",")
+		helpers.LogInfo("InitCarrierBulkPickupNotification: fetched carrier IDs", map[string]interface{}{
+			"setting_id":    setting.AnsID,
+			"user_id":       setting.UserID,
+			"carrier_count": len(carrierIDs),
+		})
 
-		for day := range days {
+		days := strings.Split(strings.TrimSpace(*setting.PickupWeightNotificationDaysRange), ",")
 
-			times := strings.SplitSeq(strings.TrimSpace(*setting.PickupWeightNotificationTime), ",")
-			
-			for time := range times {
+		helpers.LogInfo("InitCarrierBulkPickupNotification: parsed schedule from settings", map[string]interface{}{
+			"setting_id":  setting.AnsID,
+			"parsed_days": days,
+		})
+
+		for _, day := range days {
+
+			times := strings.Split(strings.TrimSpace(*setting.PickupWeightNotificationTime), ",")
+
+			for _, time := range times {
 
 				hours, minutes, _ := strings.Cut(strings.TrimSpace(time), ":")
 
@@ -216,34 +250,45 @@ func InitCarrierBulkPickupNotification() error {
 
 					payload := models.CarrierBulkPickupEmailWorkerData{
 						NotificationID: setting.AnsID,
-						AdminID: setting.AdminID,
-						UserID: setting.UserID,
+						AdminID:        setting.AdminID,
+						UserID:         setting.UserID,
 						Data: models.CarrierBulkPickupEmailWorkerDataData{
 							CarrierID: carrierID,
-							Day: &day,
+							Day:       &day,
 						},
 						Settings: setting,
 					}
-	
+
 					payloadBytes, err := json.Marshal(payload)
 					if err != nil {
 						helpers.LogException("failed to marshal payload", map[string]interface{}{
-							"error": err.Error(),
+							"error":   err.Error(),
 							"payload": payload,
 						})
 					}
-	
-					task := asynq.NewTask(models.EmailCarrierBulkPickupNotificationQueue, payloadBytes)
-			
-					Scheduler.Register(cronExpr, task)
 
+					task := asynq.NewTask(models.EmailCarrierBulkPickupNotificationQueue, payloadBytes)
+
+					id, err := Scheduler.Register(cronExpr, task)
+					if err != nil {
+						helpers.LogException("failed to register task with scheduler", map[string]interface{}{
+							"error":   err.Error(),
+							"payload": payload,
+						})
+					} else {
+						helpers.LogInfo("InitCarrierBulkPickupNotification: scheduled task with scheduler", map[string]interface{}{
+							"task_id":   id,
+							"cron_expr": cronExpr,
+							"payload":   payload,
+						})
+					}
 				}
-		
+
 			}
 
 		}
-		
-	}
 
+	}
+	helpers.LogInfo("InitCarrierBulkPickupNotification: finished scheduling all tasks.", nil)
 	return nil
 }

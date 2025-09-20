@@ -3,6 +3,7 @@ package workers
 import (
 	"Notification-Server/helpers"
 	"Notification-Server/models"
+	"Notification-Server/scheduler"
 	carrierWorker "Notification-Server/workers/carrier"
 	"crypto/tls"
 	"fmt"
@@ -12,9 +13,8 @@ import (
 	"github.com/hibiken/asynq"
 )
 
-
 func InitWorkers() {
-	redisHost, redisPassword, redisUsername, redisPort := helpers.GetRedisConfig()
+	redisHost, _, redisUsername, redisPort := helpers.GetRedisConfig()
 
 	log.Printf("Initializing workers with Redis at %s:%s", redisHost, redisPort)
 
@@ -24,21 +24,28 @@ func InitWorkers() {
 	}
 
 	server := asynq.NewServer(
-		asynq.RedisClientOpt{
-			Addr: fmt.Sprintf("%s:%s", redisHost, redisPort),
-			Password: redisPassword,
-			DB: 0,
+		asynq.RedisClusterClientOpt{
+			Addrs: []string{fmt.Sprintf("%s:%s", redisHost, redisPort)},
+			// Password:     redisPassword,
+			// DB:           0,
 			Username: redisUsername,
-			PoolSize: 10,
-			DialTimeout: 10 * time.Second,
-			ReadTimeout: 30 * time.Second,
+			// PoolSize:     10,
+			DialTimeout:  10 * time.Second,
+			ReadTimeout:  30 * time.Second,
 			WriteTimeout: 30 * time.Second,
-			TLSConfig: tlsConfig,
+			TLSConfig:    tlsConfig,
 		},
 		asynq.Config{
 			Concurrency: 0,
 		},
 	)
+
+	err := scheduler.Scheduler.Ping()
+	if err != nil {
+		panic("{Worker} Failed to connect to Redis for workers: " + err.Error())
+	} else {
+		log.Println("Ping successfull")
+	}
 
 	mux := asynq.NewServeMux()
 
@@ -50,6 +57,8 @@ func InitWorkers() {
 	log.Println("Starting Asynq worker server...")
 	if err := server.Run(mux); err != nil {
 		panic("could not run Asynq server: " + err.Error())
+	} else {
+		log.Println("Asynq worker server.")
 	}
 
 }

@@ -39,18 +39,6 @@ func main() {
 
 	log.Println("server setup cors")
 
-	// # Setup queues
-	setupQueues()
-
-	log.Println("server setup queues")
-
-	// # Setup workers
-	setupWorkers()
-
-	time.Sleep(2 * time.Second)
-
-	log.Println("server setup workers")
-
 	// # Connect database
 	db.Connect()
 
@@ -66,12 +54,10 @@ func main() {
 
 	log.Println("server setup email configuration")
 
-	// # Setup workers
-	setupWorkers()
+	// # Setup queues
+	setupQueues()
 
-	time.Sleep(2 * time.Second)
-
-	log.Println("server setup workers")
+	log.Println("server setup queues")
 
 	// # Setup scheduler
 	setupScheduler()
@@ -79,6 +65,13 @@ func main() {
 	time.Sleep(2 * time.Second)
 
 	log.Println("server setup scheduler")
+
+	// # Setup workers
+	setupWorkers()
+
+	time.Sleep(2 * time.Second)
+
+	log.Println("server setup workers")
 
 	r.Use(func(c *gin.Context) {
 		authHeader := c.GetHeader("Authorization")
@@ -102,7 +95,6 @@ func main() {
 		}
 		c.Next()
 	})
-
 
 	// # Routes
 	r.GET("/health", func(c *gin.Context) {
@@ -132,18 +124,17 @@ func main() {
 
 }
 
-
 func setupQueues() {
 	queues.InitEmailQueueClient()
 }
 
 func setupWorkers() {
-	workers.InitWorkers()
+	go workers.InitWorkers()
 }
 
 func setupScheduler() {
 	scheduler.InitScheduler()
-	scheduler.StartScheduler()
+	go scheduler.StartScheduler()
 }
 
 func corsMiddleware() gin.HandlerFunc {

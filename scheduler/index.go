@@ -14,7 +14,7 @@ var Scheduler *asynq.Scheduler
 
 func InitScheduler() {
 
-	redisHost, redisPassword, redisUsername, redisPort := helpers.GetRedisConfig()
+	redisHost, _, redisUsername, redisPort := helpers.GetRedisConfig()
 
 	log.Printf("Initializing scheduler with Redis at %s:%s", redisHost, redisPort)
 
@@ -24,14 +24,14 @@ func InitScheduler() {
 	}
 
 	Scheduler = asynq.NewScheduler(
-		asynq.RedisClientOpt{
-			Addr: fmt.Sprintf("%s:%s", redisHost, redisPort),
-			Password: redisPassword,
-			DB: 0,
-			Username: redisUsername,
-			PoolSize: 10,
-			DialTimeout: 10 * time.Second,
-			ReadTimeout: 30 * time.Second,
+		asynq.RedisClusterClientOpt{
+			Addrs: []string{fmt.Sprintf("%s:%s", redisHost, redisPort)},
+			// Password:     redisPassword,
+			// DB:           0,
+			// PoolSize:     10,
+			Username:     redisUsername,
+			DialTimeout:  10 * time.Second,
+			ReadTimeout:  30 * time.Second,
 			WriteTimeout: 30 * time.Second,
 			TLSConfig: &tls.Config{
 				MinVersion: tls.VersionTLS12,
@@ -43,14 +43,19 @@ func InitScheduler() {
 				if err != nil {
 					log.Printf("Error enqueuing task: %v", err)
 				} else {
-					log.Printf("Task enqueued successfully: %v", info)
+					helpers.LogInfo("Task enqueued successfully: %v", string(info.Payload))
 				}
 			},
 		},
 	)
 
+	err = Scheduler.Ping()
+	if err != nil {
+		panic("Failed to connect to Redis for scheduler: " + err.Error())
+	} else {
+		log.Println("Ping successfull")
+	}
 	log.Println("Scheduler initialized successfully")
-
 }
 
 func StartScheduler() {
