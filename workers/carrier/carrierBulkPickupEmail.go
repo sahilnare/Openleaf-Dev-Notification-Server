@@ -82,7 +82,7 @@ func SendCarrierBulkPickupEmail(ctx context.Context, task *asynq.Task) error {
 
 	baseQuery := `
     SELECT
-        o.channel, o.po_number, o.customer_city, o.customer_pincode,
+        o.channel, o.po_number, o.customer_city, o.customer_pincode,o.carrier_name,
         o.sku_details, o.lr_number, oa.appointment_scheduled_at,
         o.total_cartons, o.total_dead_weight, o.carton_details,
         o.invoice_number, o.total_invoice_value
@@ -174,7 +174,7 @@ func SendCarrierBulkPickupEmail(ctx context.Context, task *asynq.Task) error {
 			if order.Cartons != nil {
 				for _, carton := range *order.Cartons {
 					dimStr := fmt.Sprintf(
-						"%.2f x %.2f x %.2f Inch = %.f<br>",
+						"%.fx%.fx%.f Inch = %.f<br>",
 						helpers.CmToInch(&carton.Length),
 						helpers.CmToInch(&carton.Breadth),
 						helpers.CmToInch(&carton.Height),
@@ -197,7 +197,6 @@ func SendCarrierBulkPickupEmail(ctx context.Context, task *asynq.Task) error {
 				<td>%s</td>
 				<td>%s</td>
 				<td>%s</td>
-				<td>%s</td>
 				<td>%.2f</td>
 				<td>%s</td> 
 				<td>%s</td>
@@ -205,43 +204,25 @@ func SendCarrierBulkPickupEmail(ctx context.Context, task *asynq.Task) error {
 				<td>%.2f KG</td>
 				<td>%s</td>
 				<td>%s</td>
-				<td>%.2f</td>
+				<td>%.f</td>
 				<td>%.2f</td>
 			</tr>`,
-				i+1,           // Sr No
-				order.Channel, // PO Details: Channel
-				poNumberStr,   // PO Details: Number
-				helpers.FormatDateDDMMYYYY(order.AppointmentScheduledAt), // PO Details: Pickup Date
-				helpers.DerefStringPointer(order.CustomerWarehouseCity),  // PO Details: City
-				helpers.DerefStringPointer(order.WarehousePin),           // PO Details: Pincode
-				helpers.DerefFloatPointer(order.Amount),                  // PO Details: Amount
-				helpers.DerefStringPointer(order.LRNumber),               // LR Number
-				helpers.FormatDateDDMMYYYY(order.AppointmentScheduledAt), // Appointment Date
-				helpers.DerefIntPointer(order.TotalCartons),              // Carton Details: Quantity
-				helpers.DerefFloatPointer(order.Weight)/1000,             // Carton Details: Weight
+				i+1,                            // Sr No
+				strings.ToUpper(order.Channel), // PO Details: Channel
+				poNumberStr,                    // PO Details: Number
+				helpers.DerefStringPointer(order.CustomerWarehouseCity),      // PO Details: City
+				helpers.DerefStringPointer(order.WarehousePin),               // PO Details: Pincode
+				helpers.DerefFloatPointer(order.Amount),                      // PO Details: Amount
+				helpers.DerefStringPointer(order.LRNumber),                   // LR Number
+				helpers.FormatDateDDMMYYYYHHMM(order.AppointmentScheduledAt), // Appointment Date
+				helpers.DerefIntPointer(order.TotalCartons),                  // Carton Details: Quantity
+				helpers.DerefFloatPointer(order.Weight)/1000,                 // Carton Details: Weight
 				cartonDimensions, // Carton Details: Dimensions
 				helpers.DerefStringPointer(order.InvoiceNumber), // Invoice Details: Number
 				helpers.DerefFloatPointer(totalSkuQuantity),     // SKU Quantity
 				helpers.DerefFloatPointer(order.Amount),         // Invoice Details: Amount
 			)
 			tableRows.WriteString(rowHTML)
-		}
-
-		//Final email body
-		body := fmt.Sprintf(templates.SendCarrierBulkPickupEmailTemplate,
-			totalCartons,
-			totalWeight/1000,
-			totalLRs,
-			tableRows.String(),
-		)
-
-		receiverEmails := strings.Split(*data.Settings.ReceiverEmailsForCarrier, ",")
-		receiverCC := []string{}
-		if data.Settings.ReceiverCCEmailsForCarrier != nil {
-			receiverCC = append(receiverCC, strings.Split(*data.Settings.ReceiverCCEmailsForCarrier, ",")...)
-		}
-		if data.Settings.SenderCCEmailsForCarrier != nil {
-			receiverCC = append(receiverCC, strings.Split(*data.Settings.SenderCCEmailsForCarrier, ",")...)
 		}
 
 		var dateStrings []string
@@ -263,6 +244,25 @@ func SendCarrierBulkPickupEmail(ctx context.Context, task *asynq.Task) error {
 		}
 
 		finalString := strings.Join(dateStrings, ", ")
+
+		//Final email body
+		body := fmt.Sprintf(templates.SendCarrierBulkPickupEmailTemplate,
+			orders[0].CarrierName,
+			finalString,
+			totalCartons,
+			totalWeight/1000,
+			totalLRs,
+			tableRows.String(),
+		)
+
+		receiverEmails := strings.Split(*data.Settings.ReceiverEmailsForCarrier, ",")
+		receiverCC := []string{}
+		if data.Settings.ReceiverCCEmailsForCarrier != nil {
+			receiverCC = append(receiverCC, strings.Split(*data.Settings.ReceiverCCEmailsForCarrier, ",")...)
+		}
+		if data.Settings.SenderCCEmailsForCarrier != nil {
+			receiverCC = append(receiverCC, strings.Split(*data.Settings.SenderCCEmailsForCarrier, ",")...)
+		}
 
 		helpers.LogInfo("[worker] preparing to send bulk pickup email", map[string]interface{}{
 			"carrier_id":      data.Data.CarrierID,

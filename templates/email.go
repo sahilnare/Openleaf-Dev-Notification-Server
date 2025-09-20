@@ -253,8 +253,8 @@ const SendCarrierBulkPickupEmailTemplate = `
         </style>
     </head>
     <body>
-        <p>Hello Team,</p>
-        <p>This is to inform you about the Pick Up schedule for the following order(s):</p>
+        <p>Hello %s Team,</p>
+        <p>This is to inform you about the Pick Up schedule for %s:</p>
 
         <div class="order-details">
             <div class="details-row">
@@ -276,19 +276,18 @@ const SendCarrierBulkPickupEmailTemplate = `
             <table class="data-table">
                 <tr>
                     <th rowspan="2" style="text-align:center;vertical-align:middle;">Sr No</th>
-                    <th colspan="6" style="text-align:center;vertical-align:middle;">PO Details</th>
+                    <th colspan="5" style="text-align:center;vertical-align:middle;">PO Details</th>
                     <th rowspan="2" style="text-align:center;vertical-align:middle;">LR Number</th>
                     <th rowspan="2" style="text-align:center;vertical-align:middle;">Appointment Date</th>
                     <th colspan="3" style="text-align:center;vertical-align:middle;">Carton Details</th>
                     <th colspan="3" style="text-align:center;vertical-align:middle;">Invoice Details</th>
                 </tr>
                 <tr>
-                    <th>Channel</th>
+                    <th>Marketplace</th>
                     <th>Number</th>
-                    <th>Date</th>
                     <th>City</th>
                     <th>Pincode</th>
-                    <th>Amount</th>
+                    <th>Amount (Rs)</th>
                     <th>Quantity</th>
                     <th>Weight</th>
                     <th>Dimensions (L x B x H)</th>

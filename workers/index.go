@@ -14,7 +14,7 @@ import (
 )
 
 func InitWorkers() {
-	redisHost, _, redisUsername, redisPort := helpers.GetRedisConfig()
+	redisHost, redisPassword, redisUsername, redisPort := helpers.GetRedisConfig()
 
 	log.Printf("Initializing workers with Redis at %s:%s", redisHost, redisPort)
 
@@ -24,12 +24,12 @@ func InitWorkers() {
 	}
 
 	server := asynq.NewServer(
-		asynq.RedisClusterClientOpt{
-			Addrs: []string{fmt.Sprintf("%s:%s", redisHost, redisPort)},
-			// Password:     redisPassword,
-			// DB:           0,
-			Username: redisUsername,
-			// PoolSize:     10,
+		asynq.RedisClientOpt{
+			Addr:         fmt.Sprintf("%s:%s", redisHost, redisPort),
+			Password:     redisPassword,
+			DB:           0,
+			Username:     redisUsername,
+			PoolSize:     10,
 			DialTimeout:  10 * time.Second,
 			ReadTimeout:  30 * time.Second,
 			WriteTimeout: 30 * time.Second,

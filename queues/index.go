@@ -13,7 +13,7 @@ import (
 var EmailQueueClient *asynq.Client
 
 func InitEmailQueueClient() {
-	redisHost, _, redisUsername, redisPort := helpers.GetRedisConfig()
+	redisHost, redisPassword, redisUsername, redisPort := helpers.GetRedisConfig()
 
 	log.Printf("Connecting to Redis at %s:%s", redisHost, redisPort)
 
@@ -21,12 +21,12 @@ func InitEmailQueueClient() {
 		MinVersion: tls.VersionTLS12,
 	}
 
-	EmailQueueClient = asynq.NewClient(asynq.RedisClusterClientOpt{
-		Addrs: []string{fmt.Sprintf("%s:%s", redisHost, redisPort)},
-		// Password: redisPassword,
-		// DB: 0,
-		Username: redisUsername,
-		// PoolSize: 10,
+	EmailQueueClient = asynq.NewClient(asynq.RedisClientOpt{
+		Addr:         fmt.Sprintf("%s:%s", redisHost, redisPort),
+		Password:     redisPassword,
+		DB:           0,
+		Username:     redisUsername,
+		PoolSize:     10,
 		DialTimeout:  10 * time.Second,
 		ReadTimeout:  30 * time.Second,
 		WriteTimeout: 30 * time.Second,
