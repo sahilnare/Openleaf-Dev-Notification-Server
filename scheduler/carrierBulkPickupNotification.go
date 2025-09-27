@@ -42,6 +42,9 @@ func InitCarrierBulkPickupNotification() error {
 		})
 		return err
 	}
+	helpers.LogInfo("InitCarrierBulkPickupNotification fetch carrier bulk pickup notification settings", map[string]interface{}{
+		"data": rows,
+	})
 
 	defer rows.Close()
 

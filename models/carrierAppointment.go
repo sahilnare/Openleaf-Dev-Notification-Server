@@ -134,9 +134,11 @@ type CarrierAppointmentEmailSettings struct {
 	ReminderDays *string `json:"reminder_days" db:"reminder_days"` // 1,2
 	ReminderType *string `json:"reminder_type" db:"reminder_type"`
 
-	SendBulkReminder bool    `json:"send_bulk_reminder" db:"send_bulk_reminder"`
-	BulkReminderDays *string `json:"bulk_reminder_days" db:"bulk_reminder_days"` // 2,3
-	BulkReminderType *string `json:"bulk_reminder_type" db:"bulk_reminder_type"`
+	SendBulkReminder      bool    `json:"send_bulk_reminder" db:"send_bulk_reminder"`
+	BulkReminderTime      *string `json:"bulk_reminder_time" db:"bulk_reminder_time"`
+	BulkReminderDays      *string `json:"bulk_reminder_days" db:"bulk_reminder_days"`             // 2,3
+	BulkReminderDaysRange *string `json:"bulk_reminder_days_range" db:"bulk_reminder_days_range"` // 2,3
+	BulkReminderType      *string `json:"bulk_reminder_type" db:"bulk_reminder_type"`
 
 	SendPickupWeightNotification      bool    `json:"send_pickup_weight_notification" db:"send_pickup_weight_notification"`
 	PickupWeightNotificationTime      *string `json:"pickup_weight_notification_time" db:"pickup_weight_notification_time"`
@@ -184,6 +186,38 @@ type CarrierBulkPickupEmailWorkerData struct {
 }
 
 type CarrierBulkPickupEmailWorkerDataData struct {
+	CarrierID string  `json:"carrier_id"`
+	Day       *string `json:"day"`
+}
+type CarrierBulkDeliverEmailData struct {
+	CarrierName            string             `json:"carrier_name" db:"carrier_name"`
+	Channel                string             `json:"channel" db:"channel"`
+	PONumber               *JSONBArrayString  `json:"po_number" db:"po_number"`
+	CustomerWarehouseCity  *string            `json:"customer_warehouse_city" db:"customer_city"`
+	WarehousePin           *string            `json:"warehouse_pin" db:"customer_pincode"`
+	SKUDetails             SKUDetailedItems   `json:"sku_details" db:"sku_details"`
+	LRNumber               *string            `json:"lr_number" db:"lr_number"`
+	AppointmentScheduledAt *time.Time         `json:"appointment_scheduled_at" db:"appointment_scheduled_at"`
+	EDD                    *time.Time         `json:"expected_delivery_date" db:"expected_delivery_date"`
+	TotalCartons           *int               `json:"total_cartons" db:"total_cartons"`
+	Weight                 *float64           `json:"weight" db:"total_dead_weight"`
+	Cartons                *CartonDetailsList `json:"cartons" db:"carton_details"`
+	InvoiceNumber          *string            `json:"invoice_number" db:"invoice_number"`
+	Amount                 *float64           `json:"amount" db:"total_invoice_value"`
+}
+
+type CarrierBulkDeliverEmailWorkerData struct {
+	NotificationID uuid.UUID `json:"notification_id"`
+
+	AdminID uuid.UUID `json:"admin_id"`
+	UserID  uuid.UUID `json:"user_id"`
+
+	Data CarrierBulkDeliverEmailWorkerDataData `json:"data"`
+
+	Settings CarrierAppointmentEmailSettings `json:"settings"`
+}
+
+type CarrierBulkDeliverEmailWorkerDataData struct {
 	CarrierID string  `json:"carrier_id"`
 	Day       *string `json:"day"`
 }

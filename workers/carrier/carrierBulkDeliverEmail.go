@@ -15,10 +15,10 @@ import (
 	"github.com/hibiken/asynq"
 )
 
-func SendCarrierBulkPickupEmail(ctx context.Context, task *asynq.Task) error {
+func SendCarrierBulkDeliverEmail(ctx context.Context, task *asynq.Task) error {
 	defer func() {
 		if r := recover(); r != nil {
-			helpers.LogException("[worker] carrier bulk pickup email worker panic recovered", map[string]interface{}{
+			helpers.LogException("[worker] carrier bulk deliver email worker panic recovered", map[string]interface{}{
 				"panic":     r,
 				"task_type": task.Type(),
 				"task_data": string(task.Payload()),
@@ -26,14 +26,14 @@ func SendCarrierBulkPickupEmail(ctx context.Context, task *asynq.Task) error {
 		}
 	}()
 
-	helpers.LogInfo("[worker] carrier bulk pickup email worker started", map[string]interface{}{
+	helpers.LogInfo("[worker] carrier bulk deliver email worker started", map[string]interface{}{
 		"task_type":      task.Type(),
 		"task_data":      string(task.Payload()),
 		"payload_length": len(task.Payload()),
 	})
 
 	if task == nil {
-		helpers.LogInfo("[worker] carrier bulk pickup email task is nil", map[string]interface{}{
+		helpers.LogInfo("[worker] carrier bulk deliver email task is nil", map[string]interface{}{
 			"task_data": string(task.Payload()),
 			"task_type": task.Type(),
 		})
@@ -42,150 +42,144 @@ func SendCarrierBulkPickupEmail(ctx context.Context, task *asynq.Task) error {
 
 	payload := task.Payload()
 
-	helpers.LogInfo("[worker] carrier bulk pickup email payload raw", map[string]interface{}{
+	helpers.LogInfo("[worker] carrier bulk deliver email payload raw", map[string]interface{}{
 		"task_type": task.Type(),
 		"task_data": string(task.Payload()),
 		"payload":   string(payload),
 	})
 
-	var data models.CarrierBulkPickupEmailWorkerData
-	err := json.Unmarshal(payload, &data)
-	if err != nil {
-		helpers.LogException("[worker] carrier bulk pickup email failed to unmarshal payload", map[string]interface{}{
+	var data models.CarrierBulkDeliverEmailWorkerData
+	if err := json.Unmarshal(task.Payload(), &data); err != nil {
+		helpers.LogException("[worker] carrier bulk deliver email failed to unmarshal payload", map[string]interface{}{
 			"error":     err.Error(),
 			"task_type": task.Type(),
-			"payload":   string(payload),
+			"payload":   string(task.Payload()),
 		})
 		return err
 	}
 
-	helpers.LogInfo("[worker] carrier bulk pickup email payload unmarshaled", map[string]interface{}{
+	helpers.LogInfo("[worker] carrier bulk deliver email payload unmarshaled", map[string]interface{}{
 		"task_type": task.Type(),
 		"data":      data,
 	})
 
-	// todo fetch data
-
+	// --- New Date Logic ---
 	day := 0
 	if data.Data.Day != nil {
 		if parsedDay, err := strconv.Atoi(*data.Data.Day); err == nil {
 			day = parsedDay
 		} else {
-			helpers.LogException("[worker] failed to parse day from payload", map[string]interface{}{
-				"error":     err.Error(),
+			helpers.LogException("[worker] day parameter must be a positive integer", map[string]interface{}{
+				"error":     "Invalid day value",
 				"day_value": *data.Data.Day,
 			})
-			return err
+			return fmt.Errorf("day must be a positive integer, got %s", *data.Data.Day)
 		}
+	} else {
+		helpers.LogException("[worker] day parameter is missing", map[string]interface{}{
+			"error": "Day is required for this worker",
+		})
+		return fmt.Errorf("day parameter is required")
 	}
-
-	baseQuery := `
-    SELECT
-        o.channel, o.po_number, o.customer_city, o.customer_pincode,o.carrier_name,
-        o.sku_details, o.lr_number, oa.appointment_scheduled_at,
-        o.total_cartons, o.total_dead_weight, o.carton_details,
-        o.invoice_number, o.total_invoice_value
-    FROM
-        orders o
-    LEFT JOIN
-        order_activity oa ON o.order_id = oa.order_id
-`
-	var queryBuilder strings.Builder
-	queryBuilder.WriteString(baseQuery)
-
-	queryBuilder.WriteString(" WHERE o.carrier_id = $1 AND o.user_id = $2")
-	args := []interface{}{data.Data.CarrierID, data.AdminID}
 
 	var startOfPeriod, endOfPeriod time.Time
 	var targetDateStr string
 	now := time.Now()
 
 	if day < 0 {
-		targetDate := now.AddDate(0, 0, day)
+		targetDate := now.AddDate(0, 0, -1*day)
 		year, month, d := targetDate.Date()
 		startOfPeriod = time.Date(year, month, d, 0, 0, 0, 0, now.Location())
 		endOfPeriod = startOfPeriod.AddDate(0, 0, 1).Add(-time.Nanosecond)
 		targetDateStr = targetDate.Format("02 Jan 2006")
-
-		queryBuilder.WriteString(" AND oa.order_placed_at >= $3 AND oa.order_placed_at <= $4")
-		args = append(args, startOfPeriod, endOfPeriod)
-
-	} else if day > 0 {
-		targetDate := now.AddDate(0, 0, day)
-		year, month, d := targetDate.Date()
-		startOfPeriod = time.Date(year, month, d, 0, 0, 0, 0, now.Location())
-		endOfPeriod = startOfPeriod.AddDate(0, 0, 1).Add(-time.Nanosecond)
-		targetDateStr = targetDate.Format("02 Jan 2006")
-
-		queryBuilder.WriteString(" AND oa.order_placed_at >= $3 AND oa.order_placed_at <= $4")
-		args = append(args, startOfPeriod, endOfPeriod)
-
 	} else {
 		year, month, d := now.Date()
-		startOfDay := time.Date(year, month, d, 0, 0, 0, 0, now.Location())
-
-		queryBuilder.WriteString(" AND oa.order_placed_at >= $3 AND oa.order_placed_at <= $4")
-		args = append(args, startOfDay, now)
+		startOfPeriod = time.Date(year, month, d, 0, 0, 0, 0, now.Location())
+		endOfPeriod = now
+		targetDateStr = now.Format("02 Jan 2006")
 	}
+
+	baseQuery := `
+    SELECT
+        o.carrier_name, o.channel, o.po_number, o.customer_city, o.customer_pincode,
+        o.sku_details, o.lr_number, oa.appointment_scheduled_at, "to".expected_delivery_date,
+        o.total_cartons, o.total_dead_weight, o.carton_details,
+        o.invoice_number, o.total_invoice_value
+    FROM
+        orders o
+    LEFT JOIN
+        order_activity oa ON o.order_id = oa.order_id
+    LEFT JOIN
+        tracking_orders "to" ON o.order_id = "to".order_id
+`
+	var queryBuilder strings.Builder
+	queryBuilder.WriteString(baseQuery)
+
+	queryBuilder.WriteString(`
+	WHERE o.carrier_id = $1 AND o.user_id = $2
+	AND (
+		(oa.appointment_scheduled_at IS NOT NULL AND oa.appointment_scheduled_at >= $3 AND oa.appointment_scheduled_at <= $4)
+		OR
+		(oa.appointment_scheduled_at IS NULL AND "to".expected_delivery_date >= $3 AND "to".expected_delivery_date <= $4)
+	)`)
+
+	args := []interface{}{data.Data.CarrierID, startOfPeriod, endOfPeriod}
 
 	finalQuery := queryBuilder.String()
 
-	helpers.LogInfo("[worker] executing database query", map[string]interface{}{
+	helpers.LogInfo("[worker] executing database query for bulk delivery", map[string]interface{}{
 		"query": finalQuery,
 		"args":  args,
 	})
 
-	orders := []models.CarrierBulkPickupEmailData{}
-	if err := db.GlobalDB.Select(&orders, finalQuery, args...); err != nil {
-		helpers.LogException("[worker] failed to fetch and scan orders", map[string]interface{}{
+	deliveries := []models.CarrierBulkDeliverEmailData{}
+	if err := db.GlobalDB.Select(&deliveries, finalQuery, args...); err != nil {
+		helpers.LogException("[worker] failed to fetch and scan deliveries", map[string]interface{}{
 			"error":      err.Error(),
 			"carrier_id": data.Data.CarrierID,
 			"query":      finalQuery,
 			"args":       args,
 		})
 		return err
-
 	}
 
-	helpers.LogInfo("[worker] fetched orders for carrier bulk pickup", map[string]interface{}{
-		"carrier_id":   data.Data.CarrierID,
-		"orders_count": len(orders),
+	helpers.LogInfo("[worker] fetched deliveries for carrier bulk deliver email", map[string]interface{}{
+		"carrier_id":       data.Data.CarrierID,
+		"deliveries_count": len(deliveries),
 	})
-	// todo send email
 
-	if len(orders) > 0 {
+	if len(deliveries) > 0 {
 		var totalCartons int
 		var totalWeight float64
 
 		lrSet := make(map[string]bool)
-		for _, order := range orders {
-			totalCartons += helpers.DerefIntPointer(order.TotalCartons)
-			totalWeight += helpers.DerefFloatPointer(order.Weight)
-			if order.LRNumber != nil {
-				lrSet[*order.LRNumber] = true
+		for _, delivery := range deliveries {
+			totalCartons += helpers.DerefIntPointer(delivery.TotalCartons)
+			totalWeight += helpers.DerefFloatPointer(delivery.Weight)
+			if delivery.LRNumber != nil {
+				lrSet[*delivery.LRNumber] = true
 			}
 		}
 		totalLRs := len(lrSet)
 
 		var tableRows strings.Builder
-
-		for i, order := range orders {
+		for i, delivery := range deliveries {
 			var poNumberStr string
 			var totalSkuQuantity float64
 
-			if order.PONumber != nil && len(*order.PONumber) > 0 {
-				poNumberStr = strings.Join(*order.PONumber, ", ")
+			if delivery.PONumber != nil && len(*delivery.PONumber) > 0 {
+				poNumberStr = strings.Join(*delivery.PONumber, ", ")
 			} else {
 				poNumberStr = "N/A"
 			}
 
-			for _, skuItem := range order.SKUDetails {
+			for _, skuItem := range delivery.SKUDetails {
 				totalSkuQuantity += skuItem.Quantity
 			}
 
 			var dimensionsBuilder strings.Builder
-			if order.Cartons != nil {
-				for _, carton := range *order.Cartons {
+			if delivery.Cartons != nil {
+				for _, carton := range *delivery.Cartons {
 					dimStr := fmt.Sprintf(
 						"%.fx%.fx%.f Inch = %.f<br>",
 						helpers.CmToInch(&carton.Length),
@@ -196,44 +190,51 @@ func SendCarrierBulkPickupEmail(ctx context.Context, task *asynq.Task) error {
 					dimensionsBuilder.WriteString(dimStr)
 				}
 			}
-
 			cartonDimensions := dimensionsBuilder.String()
 			if cartonDimensions == "" {
 				cartonDimensions = "N/A"
 			}
 
-			// Creating rows for the table
+			date := ""
+			if delivery.AppointmentScheduledAt != nil {
+				date = helpers.FormatDateDDMMYYYYHHMM(delivery.AppointmentScheduledAt)
+			} else if delivery.EDD != nil {
+				date = helpers.FormatDateDDMMYYYYHHMM(delivery.EDD)
+			} else {
+				date = ""
+			}
+
 			rowHTML := fmt.Sprintf(`
-			<tr>
-				<td>%d</td>
-				<td>%s</td>
-				<td>%s</td>
-				<td>%s</td>
-				<td>%s</td>
-				<td>%.2f</td>
-				<td>%s</td> 
-				<td>%s</td>
-				<td>%d</td>
-				<td>%.2f KG</td>
-				<td>%s</td>
-				<td>%s</td>
-				<td>%.f</td>
-				<td>%.2f</td>
-			</tr>`,
-				i+1,                            // Sr No
-				strings.ToUpper(order.Channel), // PO Details: Channel
-				poNumberStr,                    // PO Details: Number
-				helpers.DerefStringPointer(order.CustomerWarehouseCity),      // PO Details: City
-				helpers.DerefStringPointer(order.WarehousePin),               // PO Details: Pincode
-				helpers.DerefFloatPointer(order.Amount),                      // PO Details: Amount
-				helpers.DerefStringPointer(order.LRNumber),                   // LR Number
-				helpers.FormatDateDDMMYYYYHHMM(order.AppointmentScheduledAt), // Appointment Date
-				helpers.DerefIntPointer(order.TotalCartons),                  // Carton Details: Quantity
-				helpers.DerefFloatPointer(order.Weight)/1000,                 // Carton Details: Weight
-				cartonDimensions, // Carton Details: Dimensions
-				helpers.DerefStringPointer(order.InvoiceNumber), // Invoice Details: Number
-				helpers.DerefFloatPointer(totalSkuQuantity),     // SKU Quantity
-				helpers.DerefFloatPointer(order.Amount),         // Invoice Details: Amount
+            <tr>
+                <td>%d</td>
+                <td>%s</td>
+                <td>%s</td>
+                <td>%s</td>
+                <td>%s</td>
+                <td>%.2f</td>
+                <td>%s</td>
+                <td>%s</td>
+                <td>%d</td>
+                <td>%.2f KG</td>
+                <td>%s</td>
+                <td>%s</td>
+                <td>%.f</td>
+                <td>%.2f</td>
+            </tr>`,
+				i+1,
+				strings.ToUpper(delivery.Channel),
+				poNumberStr,
+				helpers.DerefStringPointer(delivery.CustomerWarehouseCity),
+				helpers.DerefStringPointer(delivery.WarehousePin),
+				helpers.DerefFloatPointer(delivery.Amount),
+				helpers.DerefStringPointer(delivery.LRNumber),
+				date,
+				helpers.DerefIntPointer(delivery.TotalCartons),
+				helpers.DerefFloatPointer(delivery.Weight)/1000,
+				cartonDimensions,
+				helpers.DerefStringPointer(delivery.InvoiceNumber),
+				helpers.DerefFloatPointer(&totalSkuQuantity),
+				helpers.DerefFloatPointer(delivery.Amount),
 			)
 			tableRows.WriteString(rowHTML)
 		}
@@ -260,7 +261,7 @@ func SendCarrierBulkPickupEmail(ctx context.Context, task *asynq.Task) error {
 
 		//Final email body
 		body := fmt.Sprintf(templates.SendCarrierBulkPickupEmailTemplate,
-			orders[0].CarrierName,
+			deliveries[0].CarrierName,
 			targetDateStr,
 			totalCartons,
 			totalWeight/1000,
@@ -278,14 +279,14 @@ func SendCarrierBulkPickupEmail(ctx context.Context, task *asynq.Task) error {
 		}
 
 		helpers.LogInfo("[worker] preparing to send bulk pickup email", map[string]interface{}{
-			"carrier_id":      data.Data.CarrierID,
-			"total_orders":    len(orders),
-			"total_cartons":   totalCartons,
-			"total_weight":    totalWeight,
-			"total_lrs":       totalLRs,
-			"date_range_str":  targetDateStr,
-			"recipient_count": len(receiverEmails),
-			"cc_count":        len(receiverCC),
+			"carrier_id":       data.Data.CarrierID,
+			"total_deliveries": len(deliveries),
+			"total_cartons":    totalCartons,
+			"total_weight":     totalWeight,
+			"total_lrs":        totalLRs,
+			"date_range_str":   targetDateStr,
+			"recipient_count":  len(receiverEmails),
+			"cc_count":         len(receiverCC),
 		})
 
 		helpers.LogInfo("[worker] attempting to send bulk pickup email", map[string]interface{}{
@@ -298,7 +299,7 @@ func SendCarrierBulkPickupEmail(ctx context.Context, task *asynq.Task) error {
 			"body_length": len(body),
 		})
 
-		err = helpers.SendEmail(
+		err := helpers.SendEmail(
 			helpers.B2B_EMAIL,
 			receiverEmails,
 			receiverCC,
