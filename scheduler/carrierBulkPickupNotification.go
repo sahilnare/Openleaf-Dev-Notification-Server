@@ -150,7 +150,6 @@ func InitCarrierBulkPickupNotification() error {
 				}
 
 				helpers.LogException("successfully marshal payload", map[string]interface{}{
-					"error":   err.Error(),
 					"payload": payload,
 				})
 

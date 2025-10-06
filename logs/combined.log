@@ -11687,3 +11687,1511 @@
   "msg": "[worker] reminder email sent successfully",
   "time": "01-09-2025 15:48:33"
 }
+{
+  "level": "info",
+  "log_data": {
+    "filename": "D:/Openleaf/Openleaf-Dev-B2B-Notification-Server/helpers/email.go:43",
+    "log_data": {
+      "host": "smtp.gmail.com",
+      "port": 587,
+      "username": "b2b@openleaf.tech"
+    }
+  },
+  "msg": "notification server email configuration initialized",
+  "time": "07-10-2025 02:22:27"
+}
+{
+  "level": "info",
+  "log_data": {
+    "filename": "D:/Openleaf/Openleaf-Dev-B2B-Notification-Server/scheduler/carrierBulkPickupNotification.go:45",
+    "log_data": {
+      "data": {}
+    }
+  },
+  "msg": "InitCarrierBulkPickupNotification fetch carrier bulk pickup notification settings",
+  "time": "07-10-2025 02:22:28"
+}
+{
+  "level": "info",
+  "log_data": {
+    "filename": "D:/Openleaf/Openleaf-Dev-B2B-Notification-Server/scheduler/carrierBulkPickupNotification.go:76",
+    "log_data": {
+      "notification_settings": [
+        {
+          "ans_id": "ac9a628f-34cf-4c7d-a295-79d9be9ef42e",
+          "admin_id": "1ecf71e1-1748-425b-9071-56e925a391a3",
+          "user_id": "21049097-9018-47ba-a1e7-8f6754d80aa5",
+          "channel": null,
+          "carrier_id": "1e42b238-6b39-495f-80b2-45e407767ad2",
+          "sender_emails_for_channel": null,
+          "sender_cc_emails_for_channel": null,
+          "receiver_emails_for_channel": null,
+          "receiver_cc_emails_for_channel": null,
+          "sender_emails_for_carrier": "b2b@openleaf.tech",
+          "sender_cc_emails_for_carrier": "omkar@openleaf.tech",
+          "receiver_emails_for_carrier": "omkarkamble.work@gmail.com",
+          "receiver_cc_emails_for_carrier": "sahil@openleaf.tech",
+          "send_notification": false,
+          "notification_days": null,
+          "notification_type": null,
+          "send_reminder": false,
+          "reminder_days": null,
+          "reminder_type": null,
+          "send_bulk_reminder": false,
+          "bulk_reminder_time": null,
+          "bulk_reminder_days": null,
+          "bulk_reminder_days_range": null,
+          "bulk_reminder_type": null,
+          "send_pickup_weight_notification": true,
+          "pickup_weight_notification_time": "18:55",
+          "pickup_weight_notification_days_range": "-2",
+          "created_at": "0001-01-01T00:00:00Z"
+        }
+      ]
+    }
+  },
+  "msg": "InitCarrierBulkPickupNotification carrier bulk pickup notification settings",
+  "time": "07-10-2025 02:22:28"
+}
+{
+  "level": "info",
+  "log_data": {
+    "filename": "D:/Openleaf/Openleaf-Dev-B2B-Notification-Server/scheduler/carrierBulkPickupNotification.go:83",
+    "log_data": {
+      "setting": {
+        "ans_id": "ac9a628f-34cf-4c7d-a295-79d9be9ef42e",
+        "admin_id": "1ecf71e1-1748-425b-9071-56e925a391a3",
+        "user_id": "21049097-9018-47ba-a1e7-8f6754d80aa5",
+        "channel": null,
+        "carrier_id": "1e42b238-6b39-495f-80b2-45e407767ad2",
+        "sender_emails_for_channel": null,
+        "sender_cc_emails_for_channel": null,
+        "receiver_emails_for_channel": null,
+        "receiver_cc_emails_for_channel": null,
+        "sender_emails_for_carrier": "b2b@openleaf.tech",
+        "sender_cc_emails_for_carrier": "omkar@openleaf.tech",
+        "receiver_emails_for_carrier": "omkarkamble.work@gmail.com",
+        "receiver_cc_emails_for_carrier": "sahil@openleaf.tech",
+        "send_notification": false,
+        "notification_days": null,
+        "notification_type": null,
+        "send_reminder": false,
+        "reminder_days": null,
+        "reminder_type": null,
+        "send_bulk_reminder": false,
+        "bulk_reminder_time": null,
+        "bulk_reminder_days": null,
+        "bulk_reminder_days_range": null,
+        "bulk_reminder_type": null,
+        "send_pickup_weight_notification": true,
+        "pickup_weight_notification_time": "18:55",
+        "pickup_weight_notification_days_range": "-2",
+        "created_at": "0001-01-01T00:00:00Z"
+      }
+    }
+  },
+  "msg": "InitCarrierBulkPickupNotification carrier bulk pickup notification setting",
+  "time": "07-10-2025 02:22:28"
+}
+{
+  "level": "info",
+  "log_data": {
+    "filename": "D:/Openleaf/Openleaf-Dev-B2B-Notification-Server/helpers/email.go:43",
+    "log_data": {
+      "host": "smtp.gmail.com",
+      "port": 587,
+      "username": "b2b@openleaf.tech"
+    }
+  },
+  "msg": "notification server email configuration initialized",
+  "time": "07-10-2025 02:23:44"
+}
+{
+  "level": "info",
+  "log_data": {
+    "filename": "D:/Openleaf/Openleaf-Dev-B2B-Notification-Server/scheduler/carrierBulkPickupNotification.go:45",
+    "log_data": {
+      "data": {}
+    }
+  },
+  "msg": "InitCarrierBulkPickupNotification fetch carrier bulk pickup notification settings",
+  "time": "07-10-2025 02:23:45"
+}
+{
+  "level": "info",
+  "log_data": {
+    "filename": "D:/Openleaf/Openleaf-Dev-B2B-Notification-Server/scheduler/carrierBulkPickupNotification.go:76",
+    "log_data": {
+      "notification_settings": [
+        {
+          "ans_id": "ac9a628f-34cf-4c7d-a295-79d9be9ef42e",
+          "admin_id": "1ecf71e1-1748-425b-9071-56e925a391a3",
+          "user_id": "21049097-9018-47ba-a1e7-8f6754d80aa5",
+          "channel": null,
+          "carrier_id": "1e42b238-6b39-495f-80b2-45e407767ad2",
+          "sender_emails_for_channel": null,
+          "sender_cc_emails_for_channel": null,
+          "receiver_emails_for_channel": null,
+          "receiver_cc_emails_for_channel": null,
+          "sender_emails_for_carrier": "b2b@openleaf.tech",
+          "sender_cc_emails_for_carrier": "omkar@openleaf.tech",
+          "receiver_emails_for_carrier": "omkarkamble.work@gmail.com",
+          "receiver_cc_emails_for_carrier": "sahil@openleaf.tech",
+          "send_notification": false,
+          "notification_days": null,
+          "notification_type": null,
+          "send_reminder": false,
+          "reminder_days": null,
+          "reminder_type": null,
+          "send_bulk_reminder": false,
+          "bulk_reminder_time": null,
+          "bulk_reminder_days": null,
+          "bulk_reminder_days_range": null,
+          "bulk_reminder_type": null,
+          "send_pickup_weight_notification": true,
+          "pickup_weight_notification_time": "18:55",
+          "pickup_weight_notification_days_range": "-2",
+          "created_at": "0001-01-01T00:00:00Z"
+        }
+      ]
+    }
+  },
+  "msg": "InitCarrierBulkPickupNotification carrier bulk pickup notification settings",
+  "time": "07-10-2025 02:23:45"
+}
+{
+  "level": "info",
+  "log_data": {
+    "filename": "D:/Openleaf/Openleaf-Dev-B2B-Notification-Server/scheduler/carrierBulkPickupNotification.go:83",
+    "log_data": {
+      "setting": {
+        "ans_id": "ac9a628f-34cf-4c7d-a295-79d9be9ef42e",
+        "admin_id": "1ecf71e1-1748-425b-9071-56e925a391a3",
+        "user_id": "21049097-9018-47ba-a1e7-8f6754d80aa5",
+        "channel": null,
+        "carrier_id": "1e42b238-6b39-495f-80b2-45e407767ad2",
+        "sender_emails_for_channel": null,
+        "sender_cc_emails_for_channel": null,
+        "receiver_emails_for_channel": null,
+        "receiver_cc_emails_for_channel": null,
+        "sender_emails_for_carrier": "b2b@openleaf.tech",
+        "sender_cc_emails_for_carrier": "omkar@openleaf.tech",
+        "receiver_emails_for_carrier": "omkarkamble.work@gmail.com",
+        "receiver_cc_emails_for_carrier": "sahil@openleaf.tech",
+        "send_notification": false,
+        "notification_days": null,
+        "notification_type": null,
+        "send_reminder": false,
+        "reminder_days": null,
+        "reminder_type": null,
+        "send_bulk_reminder": false,
+        "bulk_reminder_time": null,
+        "bulk_reminder_days": null,
+        "bulk_reminder_days_range": null,
+        "bulk_reminder_type": null,
+        "send_pickup_weight_notification": true,
+        "pickup_weight_notification_time": "18:55",
+        "pickup_weight_notification_days_range": "-2",
+        "created_at": "0001-01-01T00:00:00Z"
+      }
+    }
+  },
+  "msg": "InitCarrierBulkPickupNotification carrier bulk pickup notification setting",
+  "time": "07-10-2025 02:23:45"
+}
+{
+  "level": "info",
+  "log_data": {
+    "filename": "D:/Openleaf/Openleaf-Dev-B2B-Notification-Server/helpers/email.go:43",
+    "log_data": {
+      "host": "smtp.gmail.com",
+      "port": 587,
+      "username": "b2b@openleaf.tech"
+    }
+  },
+  "msg": "notification server email configuration initialized",
+  "time": "07-10-2025 02:26:17"
+}
+{
+  "level": "info",
+  "log_data": {
+    "filename": "D:/Openleaf/Openleaf-Dev-B2B-Notification-Server/scheduler/carrierBulkPickupNotification.go:45",
+    "log_data": {
+      "data": {}
+    }
+  },
+  "msg": "InitCarrierBulkPickupNotification fetch carrier bulk pickup notification settings",
+  "time": "07-10-2025 02:26:18"
+}
+{
+  "level": "info",
+  "log_data": {
+    "filename": "D:/Openleaf/Openleaf-Dev-B2B-Notification-Server/scheduler/carrierBulkPickupNotification.go:76",
+    "log_data": {
+      "notification_settings": [
+        {
+          "ans_id": "ac9a628f-34cf-4c7d-a295-79d9be9ef42e",
+          "admin_id": "1ecf71e1-1748-425b-9071-56e925a391a3",
+          "user_id": "21049097-9018-47ba-a1e7-8f6754d80aa5",
+          "channel": null,
+          "carrier_id": "1e42b238-6b39-495f-80b2-45e407767ad2",
+          "sender_emails_for_channel": null,
+          "sender_cc_emails_for_channel": null,
+          "receiver_emails_for_channel": null,
+          "receiver_cc_emails_for_channel": null,
+          "sender_emails_for_carrier": "b2b@openleaf.tech",
+          "sender_cc_emails_for_carrier": "omkar@openleaf.tech",
+          "receiver_emails_for_carrier": "omkarkamble.work@gmail.com",
+          "receiver_cc_emails_for_carrier": "sahil@openleaf.tech",
+          "send_notification": false,
+          "notification_days": null,
+          "notification_type": null,
+          "send_reminder": false,
+          "reminder_days": null,
+          "reminder_type": null,
+          "send_bulk_reminder": false,
+          "bulk_reminder_time": null,
+          "bulk_reminder_days": null,
+          "bulk_reminder_days_range": null,
+          "bulk_reminder_type": null,
+          "send_pickup_weight_notification": true,
+          "pickup_weight_notification_time": "18:55",
+          "pickup_weight_notification_days_range": "-2",
+          "created_at": "0001-01-01T00:00:00Z"
+        }
+      ]
+    }
+  },
+  "msg": "InitCarrierBulkPickupNotification carrier bulk pickup notification settings",
+  "time": "07-10-2025 02:26:18"
+}
+{
+  "level": "info",
+  "log_data": {
+    "filename": "D:/Openleaf/Openleaf-Dev-B2B-Notification-Server/scheduler/carrierBulkPickupNotification.go:83",
+    "log_data": {
+      "setting": {
+        "ans_id": "ac9a628f-34cf-4c7d-a295-79d9be9ef42e",
+        "admin_id": "1ecf71e1-1748-425b-9071-56e925a391a3",
+        "user_id": "21049097-9018-47ba-a1e7-8f6754d80aa5",
+        "channel": null,
+        "carrier_id": "1e42b238-6b39-495f-80b2-45e407767ad2",
+        "sender_emails_for_channel": null,
+        "sender_cc_emails_for_channel": null,
+        "receiver_emails_for_channel": null,
+        "receiver_cc_emails_for_channel": null,
+        "sender_emails_for_carrier": "b2b@openleaf.tech",
+        "sender_cc_emails_for_carrier": "omkar@openleaf.tech",
+        "receiver_emails_for_carrier": "omkarkamble.work@gmail.com",
+        "receiver_cc_emails_for_carrier": "sahil@openleaf.tech",
+        "send_notification": false,
+        "notification_days": null,
+        "notification_type": null,
+        "send_reminder": false,
+        "reminder_days": null,
+        "reminder_type": null,
+        "send_bulk_reminder": false,
+        "bulk_reminder_time": null,
+        "bulk_reminder_days": null,
+        "bulk_reminder_days_range": null,
+        "bulk_reminder_type": null,
+        "send_pickup_weight_notification": true,
+        "pickup_weight_notification_time": "18:55",
+        "pickup_weight_notification_days_range": "-2",
+        "created_at": "0001-01-01T00:00:00Z"
+      }
+    }
+  },
+  "msg": "InitCarrierBulkPickupNotification carrier bulk pickup notification setting",
+  "time": "07-10-2025 02:26:18"
+}
+{
+  "level": "info",
+  "log_data": {
+    "filename": "D:/Openleaf/Openleaf-Dev-B2B-Notification-Server/scheduler/carrierBulkPickupNotification.go:165",
+    "log_data": {
+      "cron_expr": "55 18 * * *",
+      "payload": {
+        "notification_id": "ac9a628f-34cf-4c7d-a295-79d9be9ef42e",
+        "admin_id": "1ecf71e1-1748-425b-9071-56e925a391a3",
+        "user_id": "21049097-9018-47ba-a1e7-8f6754d80aa5",
+        "data": {
+          "carrier_id": "1e42b238-6b39-495f-80b2-45e407767ad2",
+          "day": "-2"
+        },
+        "settings": {
+          "ans_id": "ac9a628f-34cf-4c7d-a295-79d9be9ef42e",
+          "admin_id": "1ecf71e1-1748-425b-9071-56e925a391a3",
+          "user_id": "21049097-9018-47ba-a1e7-8f6754d80aa5",
+          "channel": null,
+          "carrier_id": "1e42b238-6b39-495f-80b2-45e407767ad2",
+          "sender_emails_for_channel": null,
+          "sender_cc_emails_for_channel": null,
+          "receiver_emails_for_channel": null,
+          "receiver_cc_emails_for_channel": null,
+          "sender_emails_for_carrier": "b2b@openleaf.tech",
+          "sender_cc_emails_for_carrier": "omkar@openleaf.tech",
+          "receiver_emails_for_carrier": "omkarkamble.work@gmail.com",
+          "receiver_cc_emails_for_carrier": "sahil@openleaf.tech",
+          "send_notification": false,
+          "notification_days": null,
+          "notification_type": null,
+          "send_reminder": false,
+          "reminder_days": null,
+          "reminder_type": null,
+          "send_bulk_reminder": false,
+          "bulk_reminder_time": null,
+          "bulk_reminder_days": null,
+          "bulk_reminder_days_range": null,
+          "bulk_reminder_type": null,
+          "send_pickup_weight_notification": true,
+          "pickup_weight_notification_time": "18:55",
+          "pickup_weight_notification_days_range": "-2",
+          "created_at": "0001-01-01T00:00:00Z"
+        }
+      },
+      "task_id": "8cf4af55-3620-4a3b-bedf-3adfd9d9f1d9"
+    }
+  },
+  "msg": "InitCarrierBulkPickupNotification: scheduled task with scheduler",
+  "time": "07-10-2025 02:26:19"
+}
+{
+  "level": "info",
+  "log_data": {
+    "filename": "D:/Openleaf/Openleaf-Dev-B2B-Notification-Server/scheduler/carrierBulkPickupNotification.go:188",
+    "log_data": {
+      "setting": {
+        "ans_id": "ac9a628f-34cf-4c7d-a295-79d9be9ef42e",
+        "admin_id": "1ecf71e1-1748-425b-9071-56e925a391a3",
+        "user_id": "21049097-9018-47ba-a1e7-8f6754d80aa5",
+        "channel": null,
+        "carrier_id": "1e42b238-6b39-495f-80b2-45e407767ad2",
+        "sender_emails_for_channel": null,
+        "sender_cc_emails_for_channel": null,
+        "receiver_emails_for_channel": null,
+        "receiver_cc_emails_for_channel": null,
+        "sender_emails_for_carrier": "b2b@openleaf.tech",
+        "sender_cc_emails_for_carrier": "omkar@openleaf.tech",
+        "receiver_emails_for_carrier": "omkarkamble.work@gmail.com",
+        "receiver_cc_emails_for_carrier": "sahil@openleaf.tech",
+        "send_notification": false,
+        "notification_days": null,
+        "notification_type": null,
+        "send_reminder": false,
+        "reminder_days": null,
+        "reminder_type": null,
+        "send_bulk_reminder": false,
+        "bulk_reminder_time": null,
+        "bulk_reminder_days": null,
+        "bulk_reminder_days_range": null,
+        "bulk_reminder_type": null,
+        "send_pickup_weight_notification": true,
+        "pickup_weight_notification_time": "18:55",
+        "pickup_weight_notification_days_range": "-2",
+        "created_at": "0001-01-01T00:00:00Z"
+      }
+    }
+  },
+  "msg": "InitCarrierBulkPickupNotification carrier bulk pickup notification setting",
+  "time": "07-10-2025 02:26:19"
+}
+{
+  "level": "info",
+  "log_data": {
+    "filename": "D:/Openleaf/Openleaf-Dev-B2B-Notification-Server/scheduler/carrierBulkPickupNotification.go:200",
+    "log_data": {
+      "user_id": "21049097-9018-47ba-a1e7-8f6754d80aa5"
+    }
+  },
+  "msg": "InitCarrierBulkPickupNotification: fetching carriers for user",
+  "time": "07-10-2025 02:26:19"
+}
+{
+  "level": "info",
+  "log_data": {
+    "filename": "D:/Openleaf/Openleaf-Dev-B2B-Notification-Server/scheduler/carrierBulkPickupNotification.go:228",
+    "log_data": {
+      "carrier_count": 14,
+      "setting_id": "ac9a628f-34cf-4c7d-a295-79d9be9ef42e",
+      "user_id": "21049097-9018-47ba-a1e7-8f6754d80aa5"
+    }
+  },
+  "msg": "InitCarrierBulkPickupNotification: fetched carrier IDs",
+  "time": "07-10-2025 02:26:19"
+}
+{
+  "level": "info",
+  "log_data": {
+    "filename": "D:/Openleaf/Openleaf-Dev-B2B-Notification-Server/scheduler/carrierBulkPickupNotification.go:236",
+    "log_data": {
+      "parsed_days": [
+        "-2"
+      ],
+      "setting_id": "ac9a628f-34cf-4c7d-a295-79d9be9ef42e"
+    }
+  },
+  "msg": "InitCarrierBulkPickupNotification: parsed schedule from settings",
+  "time": "07-10-2025 02:26:19"
+}
+{
+  "level": "info",
+  "log_data": {
+    "filename": "D:/Openleaf/Openleaf-Dev-B2B-Notification-Server/scheduler/carrierBulkPickupNotification.go:281",
+    "log_data": {
+      "cron_expr": "55 18 * * *",
+      "payload": {
+        "notification_id": "ac9a628f-34cf-4c7d-a295-79d9be9ef42e",
+        "admin_id": "1ecf71e1-1748-425b-9071-56e925a391a3",
+        "user_id": "21049097-9018-47ba-a1e7-8f6754d80aa5",
+        "data": {
+          "carrier_id": "e4efa956-bbc5-4df2-939e-e9463017ad1d",
+          "day": "-2"
+        },
+        "settings": {
+          "ans_id": "ac9a628f-34cf-4c7d-a295-79d9be9ef42e",
+          "admin_id": "1ecf71e1-1748-425b-9071-56e925a391a3",
+          "user_id": "21049097-9018-47ba-a1e7-8f6754d80aa5",
+          "channel": null,
+          "carrier_id": "1e42b238-6b39-495f-80b2-45e407767ad2",
+          "sender_emails_for_channel": null,
+          "sender_cc_emails_for_channel": null,
+          "receiver_emails_for_channel": null,
+          "receiver_cc_emails_for_channel": null,
+          "sender_emails_for_carrier": "b2b@openleaf.tech",
+          "sender_cc_emails_for_carrier": "omkar@openleaf.tech",
+          "receiver_emails_for_carrier": "omkarkamble.work@gmail.com",
+          "receiver_cc_emails_for_carrier": "sahil@openleaf.tech",
+          "send_notification": false,
+          "notification_days": null,
+          "notification_type": null,
+          "send_reminder": false,
+          "reminder_days": null,
+          "reminder_type": null,
+          "send_bulk_reminder": false,
+          "bulk_reminder_time": null,
+          "bulk_reminder_days": null,
+          "bulk_reminder_days_range": null,
+          "bulk_reminder_type": null,
+          "send_pickup_weight_notification": true,
+          "pickup_weight_notification_time": "18:55",
+          "pickup_weight_notification_days_range": "-2",
+          "created_at": "0001-01-01T00:00:00Z"
+        }
+      },
+      "task_id": "dcf19f22-c790-4757-960e-7b8d3eb23a89"
+    }
+  },
+  "msg": "InitCarrierBulkPickupNotification: scheduled task with scheduler",
+  "time": "07-10-2025 02:26:19"
+}
+{
+  "level": "info",
+  "log_data": {
+    "filename": "D:/Openleaf/Openleaf-Dev-B2B-Notification-Server/scheduler/carrierBulkPickupNotification.go:281",
+    "log_data": {
+      "cron_expr": "55 18 * * *",
+      "payload": {
+        "notification_id": "ac9a628f-34cf-4c7d-a295-79d9be9ef42e",
+        "admin_id": "1ecf71e1-1748-425b-9071-56e925a391a3",
+        "user_id": "21049097-9018-47ba-a1e7-8f6754d80aa5",
+        "data": {
+          "carrier_id": "a80948b5-5496-468e-8fee-98377c47bddd",
+          "day": "-2"
+        },
+        "settings": {
+          "ans_id": "ac9a628f-34cf-4c7d-a295-79d9be9ef42e",
+          "admin_id": "1ecf71e1-1748-425b-9071-56e925a391a3",
+          "user_id": "21049097-9018-47ba-a1e7-8f6754d80aa5",
+          "channel": null,
+          "carrier_id": "1e42b238-6b39-495f-80b2-45e407767ad2",
+          "sender_emails_for_channel": null,
+          "sender_cc_emails_for_channel": null,
+          "receiver_emails_for_channel": null,
+          "receiver_cc_emails_for_channel": null,
+          "sender_emails_for_carrier": "b2b@openleaf.tech",
+          "sender_cc_emails_for_carrier": "omkar@openleaf.tech",
+          "receiver_emails_for_carrier": "omkarkamble.work@gmail.com",
+          "receiver_cc_emails_for_carrier": "sahil@openleaf.tech",
+          "send_notification": false,
+          "notification_days": null,
+          "notification_type": null,
+          "send_reminder": false,
+          "reminder_days": null,
+          "reminder_type": null,
+          "send_bulk_reminder": false,
+          "bulk_reminder_time": null,
+          "bulk_reminder_days": null,
+          "bulk_reminder_days_range": null,
+          "bulk_reminder_type": null,
+          "send_pickup_weight_notification": true,
+          "pickup_weight_notification_time": "18:55",
+          "pickup_weight_notification_days_range": "-2",
+          "created_at": "0001-01-01T00:00:00Z"
+        }
+      },
+      "task_id": "59bcae99-4533-4dd7-b86d-ce16892155bf"
+    }
+  },
+  "msg": "InitCarrierBulkPickupNotification: scheduled task with scheduler",
+  "time": "07-10-2025 02:26:19"
+}
+{
+  "level": "info",
+  "log_data": {
+    "filename": "D:/Openleaf/Openleaf-Dev-B2B-Notification-Server/scheduler/carrierBulkPickupNotification.go:281",
+    "log_data": {
+      "cron_expr": "55 18 * * *",
+      "payload": {
+        "notification_id": "ac9a628f-34cf-4c7d-a295-79d9be9ef42e",
+        "admin_id": "1ecf71e1-1748-425b-9071-56e925a391a3",
+        "user_id": "21049097-9018-47ba-a1e7-8f6754d80aa5",
+        "data": {
+          "carrier_id": "e1b2a3e1-0c61-4fd2-9a07-3bf2035888f1",
+          "day": "-2"
+        },
+        "settings": {
+          "ans_id": "ac9a628f-34cf-4c7d-a295-79d9be9ef42e",
+          "admin_id": "1ecf71e1-1748-425b-9071-56e925a391a3",
+          "user_id": "21049097-9018-47ba-a1e7-8f6754d80aa5",
+          "channel": null,
+          "carrier_id": "1e42b238-6b39-495f-80b2-45e407767ad2",
+          "sender_emails_for_channel": null,
+          "sender_cc_emails_for_channel": null,
+          "receiver_emails_for_channel": null,
+          "receiver_cc_emails_for_channel": null,
+          "sender_emails_for_carrier": "b2b@openleaf.tech",
+          "sender_cc_emails_for_carrier": "omkar@openleaf.tech",
+          "receiver_emails_for_carrier": "omkarkamble.work@gmail.com",
+          "receiver_cc_emails_for_carrier": "sahil@openleaf.tech",
+          "send_notification": false,
+          "notification_days": null,
+          "notification_type": null,
+          "send_reminder": false,
+          "reminder_days": null,
+          "reminder_type": null,
+          "send_bulk_reminder": false,
+          "bulk_reminder_time": null,
+          "bulk_reminder_days": null,
+          "bulk_reminder_days_range": null,
+          "bulk_reminder_type": null,
+          "send_pickup_weight_notification": true,
+          "pickup_weight_notification_time": "18:55",
+          "pickup_weight_notification_days_range": "-2",
+          "created_at": "0001-01-01T00:00:00Z"
+        }
+      },
+      "task_id": "9d682ffd-3267-4a2e-8a26-6b20de0fe4ad"
+    }
+  },
+  "msg": "InitCarrierBulkPickupNotification: scheduled task with scheduler",
+  "time": "07-10-2025 02:26:19"
+}
+{
+  "level": "info",
+  "log_data": {
+    "filename": "D:/Openleaf/Openleaf-Dev-B2B-Notification-Server/scheduler/carrierBulkPickupNotification.go:281",
+    "log_data": {
+      "cron_expr": "55 18 * * *",
+      "payload": {
+        "notification_id": "ac9a628f-34cf-4c7d-a295-79d9be9ef42e",
+        "admin_id": "1ecf71e1-1748-425b-9071-56e925a391a3",
+        "user_id": "21049097-9018-47ba-a1e7-8f6754d80aa5",
+        "data": {
+          "carrier_id": "9dab3def-c950-4d49-83c1-00efe66c8d03",
+          "day": "-2"
+        },
+        "settings": {
+          "ans_id": "ac9a628f-34cf-4c7d-a295-79d9be9ef42e",
+          "admin_id": "1ecf71e1-1748-425b-9071-56e925a391a3",
+          "user_id": "21049097-9018-47ba-a1e7-8f6754d80aa5",
+          "channel": null,
+          "carrier_id": "1e42b238-6b39-495f-80b2-45e407767ad2",
+          "sender_emails_for_channel": null,
+          "sender_cc_emails_for_channel": null,
+          "receiver_emails_for_channel": null,
+          "receiver_cc_emails_for_channel": null,
+          "sender_emails_for_carrier": "b2b@openleaf.tech",
+          "sender_cc_emails_for_carrier": "omkar@openleaf.tech",
+          "receiver_emails_for_carrier": "omkarkamble.work@gmail.com",
+          "receiver_cc_emails_for_carrier": "sahil@openleaf.tech",
+          "send_notification": false,
+          "notification_days": null,
+          "notification_type": null,
+          "send_reminder": false,
+          "reminder_days": null,
+          "reminder_type": null,
+          "send_bulk_reminder": false,
+          "bulk_reminder_time": null,
+          "bulk_reminder_days": null,
+          "bulk_reminder_days_range": null,
+          "bulk_reminder_type": null,
+          "send_pickup_weight_notification": true,
+          "pickup_weight_notification_time": "18:55",
+          "pickup_weight_notification_days_range": "-2",
+          "created_at": "0001-01-01T00:00:00Z"
+        }
+      },
+      "task_id": "a5f488e1-95b8-4a3d-9a4b-84874710ddd5"
+    }
+  },
+  "msg": "InitCarrierBulkPickupNotification: scheduled task with scheduler",
+  "time": "07-10-2025 02:26:19"
+}
+{
+  "level": "info",
+  "log_data": {
+    "filename": "D:/Openleaf/Openleaf-Dev-B2B-Notification-Server/scheduler/carrierBulkPickupNotification.go:281",
+    "log_data": {
+      "cron_expr": "55 18 * * *",
+      "payload": {
+        "notification_id": "ac9a628f-34cf-4c7d-a295-79d9be9ef42e",
+        "admin_id": "1ecf71e1-1748-425b-9071-56e925a391a3",
+        "user_id": "21049097-9018-47ba-a1e7-8f6754d80aa5",
+        "data": {
+          "carrier_id": "95006b85-a104-4d53-b07e-2a9c2ba6e066",
+          "day": "-2"
+        },
+        "settings": {
+          "ans_id": "ac9a628f-34cf-4c7d-a295-79d9be9ef42e",
+          "admin_id": "1ecf71e1-1748-425b-9071-56e925a391a3",
+          "user_id": "21049097-9018-47ba-a1e7-8f6754d80aa5",
+          "channel": null,
+          "carrier_id": "1e42b238-6b39-495f-80b2-45e407767ad2",
+          "sender_emails_for_channel": null,
+          "sender_cc_emails_for_channel": null,
+          "receiver_emails_for_channel": null,
+          "receiver_cc_emails_for_channel": null,
+          "sender_emails_for_carrier": "b2b@openleaf.tech",
+          "sender_cc_emails_for_carrier": "omkar@openleaf.tech",
+          "receiver_emails_for_carrier": "omkarkamble.work@gmail.com",
+          "receiver_cc_emails_for_carrier": "sahil@openleaf.tech",
+          "send_notification": false,
+          "notification_days": null,
+          "notification_type": null,
+          "send_reminder": false,
+          "reminder_days": null,
+          "reminder_type": null,
+          "send_bulk_reminder": false,
+          "bulk_reminder_time": null,
+          "bulk_reminder_days": null,
+          "bulk_reminder_days_range": null,
+          "bulk_reminder_type": null,
+          "send_pickup_weight_notification": true,
+          "pickup_weight_notification_time": "18:55",
+          "pickup_weight_notification_days_range": "-2",
+          "created_at": "0001-01-01T00:00:00Z"
+        }
+      },
+      "task_id": "548b6fc9-6d08-43a3-b0bb-df12bd115ec6"
+    }
+  },
+  "msg": "InitCarrierBulkPickupNotification: scheduled task with scheduler",
+  "time": "07-10-2025 02:26:19"
+}
+{
+  "level": "info",
+  "log_data": {
+    "filename": "D:/Openleaf/Openleaf-Dev-B2B-Notification-Server/scheduler/carrierBulkPickupNotification.go:281",
+    "log_data": {
+      "cron_expr": "55 18 * * *",
+      "payload": {
+        "notification_id": "ac9a628f-34cf-4c7d-a295-79d9be9ef42e",
+        "admin_id": "1ecf71e1-1748-425b-9071-56e925a391a3",
+        "user_id": "21049097-9018-47ba-a1e7-8f6754d80aa5",
+        "data": {
+          "carrier_id": "788d05eb-36a9-4148-95a7-f4517c3f9afc",
+          "day": "-2"
+        },
+        "settings": {
+          "ans_id": "ac9a628f-34cf-4c7d-a295-79d9be9ef42e",
+          "admin_id": "1ecf71e1-1748-425b-9071-56e925a391a3",
+          "user_id": "21049097-9018-47ba-a1e7-8f6754d80aa5",
+          "channel": null,
+          "carrier_id": "1e42b238-6b39-495f-80b2-45e407767ad2",
+          "sender_emails_for_channel": null,
+          "sender_cc_emails_for_channel": null,
+          "receiver_emails_for_channel": null,
+          "receiver_cc_emails_for_channel": null,
+          "sender_emails_for_carrier": "b2b@openleaf.tech",
+          "sender_cc_emails_for_carrier": "omkar@openleaf.tech",
+          "receiver_emails_for_carrier": "omkarkamble.work@gmail.com",
+          "receiver_cc_emails_for_carrier": "sahil@openleaf.tech",
+          "send_notification": false,
+          "notification_days": null,
+          "notification_type": null,
+          "send_reminder": false,
+          "reminder_days": null,
+          "reminder_type": null,
+          "send_bulk_reminder": false,
+          "bulk_reminder_time": null,
+          "bulk_reminder_days": null,
+          "bulk_reminder_days_range": null,
+          "bulk_reminder_type": null,
+          "send_pickup_weight_notification": true,
+          "pickup_weight_notification_time": "18:55",
+          "pickup_weight_notification_days_range": "-2",
+          "created_at": "0001-01-01T00:00:00Z"
+        }
+      },
+      "task_id": "dd919988-5b6c-47ec-940d-f8705f6de112"
+    }
+  },
+  "msg": "InitCarrierBulkPickupNotification: scheduled task with scheduler",
+  "time": "07-10-2025 02:26:19"
+}
+{
+  "level": "info",
+  "log_data": {
+    "filename": "D:/Openleaf/Openleaf-Dev-B2B-Notification-Server/scheduler/carrierBulkPickupNotification.go:281",
+    "log_data": {
+      "cron_expr": "55 18 * * *",
+      "payload": {
+        "notification_id": "ac9a628f-34cf-4c7d-a295-79d9be9ef42e",
+        "admin_id": "1ecf71e1-1748-425b-9071-56e925a391a3",
+        "user_id": "21049097-9018-47ba-a1e7-8f6754d80aa5",
+        "data": {
+          "carrier_id": "ee03c485-b64d-4481-a322-5e0b1b9c8cbf",
+          "day": "-2"
+        },
+        "settings": {
+          "ans_id": "ac9a628f-34cf-4c7d-a295-79d9be9ef42e",
+          "admin_id": "1ecf71e1-1748-425b-9071-56e925a391a3",
+          "user_id": "21049097-9018-47ba-a1e7-8f6754d80aa5",
+          "channel": null,
+          "carrier_id": "1e42b238-6b39-495f-80b2-45e407767ad2",
+          "sender_emails_for_channel": null,
+          "sender_cc_emails_for_channel": null,
+          "receiver_emails_for_channel": null,
+          "receiver_cc_emails_for_channel": null,
+          "sender_emails_for_carrier": "b2b@openleaf.tech",
+          "sender_cc_emails_for_carrier": "omkar@openleaf.tech",
+          "receiver_emails_for_carrier": "omkarkamble.work@gmail.com",
+          "receiver_cc_emails_for_carrier": "sahil@openleaf.tech",
+          "send_notification": false,
+          "notification_days": null,
+          "notification_type": null,
+          "send_reminder": false,
+          "reminder_days": null,
+          "reminder_type": null,
+          "send_bulk_reminder": false,
+          "bulk_reminder_time": null,
+          "bulk_reminder_days": null,
+          "bulk_reminder_days_range": null,
+          "bulk_reminder_type": null,
+          "send_pickup_weight_notification": true,
+          "pickup_weight_notification_time": "18:55",
+          "pickup_weight_notification_days_range": "-2",
+          "created_at": "0001-01-01T00:00:00Z"
+        }
+      },
+      "task_id": "4fe291d2-10ac-45f8-9289-4be7065da14f"
+    }
+  },
+  "msg": "InitCarrierBulkPickupNotification: scheduled task with scheduler",
+  "time": "07-10-2025 02:26:19"
+}
+{
+  "level": "info",
+  "log_data": {
+    "filename": "D:/Openleaf/Openleaf-Dev-B2B-Notification-Server/scheduler/carrierBulkPickupNotification.go:281",
+    "log_data": {
+      "cron_expr": "55 18 * * *",
+      "payload": {
+        "notification_id": "ac9a628f-34cf-4c7d-a295-79d9be9ef42e",
+        "admin_id": "1ecf71e1-1748-425b-9071-56e925a391a3",
+        "user_id": "21049097-9018-47ba-a1e7-8f6754d80aa5",
+        "data": {
+          "carrier_id": "349768b1-8610-4f18-9c67-d8ebf89ae6e3",
+          "day": "-2"
+        },
+        "settings": {
+          "ans_id": "ac9a628f-34cf-4c7d-a295-79d9be9ef42e",
+          "admin_id": "1ecf71e1-1748-425b-9071-56e925a391a3",
+          "user_id": "21049097-9018-47ba-a1e7-8f6754d80aa5",
+          "channel": null,
+          "carrier_id": "1e42b238-6b39-495f-80b2-45e407767ad2",
+          "sender_emails_for_channel": null,
+          "sender_cc_emails_for_channel": null,
+          "receiver_emails_for_channel": null,
+          "receiver_cc_emails_for_channel": null,
+          "sender_emails_for_carrier": "b2b@openleaf.tech",
+          "sender_cc_emails_for_carrier": "omkar@openleaf.tech",
+          "receiver_emails_for_carrier": "omkarkamble.work@gmail.com",
+          "receiver_cc_emails_for_carrier": "sahil@openleaf.tech",
+          "send_notification": false,
+          "notification_days": null,
+          "notification_type": null,
+          "send_reminder": false,
+          "reminder_days": null,
+          "reminder_type": null,
+          "send_bulk_reminder": false,
+          "bulk_reminder_time": null,
+          "bulk_reminder_days": null,
+          "bulk_reminder_days_range": null,
+          "bulk_reminder_type": null,
+          "send_pickup_weight_notification": true,
+          "pickup_weight_notification_time": "18:55",
+          "pickup_weight_notification_days_range": "-2",
+          "created_at": "0001-01-01T00:00:00Z"
+        }
+      },
+      "task_id": "b69f161c-abf5-4bd4-a32e-6c24c9d3528e"
+    }
+  },
+  "msg": "InitCarrierBulkPickupNotification: scheduled task with scheduler",
+  "time": "07-10-2025 02:26:19"
+}
+{
+  "level": "info",
+  "log_data": {
+    "filename": "D:/Openleaf/Openleaf-Dev-B2B-Notification-Server/scheduler/carrierBulkPickupNotification.go:281",
+    "log_data": {
+      "cron_expr": "55 18 * * *",
+      "payload": {
+        "notification_id": "ac9a628f-34cf-4c7d-a295-79d9be9ef42e",
+        "admin_id": "1ecf71e1-1748-425b-9071-56e925a391a3",
+        "user_id": "21049097-9018-47ba-a1e7-8f6754d80aa5",
+        "data": {
+          "carrier_id": "416061a1-7b71-4045-85f1-df5baa995ba7",
+          "day": "-2"
+        },
+        "settings": {
+          "ans_id": "ac9a628f-34cf-4c7d-a295-79d9be9ef42e",
+          "admin_id": "1ecf71e1-1748-425b-9071-56e925a391a3",
+          "user_id": "21049097-9018-47ba-a1e7-8f6754d80aa5",
+          "channel": null,
+          "carrier_id": "1e42b238-6b39-495f-80b2-45e407767ad2",
+          "sender_emails_for_channel": null,
+          "sender_cc_emails_for_channel": null,
+          "receiver_emails_for_channel": null,
+          "receiver_cc_emails_for_channel": null,
+          "sender_emails_for_carrier": "b2b@openleaf.tech",
+          "sender_cc_emails_for_carrier": "omkar@openleaf.tech",
+          "receiver_emails_for_carrier": "omkarkamble.work@gmail.com",
+          "receiver_cc_emails_for_carrier": "sahil@openleaf.tech",
+          "send_notification": false,
+          "notification_days": null,
+          "notification_type": null,
+          "send_reminder": false,
+          "reminder_days": null,
+          "reminder_type": null,
+          "send_bulk_reminder": false,
+          "bulk_reminder_time": null,
+          "bulk_reminder_days": null,
+          "bulk_reminder_days_range": null,
+          "bulk_reminder_type": null,
+          "send_pickup_weight_notification": true,
+          "pickup_weight_notification_time": "18:55",
+          "pickup_weight_notification_days_range": "-2",
+          "created_at": "0001-01-01T00:00:00Z"
+        }
+      },
+      "task_id": "6a1a1e09-d651-4620-83d9-4c28634f4d09"
+    }
+  },
+  "msg": "InitCarrierBulkPickupNotification: scheduled task with scheduler",
+  "time": "07-10-2025 02:26:19"
+}
+{
+  "level": "info",
+  "log_data": {
+    "filename": "D:/Openleaf/Openleaf-Dev-B2B-Notification-Server/scheduler/carrierBulkPickupNotification.go:281",
+    "log_data": {
+      "cron_expr": "55 18 * * *",
+      "payload": {
+        "notification_id": "ac9a628f-34cf-4c7d-a295-79d9be9ef42e",
+        "admin_id": "1ecf71e1-1748-425b-9071-56e925a391a3",
+        "user_id": "21049097-9018-47ba-a1e7-8f6754d80aa5",
+        "data": {
+          "carrier_id": "1f9a9f02-4ac3-4753-9812-70f2c3418213",
+          "day": "-2"
+        },
+        "settings": {
+          "ans_id": "ac9a628f-34cf-4c7d-a295-79d9be9ef42e",
+          "admin_id": "1ecf71e1-1748-425b-9071-56e925a391a3",
+          "user_id": "21049097-9018-47ba-a1e7-8f6754d80aa5",
+          "channel": null,
+          "carrier_id": "1e42b238-6b39-495f-80b2-45e407767ad2",
+          "sender_emails_for_channel": null,
+          "sender_cc_emails_for_channel": null,
+          "receiver_emails_for_channel": null,
+          "receiver_cc_emails_for_channel": null,
+          "sender_emails_for_carrier": "b2b@openleaf.tech",
+          "sender_cc_emails_for_carrier": "omkar@openleaf.tech",
+          "receiver_emails_for_carrier": "omkarkamble.work@gmail.com",
+          "receiver_cc_emails_for_carrier": "sahil@openleaf.tech",
+          "send_notification": false,
+          "notification_days": null,
+          "notification_type": null,
+          "send_reminder": false,
+          "reminder_days": null,
+          "reminder_type": null,
+          "send_bulk_reminder": false,
+          "bulk_reminder_time": null,
+          "bulk_reminder_days": null,
+          "bulk_reminder_days_range": null,
+          "bulk_reminder_type": null,
+          "send_pickup_weight_notification": true,
+          "pickup_weight_notification_time": "18:55",
+          "pickup_weight_notification_days_range": "-2",
+          "created_at": "0001-01-01T00:00:00Z"
+        }
+      },
+      "task_id": "102024f2-362f-4b95-9408-221ef459bc9f"
+    }
+  },
+  "msg": "InitCarrierBulkPickupNotification: scheduled task with scheduler",
+  "time": "07-10-2025 02:26:19"
+}
+{
+  "level": "info",
+  "log_data": {
+    "filename": "D:/Openleaf/Openleaf-Dev-B2B-Notification-Server/scheduler/carrierBulkPickupNotification.go:281",
+    "log_data": {
+      "cron_expr": "55 18 * * *",
+      "payload": {
+        "notification_id": "ac9a628f-34cf-4c7d-a295-79d9be9ef42e",
+        "admin_id": "1ecf71e1-1748-425b-9071-56e925a391a3",
+        "user_id": "21049097-9018-47ba-a1e7-8f6754d80aa5",
+        "data": {
+          "carrier_id": "43ec3bfa-8cf0-4828-944e-207362db098c",
+          "day": "-2"
+        },
+        "settings": {
+          "ans_id": "ac9a628f-34cf-4c7d-a295-79d9be9ef42e",
+          "admin_id": "1ecf71e1-1748-425b-9071-56e925a391a3",
+          "user_id": "21049097-9018-47ba-a1e7-8f6754d80aa5",
+          "channel": null,
+          "carrier_id": "1e42b238-6b39-495f-80b2-45e407767ad2",
+          "sender_emails_for_channel": null,
+          "sender_cc_emails_for_channel": null,
+          "receiver_emails_for_channel": null,
+          "receiver_cc_emails_for_channel": null,
+          "sender_emails_for_carrier": "b2b@openleaf.tech",
+          "sender_cc_emails_for_carrier": "omkar@openleaf.tech",
+          "receiver_emails_for_carrier": "omkarkamble.work@gmail.com",
+          "receiver_cc_emails_for_carrier": "sahil@openleaf.tech",
+          "send_notification": false,
+          "notification_days": null,
+          "notification_type": null,
+          "send_reminder": false,
+          "reminder_days": null,
+          "reminder_type": null,
+          "send_bulk_reminder": false,
+          "bulk_reminder_time": null,
+          "bulk_reminder_days": null,
+          "bulk_reminder_days_range": null,
+          "bulk_reminder_type": null,
+          "send_pickup_weight_notification": true,
+          "pickup_weight_notification_time": "18:55",
+          "pickup_weight_notification_days_range": "-2",
+          "created_at": "0001-01-01T00:00:00Z"
+        }
+      },
+      "task_id": "7c78a2dc-9ab0-4c5d-84fa-4b868c631a9a"
+    }
+  },
+  "msg": "InitCarrierBulkPickupNotification: scheduled task with scheduler",
+  "time": "07-10-2025 02:26:19"
+}
+{
+  "level": "info",
+  "log_data": {
+    "filename": "D:/Openleaf/Openleaf-Dev-B2B-Notification-Server/scheduler/carrierBulkPickupNotification.go:281",
+    "log_data": {
+      "cron_expr": "55 18 * * *",
+      "payload": {
+        "notification_id": "ac9a628f-34cf-4c7d-a295-79d9be9ef42e",
+        "admin_id": "1ecf71e1-1748-425b-9071-56e925a391a3",
+        "user_id": "21049097-9018-47ba-a1e7-8f6754d80aa5",
+        "data": {
+          "carrier_id": "f001de45-6be4-41b7-9a79-815d11904bb1",
+          "day": "-2"
+        },
+        "settings": {
+          "ans_id": "ac9a628f-34cf-4c7d-a295-79d9be9ef42e",
+          "admin_id": "1ecf71e1-1748-425b-9071-56e925a391a3",
+          "user_id": "21049097-9018-47ba-a1e7-8f6754d80aa5",
+          "channel": null,
+          "carrier_id": "1e42b238-6b39-495f-80b2-45e407767ad2",
+          "sender_emails_for_channel": null,
+          "sender_cc_emails_for_channel": null,
+          "receiver_emails_for_channel": null,
+          "receiver_cc_emails_for_channel": null,
+          "sender_emails_for_carrier": "b2b@openleaf.tech",
+          "sender_cc_emails_for_carrier": "omkar@openleaf.tech",
+          "receiver_emails_for_carrier": "omkarkamble.work@gmail.com",
+          "receiver_cc_emails_for_carrier": "sahil@openleaf.tech",
+          "send_notification": false,
+          "notification_days": null,
+          "notification_type": null,
+          "send_reminder": false,
+          "reminder_days": null,
+          "reminder_type": null,
+          "send_bulk_reminder": false,
+          "bulk_reminder_time": null,
+          "bulk_reminder_days": null,
+          "bulk_reminder_days_range": null,
+          "bulk_reminder_type": null,
+          "send_pickup_weight_notification": true,
+          "pickup_weight_notification_time": "18:55",
+          "pickup_weight_notification_days_range": "-2",
+          "created_at": "0001-01-01T00:00:00Z"
+        }
+      },
+      "task_id": "ee2ac1b6-ffb5-4441-9d33-64c5c52609b7"
+    }
+  },
+  "msg": "InitCarrierBulkPickupNotification: scheduled task with scheduler",
+  "time": "07-10-2025 02:26:19"
+}
+{
+  "level": "info",
+  "log_data": {
+    "filename": "D:/Openleaf/Openleaf-Dev-B2B-Notification-Server/scheduler/carrierBulkPickupNotification.go:281",
+    "log_data": {
+      "cron_expr": "55 18 * * *",
+      "payload": {
+        "notification_id": "ac9a628f-34cf-4c7d-a295-79d9be9ef42e",
+        "admin_id": "1ecf71e1-1748-425b-9071-56e925a391a3",
+        "user_id": "21049097-9018-47ba-a1e7-8f6754d80aa5",
+        "data": {
+          "carrier_id": "f2099b6f-65fe-4f8b-b8dd-355013fb63ed",
+          "day": "-2"
+        },
+        "settings": {
+          "ans_id": "ac9a628f-34cf-4c7d-a295-79d9be9ef42e",
+          "admin_id": "1ecf71e1-1748-425b-9071-56e925a391a3",
+          "user_id": "21049097-9018-47ba-a1e7-8f6754d80aa5",
+          "channel": null,
+          "carrier_id": "1e42b238-6b39-495f-80b2-45e407767ad2",
+          "sender_emails_for_channel": null,
+          "sender_cc_emails_for_channel": null,
+          "receiver_emails_for_channel": null,
+          "receiver_cc_emails_for_channel": null,
+          "sender_emails_for_carrier": "b2b@openleaf.tech",
+          "sender_cc_emails_for_carrier": "omkar@openleaf.tech",
+          "receiver_emails_for_carrier": "omkarkamble.work@gmail.com",
+          "receiver_cc_emails_for_carrier": "sahil@openleaf.tech",
+          "send_notification": false,
+          "notification_days": null,
+          "notification_type": null,
+          "send_reminder": false,
+          "reminder_days": null,
+          "reminder_type": null,
+          "send_bulk_reminder": false,
+          "bulk_reminder_time": null,
+          "bulk_reminder_days": null,
+          "bulk_reminder_days_range": null,
+          "bulk_reminder_type": null,
+          "send_pickup_weight_notification": true,
+          "pickup_weight_notification_time": "18:55",
+          "pickup_weight_notification_days_range": "-2",
+          "created_at": "0001-01-01T00:00:00Z"
+        }
+      },
+      "task_id": "3b4e1cdf-4056-49df-b843-20d7697d4325"
+    }
+  },
+  "msg": "InitCarrierBulkPickupNotification: scheduled task with scheduler",
+  "time": "07-10-2025 02:26:19"
+}
+{
+  "level": "info",
+  "log_data": {
+    "filename": "D:/Openleaf/Openleaf-Dev-B2B-Notification-Server/scheduler/carrierBulkPickupNotification.go:281",
+    "log_data": {
+      "cron_expr": "55 18 * * *",
+      "payload": {
+        "notification_id": "ac9a628f-34cf-4c7d-a295-79d9be9ef42e",
+        "admin_id": "1ecf71e1-1748-425b-9071-56e925a391a3",
+        "user_id": "21049097-9018-47ba-a1e7-8f6754d80aa5",
+        "data": {
+          "carrier_id": "1e42b238-6b39-495f-80b2-45e407767ad2",
+          "day": "-2"
+        },
+        "settings": {
+          "ans_id": "ac9a628f-34cf-4c7d-a295-79d9be9ef42e",
+          "admin_id": "1ecf71e1-1748-425b-9071-56e925a391a3",
+          "user_id": "21049097-9018-47ba-a1e7-8f6754d80aa5",
+          "channel": null,
+          "carrier_id": "1e42b238-6b39-495f-80b2-45e407767ad2",
+          "sender_emails_for_channel": null,
+          "sender_cc_emails_for_channel": null,
+          "receiver_emails_for_channel": null,
+          "receiver_cc_emails_for_channel": null,
+          "sender_emails_for_carrier": "b2b@openleaf.tech",
+          "sender_cc_emails_for_carrier": "omkar@openleaf.tech",
+          "receiver_emails_for_carrier": "omkarkamble.work@gmail.com",
+          "receiver_cc_emails_for_carrier": "sahil@openleaf.tech",
+          "send_notification": false,
+          "notification_days": null,
+          "notification_type": null,
+          "send_reminder": false,
+          "reminder_days": null,
+          "reminder_type": null,
+          "send_bulk_reminder": false,
+          "bulk_reminder_time": null,
+          "bulk_reminder_days": null,
+          "bulk_reminder_days_range": null,
+          "bulk_reminder_type": null,
+          "send_pickup_weight_notification": true,
+          "pickup_weight_notification_time": "18:55",
+          "pickup_weight_notification_days_range": "-2",
+          "created_at": "0001-01-01T00:00:00Z"
+        }
+      },
+      "task_id": "6d26d7e9-5ddb-44eb-ac72-12dfde3c5a23"
+    }
+  },
+  "msg": "InitCarrierBulkPickupNotification: scheduled task with scheduler",
+  "time": "07-10-2025 02:26:19"
+}
+{
+  "level": "info",
+  "log_data": {
+    "filename": "D:/Openleaf/Openleaf-Dev-B2B-Notification-Server/scheduler/carrierBulkPickupNotification.go:294",
+    "log_data": {
+      "value": null
+    }
+  },
+  "msg": "InitCarrierBulkPickupNotification: finished scheduling all tasks.",
+  "time": "07-10-2025 02:26:19"
+}
+{
+  "level": "info",
+  "log_data": {
+    "filename": "D:/Openleaf/Openleaf-Dev-B2B-Notification-Server/scheduler/carrireBulkDeliverNotification.go:37",
+    "log_data": {
+      "error": null
+    }
+  },
+  "msg": "Successfully fetched notification settings",
+  "time": "07-10-2025 02:26:19"
+}
+{
+  "level": "info",
+  "log_data": {
+    "filename": "D:/Openleaf/Openleaf-Dev-B2B-Notification-Server/scheduler/carrireBulkDeliverNotification.go:38",
+    "log_data": {
+      "data": {}
+    }
+  },
+  "msg": "Data fetched",
+  "time": "07-10-2025 02:26:19"
+}
+{
+  "level": "info",
+  "log_data": {
+    "filename": "D:/Openleaf/Openleaf-Dev-B2B-Notification-Server/scheduler/carrireBulkDeliverNotification.go:65",
+    "log_data": {
+      "settings": [
+        {
+          "ans_id": "ac9a628f-34cf-4c7d-a295-79d9be9ef42e",
+          "admin_id": "1ecf71e1-1748-425b-9071-56e925a391a3",
+          "user_id": "21049097-9018-47ba-a1e7-8f6754d80aa5",
+          "channel": null,
+          "carrier_id": "1e42b238-6b39-495f-80b2-45e407767ad2",
+          "sender_emails_for_channel": null,
+          "sender_cc_emails_for_channel": null,
+          "receiver_emails_for_channel": null,
+          "receiver_cc_emails_for_channel": null,
+          "sender_emails_for_carrier": "b2b@openleaf.tech",
+          "sender_cc_emails_for_carrier": "omkar@openleaf.tech",
+          "receiver_emails_for_carrier": "omkarkamble.work@gmail.com",
+          "receiver_cc_emails_for_carrier": "sahil@openleaf.tech",
+          "send_notification": false,
+          "notification_days": null,
+          "notification_type": null,
+          "send_reminder": false,
+          "reminder_days": null,
+          "reminder_type": null,
+          "send_bulk_reminder": true,
+          "bulk_reminder_time": "17:30",
+          "bulk_reminder_days": null,
+          "bulk_reminder_days_range": "-3",
+          "bulk_reminder_type": "before_delivery",
+          "send_pickup_weight_notification": false,
+          "pickup_weight_notification_time": null,
+          "pickup_weight_notification_days_range": null,
+          "created_at": "0001-01-01T00:00:00Z"
+        }
+      ],
+      "settings_count": 1
+    }
+  },
+  "msg": "Successfully loaded all reminder settings. Starting scheduler loop.",
+  "time": "07-10-2025 02:26:19"
+}
+{
+  "level": "info",
+  "log_data": {
+    "filename": "D:/Openleaf/Openleaf-Dev-B2B-Notification-Server/scheduler/carrireBulkDeliverNotification.go:75",
+    "log_data": {
+      "value": {
+        "ans_id": "ac9a628f-34cf-4c7d-a295-79d9be9ef42e",
+        "admin_id": "1ecf71e1-1748-425b-9071-56e925a391a3",
+        "user_id": "21049097-9018-47ba-a1e7-8f6754d80aa5",
+        "channel": null,
+        "carrier_id": "1e42b238-6b39-495f-80b2-45e407767ad2",
+        "sender_emails_for_channel": null,
+        "sender_cc_emails_for_channel": null,
+        "receiver_emails_for_channel": null,
+        "receiver_cc_emails_for_channel": null,
+        "sender_emails_for_carrier": "b2b@openleaf.tech",
+        "sender_cc_emails_for_carrier": "omkar@openleaf.tech",
+        "receiver_emails_for_carrier": "omkarkamble.work@gmail.com",
+        "receiver_cc_emails_for_carrier": "sahil@openleaf.tech",
+        "send_notification": false,
+        "notification_days": null,
+        "notification_type": null,
+        "send_reminder": false,
+        "reminder_days": null,
+        "reminder_type": null,
+        "send_bulk_reminder": true,
+        "bulk_reminder_time": "17:30",
+        "bulk_reminder_days": null,
+        "bulk_reminder_days_range": "-3",
+        "bulk_reminder_type": "before_delivery",
+        "send_pickup_weight_notification": false,
+        "pickup_weight_notification_time": null,
+        "pickup_weight_notification_days_range": null,
+        "created_at": "0001-01-01T00:00:00Z"
+      }
+    }
+  },
+  "msg": "setting",
+  "time": "07-10-2025 02:26:19"
+}
+{
+  "level": "info",
+  "log_data": {
+    "filename": "D:/Openleaf/Openleaf-Dev-B2B-Notification-Server/scheduler/carrireBulkDeliverNotification.go:105",
+    "log_data": {
+      "carrier_id": "1e42b238-6b39-495f-80b2-45e407767ad2",
+      "cron_expr": "30 17 * * *",
+      "setting_id": "ac9a628f-34cf-4c7d-a295-79d9be9ef42e",
+      "task_id": "926381f0-d103-44fc-b93d-020dcf16b7d0"
+    }
+  },
+  "msg": "Successfully scheduled reminder task",
+  "time": "07-10-2025 02:26:19"
+}
+{
+  "level": "info",
+  "log_data": {
+    "filename": "D:/Openleaf/Openleaf-Dev-B2B-Notification-Server/scheduler/carrireBulkDeliverNotification.go:116",
+    "log_data": {
+      "value": null
+    }
+  },
+  "msg": "Finished scheduling all reminder tasks for bulk deliver.",
+  "time": "07-10-2025 02:26:19"
+}
+{
+  "level": "info",
+  "log_data": {
+    "filename": "D:/Openleaf/Openleaf-Dev-B2B-Notification-Server/workers/carrier/carrierBulkDeliverEmail.go:29",
+    "log_data": {
+      "payload_length": 1199,
+      "task_data": {
+        "admin_id": "1ecf71e1-1748-425b-9071-56e925a391a3",
+        "data": {
+          "carrier_id": "all",
+          "day": "2"
+        },
+        "notification_id": "ac9a628f-34cf-4c7d-a295-79d9be9ef42e",
+        "settings": {
+          "admin_id": "1ecf71e1-1748-425b-9071-56e925a391a3",
+          "ans_id": "ac9a628f-34cf-4c7d-a295-79d9be9ef42e",
+          "bulk_reminder_days": null,
+          "bulk_reminder_days_range": "-1",
+          "bulk_reminder_time": "12:00",
+          "bulk_reminder_type": "before_delivery",
+          "carrier_id": "all",
+          "channel": null,
+          "created_at": "0001-01-01T00:00:00Z",
+          "notification_days": null,
+          "notification_type": null,
+          "pickup_weight_notification_days_range": null,
+          "pickup_weight_notification_time": null,
+          "receiver_cc_emails_for_carrier": "sahil@openleaf.tech",
+          "receiver_cc_emails_for_channel": null,
+          "receiver_emails_for_carrier": "omkarkamble.work@gmail.com",
+          "receiver_emails_for_channel": null,
+          "reminder_days": null,
+          "reminder_type": null,
+          "send_bulk_reminder": false,
+          "send_notification": false,
+          "send_pickup_weight_notification": false,
+          "send_reminder": false,
+          "sender_cc_emails_for_carrier": "omkar@openleaf.tech",
+          "sender_cc_emails_for_channel": null,
+          "sender_emails_for_carrier": "b2b@openleaf.tech",
+          "sender_emails_for_channel": null,
+          "user_id": "21049097-9018-47ba-a1e7-8f6754d80aa5"
+        },
+        "user_id": "21049097-9018-47ba-a1e7-8f6754d80aa5"
+      },
+      "task_type": "email:carrier-appointment-bulk-reminder"
+    }
+  },
+  "msg": "[worker] carrier bulk deliver email worker started",
+  "time": "07-10-2025 02:26:26"
+}
+{
+  "level": "info",
+  "log_data": {
+    "filename": "D:/Openleaf/Openleaf-Dev-B2B-Notification-Server/workers/carrier/carrierBulkDeliverEmail.go:45",
+    "log_data": {
+      "payload": {
+        "admin_id": "1ecf71e1-1748-425b-9071-56e925a391a3",
+        "data": {
+          "carrier_id": "all",
+          "day": "2"
+        },
+        "notification_id": "ac9a628f-34cf-4c7d-a295-79d9be9ef42e",
+        "settings": {
+          "admin_id": "1ecf71e1-1748-425b-9071-56e925a391a3",
+          "ans_id": "ac9a628f-34cf-4c7d-a295-79d9be9ef42e",
+          "bulk_reminder_days": null,
+          "bulk_reminder_days_range": "-1",
+          "bulk_reminder_time": "12:00",
+          "bulk_reminder_type": "before_delivery",
+          "carrier_id": "all",
+          "channel": null,
+          "created_at": "0001-01-01T00:00:00Z",
+          "notification_days": null,
+          "notification_type": null,
+          "pickup_weight_notification_days_range": null,
+          "pickup_weight_notification_time": null,
+          "receiver_cc_emails_for_carrier": "sahil@openleaf.tech",
+          "receiver_cc_emails_for_channel": null,
+          "receiver_emails_for_carrier": "omkarkamble.work@gmail.com",
+          "receiver_emails_for_channel": null,
+          "reminder_days": null,
+          "reminder_type": null,
+          "send_bulk_reminder": false,
+          "send_notification": false,
+          "send_pickup_weight_notification": false,
+          "send_reminder": false,
+          "sender_cc_emails_for_carrier": "omkar@openleaf.tech",
+          "sender_cc_emails_for_channel": null,
+          "sender_emails_for_carrier": "b2b@openleaf.tech",
+          "sender_emails_for_channel": null,
+          "user_id": "21049097-9018-47ba-a1e7-8f6754d80aa5"
+        },
+        "user_id": "21049097-9018-47ba-a1e7-8f6754d80aa5"
+      },
+      "task_data": {
+        "admin_id": "1ecf71e1-1748-425b-9071-56e925a391a3",
+        "data": {
+          "carrier_id": "all",
+          "day": "2"
+        },
+        "notification_id": "ac9a628f-34cf-4c7d-a295-79d9be9ef42e",
+        "settings": {
+          "admin_id": "1ecf71e1-1748-425b-9071-56e925a391a3",
+          "ans_id": "ac9a628f-34cf-4c7d-a295-79d9be9ef42e",
+          "bulk_reminder_days": null,
+          "bulk_reminder_days_range": "-1",
+          "bulk_reminder_time": "12:00",
+          "bulk_reminder_type": "before_delivery",
+          "carrier_id": "all",
+          "channel": null,
+          "created_at": "0001-01-01T00:00:00Z",
+          "notification_days": null,
+          "notification_type": null,
+          "pickup_weight_notification_days_range": null,
+          "pickup_weight_notification_time": null,
+          "receiver_cc_emails_for_carrier": "sahil@openleaf.tech",
+          "receiver_cc_emails_for_channel": null,
+          "receiver_emails_for_carrier": "omkarkamble.work@gmail.com",
+          "receiver_emails_for_channel": null,
+          "reminder_days": null,
+          "reminder_type": null,
+          "send_bulk_reminder": false,
+          "send_notification": false,
+          "send_pickup_weight_notification": false,
+          "send_reminder": false,
+          "sender_cc_emails_for_carrier": "omkar@openleaf.tech",
+          "sender_cc_emails_for_channel": null,
+          "sender_emails_for_carrier": "b2b@openleaf.tech",
+          "sender_emails_for_channel": null,
+          "user_id": "21049097-9018-47ba-a1e7-8f6754d80aa5"
+        },
+        "user_id": "21049097-9018-47ba-a1e7-8f6754d80aa5"
+      },
+      "task_type": "email:carrier-appointment-bulk-reminder"
+    }
+  },
+  "msg": "[worker] carrier bulk deliver email payload raw",
+  "time": "07-10-2025 02:26:26"
+}
+{
+  "level": "info",
+  "log_data": {
+    "filename": "D:/Openleaf/Openleaf-Dev-B2B-Notification-Server/workers/carrier/carrierBulkDeliverEmail.go:61",
+    "log_data": {
+      "data": {
+        "notification_id": "ac9a628f-34cf-4c7d-a295-79d9be9ef42e",
+        "admin_id": "1ecf71e1-1748-425b-9071-56e925a391a3",
+        "user_id": "21049097-9018-47ba-a1e7-8f6754d80aa5",
+        "data": {
+          "carrier_id": "all",
+          "day": "2"
+        },
+        "settings": {
+          "ans_id": "ac9a628f-34cf-4c7d-a295-79d9be9ef42e",
+          "admin_id": "1ecf71e1-1748-425b-9071-56e925a391a3",
+          "user_id": "21049097-9018-47ba-a1e7-8f6754d80aa5",
+          "channel": null,
+          "carrier_id": "all",
+          "sender_emails_for_channel": null,
+          "sender_cc_emails_for_channel": null,
+          "receiver_emails_for_channel": null,
+          "receiver_cc_emails_for_channel": null,
+          "sender_emails_for_carrier": "b2b@openleaf.tech",
+          "sender_cc_emails_for_carrier": "omkar@openleaf.tech",
+          "receiver_emails_for_carrier": "omkarkamble.work@gmail.com",
+          "receiver_cc_emails_for_carrier": "sahil@openleaf.tech",
+          "send_notification": false,
+          "notification_days": null,
+          "notification_type": null,
+          "send_reminder": false,
+          "reminder_days": null,
+          "reminder_type": null,
+          "send_bulk_reminder": false,
+          "bulk_reminder_time": "12:00",
+          "bulk_reminder_days": null,
+          "bulk_reminder_days_range": "-1",
+          "bulk_reminder_type": "before_delivery",
+          "send_pickup_weight_notification": false,
+          "pickup_weight_notification_time": null,
+          "pickup_weight_notification_days_range": null,
+          "created_at": "0001-01-01T00:00:00Z"
+        }
+      },
+      "task_type": "email:carrier-appointment-bulk-reminder"
+    }
+  },
+  "msg": "[worker] carrier bulk deliver email payload unmarshaled",
+  "time": "07-10-2025 02:26:26"
+}
+{
+  "level": "info",
+  "log_data": {
+    "filename": "D:/Openleaf/Openleaf-Dev-B2B-Notification-Server/workers/carrier/carrierBulkDeliverEmail.go:130",
+    "log_data": {
+      "args": [
+        "all",
+        "2025-10-07T00:00:00+05:30",
+        "2025-10-07T02:26:26.1226987+05:30"
+      ],
+      "query": "\n    SELECT\n        o.carrier_name, o.channel, o.po_number, o.customer_city, o.customer_pincode,\n        o.sku_details, o.lr_number, oa.appointment_scheduled_at, \"to\".expected_delivery_date,\n        o.total_cartons, o.total_dead_weight, o.carton_details,\n        o.invoice_number, o.total_invoice_value\n    FROM\n        orders o\n    LEFT JOIN\n        order_activity oa ON o.order_id = oa.order_id\n    LEFT JOIN\n        tracking_orders \"to\" ON o.order_id = \"to\".order_id\n\n\tWHERE o.carrier_id = $1 AND o.user_id = $2\n\tAND (\n\t\t(oa.appointment_scheduled_at IS NOT NULL AND oa.appointment_scheduled_at \u003e= $3 AND oa.appointment_scheduled_at \u003c= $4)\n\t\tOR\n\t\t(oa.appointment_scheduled_at IS NULL AND \"to\".expected_delivery_date \u003e= $3 AND \"to\".expected_delivery_date \u003c= $4)\n\t)"
+    }
+  },
+  "msg": "[worker] executing database query for bulk delivery",
+  "time": "07-10-2025 02:26:26"
+}

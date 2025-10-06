@@ -294,3 +294,70 @@
   "msg": "[worker] failed to send appointment email",
   "time": "01-09-2025 15:28:33"
 }
+{
+  "level": "error",
+  "log_data": {
+    "filename": "D:/Openleaf/Openleaf-Dev-B2B-Notification-Server/scheduler/carrierBulkPickupNotification.go:152",
+    "log_data": {
+      "payload": {
+        "notification_id": "ac9a628f-34cf-4c7d-a295-79d9be9ef42e",
+        "admin_id": "1ecf71e1-1748-425b-9071-56e925a391a3",
+        "user_id": "21049097-9018-47ba-a1e7-8f6754d80aa5",
+        "data": {
+          "carrier_id": "1e42b238-6b39-495f-80b2-45e407767ad2",
+          "day": "-2"
+        },
+        "settings": {
+          "ans_id": "ac9a628f-34cf-4c7d-a295-79d9be9ef42e",
+          "admin_id": "1ecf71e1-1748-425b-9071-56e925a391a3",
+          "user_id": "21049097-9018-47ba-a1e7-8f6754d80aa5",
+          "channel": null,
+          "carrier_id": "1e42b238-6b39-495f-80b2-45e407767ad2",
+          "sender_emails_for_channel": null,
+          "sender_cc_emails_for_channel": null,
+          "receiver_emails_for_channel": null,
+          "receiver_cc_emails_for_channel": null,
+          "sender_emails_for_carrier": "b2b@openleaf.tech",
+          "sender_cc_emails_for_carrier": "omkar@openleaf.tech",
+          "receiver_emails_for_carrier": "omkarkamble.work@gmail.com",
+          "receiver_cc_emails_for_carrier": "sahil@openleaf.tech",
+          "send_notification": false,
+          "notification_days": null,
+          "notification_type": null,
+          "send_reminder": false,
+          "reminder_days": null,
+          "reminder_type": null,
+          "send_bulk_reminder": false,
+          "bulk_reminder_time": null,
+          "bulk_reminder_days": null,
+          "bulk_reminder_days_range": null,
+          "bulk_reminder_type": null,
+          "send_pickup_weight_notification": true,
+          "pickup_weight_notification_time": "18:55",
+          "pickup_weight_notification_days_range": "-2",
+          "created_at": "0001-01-01T00:00:00Z"
+        }
+      }
+    }
+  },
+  "msg": "successfully marshal payload",
+  "time": "07-10-2025 02:26:18"
+}
+{
+  "level": "error",
+  "log_data": {
+    "filename": "D:/Openleaf/Openleaf-Dev-B2B-Notification-Server/workers/carrier/carrierBulkDeliverEmail.go:137",
+    "log_data": {
+      "args": [
+        "all",
+        "2025-10-07T00:00:00+05:30",
+        "2025-10-07T02:26:26.1226987+05:30"
+      ],
+      "carrier_id": "all",
+      "error": "pq: got 3 parameters but the statement requires 4",
+      "query": "\n    SELECT\n        o.carrier_name, o.channel, o.po_number, o.customer_city, o.customer_pincode,\n        o.sku_details, o.lr_number, oa.appointment_scheduled_at, \"to\".expected_delivery_date,\n        o.total_cartons, o.total_dead_weight, o.carton_details,\n        o.invoice_number, o.total_invoice_value\n    FROM\n        orders o\n    LEFT JOIN\n        order_activity oa ON o.order_id = oa.order_id\n    LEFT JOIN\n        tracking_orders \"to\" ON o.order_id = \"to\".order_id\n\n\tWHERE o.carrier_id = $1 AND o.user_id = $2\n\tAND (\n\t\t(oa.appointment_scheduled_at IS NOT NULL AND oa.appointment_scheduled_at \u003e= $3 AND oa.appointment_scheduled_at \u003c= $4)\n\t\tOR\n\t\t(oa.appointment_scheduled_at IS NULL AND \"to\".expected_delivery_date \u003e= $3 AND \"to\".expected_delivery_date \u003c= $4)\n\t)"
+    }
+  },
+  "msg": "[worker] failed to fetch and scan deliveries",
+  "time": "07-10-2025 02:26:26"
+}
