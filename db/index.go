@@ -1,6 +1,7 @@
 package db
 
 import (
+	"fmt"
 	"log"
 	"os"
 
@@ -12,8 +13,9 @@ var GlobalDB *sqlx.DB = nil
 
 func Connect() *sqlx.DB {
 
-	db, err := sqlx.Connect("postgres", "user=openleaf dbname=b2b-productiondb sslmode=disable password=geralt1212leaf host=localhost port=63333")
-	// db, err := sqlx.Connect("postgres", "user=openleaf dbname=b2b-productiondb sslmode=disable password=geralt1212leaf host=database-openleaf-1.cyuh3uofyiy4.ap-south-1.rds.amazonaws.com port=5432")
+	host, name, user, password, port := GetDBConfig()
+
+	db, err := sqlx.Connect("postgres", fmt.Sprintf("user=%s dbname=%s sslmode=disable password=%s host=%s port=%s", user, name, password, host, port))
 	if err != nil {
 		log.Println("unable to connect to database", err.Error())
 		os.Exit(1)
