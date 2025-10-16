@@ -75,7 +75,7 @@ func main() {
 
 	r.Use(func(c *gin.Context) {
 		authHeader := c.GetHeader("Authorization")
-		if authHeader == "" || strings.HasPrefix(authHeader, "Bearer ") {
+		if authHeader == "" || !strings.HasPrefix(authHeader, "Bearer ") {
 			c.AbortWithStatusJSON(http.StatusUnauthorized, map[string]interface{}{
 				"success":    false,
 				"statusCode": http.StatusUnauthorized,
@@ -101,10 +101,39 @@ func main() {
 		c.JSON(http.StatusOK, models.ServerResponse{
 			Success:    true,
 			StatusCode: http.StatusOK,
-			Message:    "Server is running",
+			Message:    "Server is running properly",
 			Data: map[string]interface{}{
-				"timestamp": time.Now().Format(time.RFC3339),
-				"env":       os.Getenv("ENV"),
+				"server_timestamp": time.Now().Format(time.RFC3339),
+				"environment":      os.Getenv("APP_ENV"),
+				"database": map[string]interface{}{
+					"initialized": db.GetDB() != nil,
+				},
+				"queue_status": map[string]interface{}{
+					"initialized": queues.EmailQueueClient != nil,
+					"count":  2,
+					"names": []string{
+						models.EmailCarrierAppointmentQueue,
+						models.EmailCarrierAppointmentReminderQueue,
+					},
+				},
+				"scheduler_status": map[string]interface{}{
+					"initialized":    scheduler.Scheduler != nil,
+					"count": 2,
+					"names": []string{
+						models.EmailCarrierBulkPickupNotificationQueue,
+						models.EmailCarrierAppointmentBulkReminderQueue,
+					},
+				},
+				"worker_status": map[string]interface{}{
+					"initialized":      true,
+					"count": 4,
+					"names": []string{
+						models.EmailCarrierBulkPickupNotificationQueue,
+						models.EmailCarrierAppointmentBulkReminderQueue,
+						models.EmailCarrierAppointmentQueue,
+						models.EmailCarrierAppointmentReminderQueue,
+					},
+				},
 			},
 		})
 	})
