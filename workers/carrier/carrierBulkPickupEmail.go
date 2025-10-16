@@ -64,8 +64,6 @@ func SendCarrierBulkPickupEmail(ctx context.Context, task *asynq.Task) error {
 		"data":      data,
 	})
 
-	// todo fetch data
-
 	day := 0
 	if data.Data.Day != nil {
 		if parsedDay, err := strconv.Atoi(*data.Data.Day); err == nil {

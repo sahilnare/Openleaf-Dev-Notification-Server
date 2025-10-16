@@ -24,12 +24,10 @@ func InitWorkers() {
 	}
 
 	server := asynq.NewServer(
-		asynq.RedisClientOpt{
-			Addr:         fmt.Sprintf("%s:%s", redisHost, redisPort),
+		asynq.RedisClusterClientOpt{
+			Addrs:        []string{fmt.Sprintf("%s:%s", redisHost, redisPort)},
 			Password:     redisPassword,
-			DB:           0,
 			Username:     redisUsername,
-			PoolSize:     10,
 			DialTimeout:  10 * time.Second,
 			ReadTimeout:  30 * time.Second,
 			WriteTimeout: 30 * time.Second,

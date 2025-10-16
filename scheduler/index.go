@@ -24,11 +24,9 @@ func InitScheduler() {
 	}
 
 	Scheduler = asynq.NewScheduler(
-		asynq.RedisClientOpt{
-			Addr:         fmt.Sprintf("%s:%s", redisHost, redisPort),
+		asynq.RedisClusterClientOpt{
+			Addrs:        []string{fmt.Sprintf("%s:%s", redisHost, redisPort)},
 			Password:     redisPassword,
-			DB:           0,
-			PoolSize:     10,
 			Username:     redisUsername,
 			DialTimeout:  10 * time.Second,
 			ReadTimeout:  30 * time.Second,
