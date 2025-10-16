@@ -708,7 +708,139 @@ func ScheduleCarrierAppointmentEmail(c *gin.Context) {
 			}
 
 		case "before_delivery":
+
+			if expectedDeliveryDate == nil || expectedDeliveryDate.IsZero() {
+				if appointmentScheduledAt != nil || !appointmentScheduledAt.IsZero() {
+					expectedDeliveryDate = appointmentScheduledAt
+				} else {
+					helpers.LogInfo("expected delivery date is nil or zero and appointment scheduled at is nil or zero", map[string]interface{}{
+						"order_id": request.OrderID,
+						"expected_delivery_date": expectedDeliveryDate,
+						"appointment_scheduled_at": appointmentScheduledAt,
+					})
+				}
+				c.JSON(http.StatusBadRequest, models.ServerResponse{
+					Success: false,
+					StatusCode: http.StatusBadRequest,
+					Message: "Expected delivery date is nil or zero and appointment scheduled at is nil or zero",
+				})
+				return
+			} else if expectedDeliveryDate != nil && !expectedDeliveryDate.IsZero() && appointmentScheduledAt != nil || !appointmentScheduledAt.IsZero() {
+				if appointmentScheduledAt.After(*expectedDeliveryDate) || appointmentScheduledAt.Equal(*expectedDeliveryDate) {
+					expectedDeliveryDate = appointmentScheduledAt
+				}
+			}
+
+			days := strings.Split(strings.TrimSpace(*notificationSettings.NotificationDays), ",")
+			for _, day := range days {
+				daysFloat, _ := strconv.ParseFloat(strings.TrimSpace(day), 64)
+				// Convert UTC time to IST timezone before adding days
+				istExpectedDeliveryDate := expectedDeliveryDate.In(istLocation)
+				sendAt = istExpectedDeliveryDate.Add((-time.Duration(daysFloat)) * time.Hour * 24)
+
+				if sendAt.Before(time.Now()) {
+					sendAt = time.Now().Add(time.Second * 5)
+				}
+
+				queueData.NotificationID = uuid.New()
+
+				payload, err := json.Marshal(queueData)
+				if err != nil {
+					helpers.LogException("failed to marshal request payload", map[string]interface{}{
+						"request": request,
+						"request_headers": c.Request.Header,
+						"request_url": c.Request.URL,
+						"request_method": c.Request.Method,	
+						"error": err.Error(),
+					})
+					c.JSON(http.StatusInternalServerError, models.ServerResponse{
+						Success: false,
+						StatusCode: http.StatusInternalServerError,
+						Message: "Failed to marshal request payload",
+						Error: err.Error(),
+					})
+					return
+				}
+
+				options := []asynq.Option{
+					asynq.MaxRetry(3),
+					asynq.ProcessAt(sendAt),
+				}
+
+				task := asynq.NewTask(models.EmailCarrierAppointmentQueue, payload)
+
+				info, err := queues.EmailQueueClient.Enqueue(task, options...)
+				if err != nil {
+					helpers.LogException("failed to enqueue email task", map[string]interface{}{
+						"request": request,
+						"settings": notificationSettings,
+						"error": err.Error(),
+					})
+
+					helpers.InsertNotificationLog(&models.Notification{
+						NotificationID: queueData.NotificationID,
+						OrderID: request.OrderID,
+						Sender: *notificationSettings.SenderEmailsForCarrier,
+						Receiver: *notificationSettings.ReceiverEmailsForCarrier,
+						SenderCC: notificationSettings.SenderCCEmailsForCarrier,
+						ReceiverCC: notificationSettings.ReceiverCCEmailsForCarrier,
+						Type: models.EmailCarrierAppointmentQueue,
+						Method: "email",
+						Status: "error",
+						SentAt: nil,
+					})
 			
+					c.JSON(http.StatusInternalServerError, models.ServerResponse{
+						Success: false,
+						StatusCode: http.StatusInternalServerError,
+						Message: "Failed to enqueue email task",
+						Error: err.Error(),
+					})
+			
+					return
+				}
+
+				notificationID, _ := helpers.InsertNotificationLog(&models.Notification{
+					NotificationID: queueData.NotificationID,
+					OrderID: request.OrderID,
+					Sender: *notificationSettings.SenderEmailsForCarrier,
+					Receiver: *notificationSettings.ReceiverEmailsForCarrier,
+					SenderCC: notificationSettings.SenderCCEmailsForCarrier,
+					ReceiverCC: notificationSettings.ReceiverCCEmailsForCarrier,
+					Type: models.EmailCarrierAppointmentQueue,
+					Method: "email",
+					Status: "scheduled",
+					SentAt: nil,
+				})
+
+				helpers.LogInfo("email task enqueued successfully", map[string]interface{}{
+					"task_id":  info.ID,
+					"queue":    info.Queue,
+					"task_type": task.Type(),
+					"send_at":  sendAt,
+					"type": "before_delivery",
+					"notification_id": notificationID,
+				})
+
+				appointmentSendAt[queueData.NotificationID] = sendAt
+
+			}
+
+		case "before_appointment_date":
+
+			if appointmentScheduledAt == nil || appointmentScheduledAt.IsZero() {
+				helpers.LogInfo("appointment scheduled at is nil or zero", map[string]interface{}{
+					"order_id": request.OrderID,
+					"appointment_scheduled_at": appointmentScheduledAt,
+				})
+				c.JSON(http.StatusBadRequest, models.ServerResponse{
+					Success: false,
+					StatusCode: http.StatusBadRequest,
+					Message: "Appointment scheduled at is nil or zero",
+				})
+				return
+			}
+
 			days := strings.Split(strings.TrimSpace(*notificationSettings.NotificationDays), ",")
 			for _, day := range days {
 				daysFloat, _ := strconv.ParseFloat(strings.TrimSpace(day), 64)
@@ -1141,6 +1273,28 @@ func ScheduleCarrierAppointmentEmail(c *gin.Context) {
 
 		case "before_delivery":
 			
+			if expectedDeliveryDate == nil || expectedDeliveryDate.IsZero() {
+				if appointmentScheduledAt != nil || !appointmentScheduledAt.IsZero() {
+					expectedDeliveryDate = appointmentScheduledAt
+				} else {
+					helpers.LogInfo("expected delivery date is nil or zero and appointment scheduled at is nil or zero", map[string]interface{}{
+						"order_id": request.OrderID,
+						"expected_delivery_date": expectedDeliveryDate,
+						"appointment_scheduled_at": appointmentScheduledAt,
+					})
+					c.JSON(http.StatusBadRequest, models.ServerResponse{
+						Success: false,
+						StatusCode: http.StatusBadRequest,
+						Message: "Expected delivery date is nil or zero and appointment scheduled at is nil or zero",
+					})
+					return
+				}
+			} else if expectedDeliveryDate != nil && !expectedDeliveryDate.IsZero() && appointmentScheduledAt != nil || !appointmentScheduledAt.IsZero() {
+				if appointmentScheduledAt.After(*expectedDeliveryDate) || appointmentScheduledAt.Equal(*expectedDeliveryDate) {
+					expectedDeliveryDate = appointmentScheduledAt
+				}
+			}
+
 			days := strings.Split(strings.TrimSpace(*notificationSettings.ReminderDays), ",")
 			for _, day := range days {
 				daysFloat, _ := strconv.ParseFloat(strings.TrimSpace(day), 64)
@@ -1228,6 +1382,109 @@ func ScheduleCarrierAppointmentEmail(c *gin.Context) {
 
 			}
 
+		case "before_appointment_date":
+
+			if appointmentScheduledAt == nil || appointmentScheduledAt.IsZero() {
+				helpers.LogInfo("expected delivery date is nil or zero and appointment scheduled at is nil or zero", map[string]interface{}{
+					"order_id": request.OrderID,
+					"expected_delivery_date": expectedDeliveryDate,
+					"appointment_scheduled_at": appointmentScheduledAt,
+				})
+				c.JSON(http.StatusBadRequest, models.ServerResponse{
+					Success: false,
+					StatusCode: http.StatusBadRequest,
+					Message: "Appointment scheduled at is nil or zero",
+				})
+				return
+			}
+			
+			days := strings.Split(strings.TrimSpace(*notificationSettings.ReminderDays), ",")
+			for _, day := range days {
+				daysFloat, _ := strconv.ParseFloat(strings.TrimSpace(day), 64)
+				sendAt = appointmentScheduledAt.Add((-time.Duration(daysFloat)) * time.Hour * 24)
+
+				if sendAt.Before(time.Now()) {
+					sendAt = time.Now().Add(time.Second * 5)
+				}
+
+				queueData.NotificationID = uuid.New()
+
+				payload, err := json.Marshal(queueData)
+				if err != nil {
+					helpers.LogException("failed to marshal request payload", map[string]interface{}{
+						"request": request,
+						"request_headers": c.Request.Header,
+						"request_url": c.Request.URL,
+						"request_method": c.Request.Method,	
+						"error": err.Error(),
+					})
+				}
+
+				options := []asynq.Option{
+					asynq.MaxRetry(3),
+					asynq.ProcessAt(sendAt),
+				}
+
+				task := asynq.NewTask(models.EmailCarrierAppointmentReminderQueue, payload)
+
+				info, err := queues.EmailQueueClient.Enqueue(task, options...)
+				if err != nil {
+					helpers.LogException("failed to enqueue reminder email task", map[string]interface{}{
+						"request": request,
+						"settings": notificationSettings,
+						"payload": payload,
+						"error": err.Error(),
+					})
+
+					helpers.InsertNotificationLog(&models.Notification{
+						NotificationID: queueData.NotificationID,
+						OrderID: request.OrderID,
+						Sender: *notificationSettings.SenderEmailsForCarrier,
+						SenderCC: notificationSettings.SenderCCEmailsForCarrier,
+						ReceiverCC: notificationSettings.ReceiverCCEmailsForCarrier,
+						Receiver: *notificationSettings.ReceiverEmailsForCarrier,
+						Type: models.EmailCarrierAppointmentReminderQueue,
+						Status: "error",
+						Method: "email",
+						SentAt: nil,
+					})
+			
+					c.JSON(http.StatusInternalServerError, models.ServerResponse{
+						Success: false,
+						StatusCode: http.StatusInternalServerError,
+						Message: "Failed to enqueue reminder email task",
+						Error: err.Error(),
+					})
+			
+					return
+				}
+
+				notificationID, _ := helpers.InsertNotificationLog(&models.Notification{
+					NotificationID: queueData.NotificationID,
+					OrderID: request.OrderID,
+					Sender: *notificationSettings.SenderEmailsForCarrier,
+					SenderCC: notificationSettings.SenderCCEmailsForCarrier,
+					ReceiverCC: notificationSettings.ReceiverCCEmailsForCarrier,
+					Receiver: *notificationSettings.ReceiverEmailsForCarrier,
+					Type: models.EmailCarrierAppointmentReminderQueue,
+					Method: "email",
+					Status: "scheduled",
+					SentAt: nil,
+				})
+
+				helpers.LogInfo("reminder email task enqueued successfully", map[string]interface{}{
+					"task_id":  info.ID,
+					"queue":    info.Queue,
+					"task_type": task.Type(),
+					"send_at":  sendAt,
+					"type": "before_delivery",
+					"notification_id": notificationID,
+				})
+
+				reminderSendAt[queueData.NotificationID] = sendAt
+
+			}
+		
 		default:
 			helpers.LogInfo("invalid reminder notification type", map[string]interface{}{
 				"order_id": request.OrderID,

@@ -118,13 +118,13 @@ func InitCarrierBulkPickupNotification() error {
 			continue
 		}
 
-		days := strings.Split(strings.TrimSpace(*setting.PickupWeightNotificationDaysRange), ",")
+		days := strings.SplitSeq(strings.TrimSpace(*setting.PickupWeightNotificationDaysRange), ",")
 
-		for _, day := range days {
+		for day := range days {
 
-			times := strings.Split(strings.TrimSpace(*setting.PickupWeightNotificationTime), ",")
+			times := strings.SplitSeq(strings.TrimSpace(*setting.PickupWeightNotificationTime), ",")
 
-			for _, time := range times {
+			for time := range times {
 
 				hours, minutes, _ := strings.Cut(strings.TrimSpace(time), ":")
 
@@ -240,9 +240,9 @@ func InitCarrierBulkPickupNotification() error {
 
 		for _, day := range days {
 
-			times := strings.Split(strings.TrimSpace(*setting.PickupWeightNotificationTime), ",")
+			times := strings.SplitSeq(strings.TrimSpace(*setting.PickupWeightNotificationTime), ",")
 
-			for _, time := range times {
+			for time := range times {
 
 				hours, minutes, _ := strings.Cut(strings.TrimSpace(time), ":")
 
