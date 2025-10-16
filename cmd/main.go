@@ -103,7 +103,7 @@ func main() {
 			StatusCode: http.StatusOK,
 			Message:    "Server is running properly",
 			Data: map[string]interface{}{
-				"server_timestamp": time.Now().Format(time.RFC3339),
+				"server_timestamp": helpers.GetISTTime().Format(time.RFC3339),
 				"environment":      os.Getenv("APP_ENV"),
 				"database": map[string]interface{}{
 					"initialized": db.GetDB() != nil,

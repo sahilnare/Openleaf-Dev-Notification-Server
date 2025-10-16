@@ -461,7 +461,7 @@ func ScheduleCarrierAppointmentEmail(c *gin.Context) {
 
 	if notificationSettings.SendNotification {
 		
-		sendAt := time.Now().Add(time.Second * 5)
+		sendAt := helpers.GetISTTime().Add(time.Second * 5)
 
 		if notificationSettings.NotificationType == nil {
 			helpers.LogInfo("notification type is nil", map[string]interface{}{
@@ -518,8 +518,8 @@ func ScheduleCarrierAppointmentEmail(c *gin.Context) {
 				istAppointmentTakenAt := appointmentTakenAt.In(istLocation)
 				sendAt = istAppointmentTakenAt.Add(time.Duration(daysFloat) * time.Hour * 24)
 
-				if sendAt.Before(time.Now()) {
-					sendAt = time.Now().Add(time.Second * 5)
+				if sendAt.Before(helpers.GetISTTime()) {
+					sendAt = helpers.GetISTTime().Add(time.Second * 5)
 				}
 
 				queueData.NotificationID = uuid.New()
@@ -619,8 +619,8 @@ func ScheduleCarrierAppointmentEmail(c *gin.Context) {
 				istAppointmentScheduledAt := appointmentScheduledAt.In(istLocation)
 				sendAt = istAppointmentScheduledAt.Add(time.Duration(daysFloat) * time.Hour * 24)
 
-				if sendAt.Before(time.Now()) {
-					sendAt = time.Now().Add(time.Second * 5)
+				if sendAt.Before(helpers.GetISTTime()) {
+					sendAt = helpers.GetISTTime().Add(time.Second * 5)
 				}
 
 				queueData.NotificationID = uuid.New()
@@ -738,8 +738,8 @@ func ScheduleCarrierAppointmentEmail(c *gin.Context) {
 				istExpectedDeliveryDate := expectedDeliveryDate.In(istLocation)
 				sendAt = istExpectedDeliveryDate.Add((-time.Duration(daysFloat)) * time.Hour * 24)
 
-				if sendAt.Before(time.Now()) {
-					sendAt = time.Now().Add(time.Second * 5)
+				if sendAt.Before(helpers.GetISTTime()) {
+					sendAt = helpers.GetISTTime().Add(time.Second * 5)
 				}
 
 				queueData.NotificationID = uuid.New()
@@ -848,8 +848,8 @@ func ScheduleCarrierAppointmentEmail(c *gin.Context) {
 				istExpectedDeliveryDate := expectedDeliveryDate.In(istLocation)
 				sendAt = istExpectedDeliveryDate.Add((-time.Duration(daysFloat)) * time.Hour * 24)
 
-				if sendAt.Before(time.Now()) {
-					sendAt = time.Now().Add(time.Second * 5)
+				if sendAt.Before(helpers.GetISTTime()) {
+					sendAt = helpers.GetISTTime().Add(time.Second * 5)
 				}
 
 				queueData.NotificationID = uuid.New()
@@ -1047,7 +1047,7 @@ func ScheduleCarrierAppointmentEmail(c *gin.Context) {
 			return
 		}
 
-		sendAt := time.Now().Add(time.Second * 5)
+		sendAt := helpers.GetISTTime().Add(time.Second * 5)
 		
 		switch *notificationSettings.ReminderType {
 		case "after_appointment_taken":
@@ -1090,8 +1090,8 @@ func ScheduleCarrierAppointmentEmail(c *gin.Context) {
 				istAppointmentTakenAt := appointmentTakenAt.In(istLocation)
 				sendAt = istAppointmentTakenAt.Add(time.Duration(daysFloat) * time.Hour * 24)
 
-				if sendAt.Before(time.Now()) {
-					sendAt = time.Now().Add(time.Second * 5)
+				if sendAt.Before(helpers.GetISTTime()) {
+					sendAt = helpers.GetISTTime().Add(time.Second * 5)
 				}
 
 				queueData.NotificationID = uuid.New()
@@ -1189,8 +1189,8 @@ func ScheduleCarrierAppointmentEmail(c *gin.Context) {
 				daysFloat, _ := strconv.ParseFloat(strings.TrimSpace(day), 64)
 				sendAt = appointmentScheduledAt.Add(time.Duration(daysFloat) * time.Hour * 24)
 
-				if sendAt.Before(time.Now()) {
-					sendAt = time.Now().Add(time.Second * 5)
+				if sendAt.Before(helpers.GetISTTime()) {
+					sendAt = helpers.GetISTTime().Add(time.Second * 5)
 				}
 
 				queueData.NotificationID = uuid.New()
@@ -1300,8 +1300,8 @@ func ScheduleCarrierAppointmentEmail(c *gin.Context) {
 				daysFloat, _ := strconv.ParseFloat(strings.TrimSpace(day), 64)
 				sendAt = expectedDeliveryDate.Add((-time.Duration(daysFloat)) * time.Hour * 24)
 
-				if sendAt.Before(time.Now()) {
-					sendAt = time.Now().Add(time.Second * 5)
+				if sendAt.Before(helpers.GetISTTime()) {
+					sendAt = helpers.GetISTTime().Add(time.Second * 5)
 				}
 
 				queueData.NotificationID = uuid.New()
@@ -1403,8 +1403,8 @@ func ScheduleCarrierAppointmentEmail(c *gin.Context) {
 				daysFloat, _ := strconv.ParseFloat(strings.TrimSpace(day), 64)
 				sendAt = appointmentScheduledAt.Add((-time.Duration(daysFloat)) * time.Hour * 24)
 
-				if sendAt.Before(time.Now()) {
-					sendAt = time.Now().Add(time.Second * 5)
+				if sendAt.Before(helpers.GetISTTime()) {
+					sendAt = helpers.GetISTTime().Add(time.Second * 5)
 				}
 
 				queueData.NotificationID = uuid.New()

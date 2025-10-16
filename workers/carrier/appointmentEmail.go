@@ -8,7 +8,6 @@ import (
 	"encoding/json"
 	"fmt"
 	"strings"
-	"time"
 
 	"github.com/hibiken/asynq"
 )
@@ -201,7 +200,7 @@ func SendAppointmentEmail(ctx context.Context, task *asynq.Task) error {
 		return err
 	}
 
-	now := time.Now()
+	now := helpers.GetISTTime()
 
 	notificationID, err := helpers.UpdateNotification(&models.Notification{
 		NotificationID: data.NotificationID,
@@ -427,7 +426,7 @@ func SendAppointmentReminderEmail(ctx context.Context, task *asynq.Task) error {
 		"data": data,
 	})
 
-	now := time.Now()
+	now := helpers.GetISTTime()
 
 	notificationID, err := helpers.UpdateNotification(&models.Notification{
 		NotificationID: data.NotificationID,

@@ -5,6 +5,16 @@ import (
 	"time"
 )
 
+// GetISTTime returns the current time in IST timezone
+func GetISTTime() time.Time {
+	istLocation, err := time.LoadLocation("Asia/Kolkata")
+	if err != nil {
+		// Fallback to UTC if IST cannot be loaded
+		return time.Now().UTC()
+	}
+	return time.Now().In(istLocation)
+}
+
 func DerefStringPointer(s *string) string {
 	if s == nil {
 		return ""
@@ -41,14 +51,14 @@ func DerefTimePointer(t *time.Time) time.Time {
 
 func FormatDateDDMMYYYYHHMM(t *time.Time) string {
 	if t == nil {
-		return time.Now().Format("02 Jan 2006 03:04 PM")
+		return GetISTTime().Format("02 Jan 2006 03:04 PM")
 	}
 	return t.Format("02 Jan 2006 03:04 PM")
 }
 
 func FormatDateDDMMYYYY(t *time.Time) string {
 	if t == nil {
-		return time.Now().Format("02 Jan 2006")
+		return GetISTTime().Format("02 Jan 2006")
 	}
 	return t.Format("02 Jan 2006")
 }

@@ -96,7 +96,7 @@ func SendCarrierBulkPickupEmail(ctx context.Context, task *asynq.Task) error {
 
 	var startOfPeriod, endOfPeriod time.Time
 	var targetDateStr string
-	now := time.Now()
+	now := helpers.GetISTTime()
 
 	if day < 0 {
 		targetDate := now.AddDate(0, 0, day)
