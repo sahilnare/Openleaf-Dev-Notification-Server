@@ -6,12 +6,17 @@ import (
 	"Notification-Server/models"
 	"encoding/json"
 	"fmt"
+	"slices"
 	"strings"
 
+	"github.com/google/uuid"
 	"github.com/hibiken/asynq"
 )
 
 func InitCarrierBulkDeliverNotification() error {
+
+	var notificationSettings []models.CarrierAppointmentEmailSettings
+
 	rows, err := db.GlobalDB.Query(`
 		SELECT
 			ans_id,
@@ -28,20 +33,24 @@ func InitCarrierBulkDeliverNotification() error {
 			bulk_reminder_type
 		FROM
 			appointment_notification_settings
+		WHERE
+			send_bulk_reminder = TRUE
 	`)
 	if err != nil {
-		helpers.LogInfo("Failed to fetch notification settings", map[string]interface{}{"error": err})
+		helpers.LogInfo("InitCarrierBulkDeliverNotification failed to fetch carrier bulk delivery notification settings", map[string]interface{}{
+			"error": err.Error(),
+		})
 		return err
 	}
+	helpers.LogInfo("InitCarrierBulkDeliverNotification fetch carrier bulk delivery notification settings", map[string]interface{}{
+		"data": rows,
+	})
+
 	defer rows.Close()
-	helpers.LogInfo("Successfully fetched notification settings", map[string]interface{}{"error": err})
-	helpers.LogInfo("Data fetched", map[string]interface{}{"data": rows})
 
-	var allSettings []models.CarrierAppointmentEmailSettings
 	for rows.Next() {
-
 		var setting models.CarrierAppointmentEmailSettings
-		if err := rows.Scan(
+		err = rows.Scan(
 			&setting.AnsID,
 			&setting.AdminID,
 			&setting.UserID,
@@ -50,69 +59,255 @@ func InitCarrierBulkDeliverNotification() error {
 			&setting.SenderCCEmailsForCarrier,
 			&setting.ReceiverEmailsForCarrier,
 			&setting.ReceiverCCEmailsForCarrier,
-
 			&setting.SendBulkReminder,
 			&setting.BulkReminderTime,
 			&setting.BulkReminderDaysRange,
 			&setting.BulkReminderType,
-		); err != nil {
-			helpers.LogInfo("Failed to scan reminder setting row", map[string]interface{}{"error": err})
-			continue // Skip this row and move to the next
+		)
+		if err != nil {
+			helpers.LogInfo("InitCarrierBulkDeliverNotification failed to scan carrier bulk delivery notification settings", map[string]interface{}{
+				"error": err.Error(),
+			})
+			return err
 		}
-		allSettings = append(allSettings, setting)
+		notificationSettings = append(notificationSettings, setting)
 	}
 
-	helpers.LogInfo("Successfully loaded all reminder settings. Starting scheduler loop.", map[string]interface{}{
-		"settings_count": len(allSettings),
-		"settings":       allSettings,
+	helpers.LogInfo("InitCarrierBulkDeliverNotification carrier bulk delivery notification settings", map[string]interface{}{
+		"notification_settings": notificationSettings,
 	})
 
-	for _, setting := range allSettings {
-		if setting.BulkReminderDaysRange == nil || setting.BulkReminderTime == nil {
-			helpers.LogInfo("Skipping setting due to missing time or days range", map[string]interface{}{"setting_id": setting.AnsID})
+	// # Schedule the cron for separate carriers
+	for _, setting := range notificationSettings {
+
+		helpers.LogInfo("InitCarrierBulkDeliverNotification carrier bulk delivery notification setting", map[string]interface{}{
+			"setting": setting,
+		})
+
+		if !setting.SendBulkReminder {
 			continue
 		}
-		helpers.LogInfo("setting", setting)
-		days := strings.Split(strings.TrimSpace(*setting.BulkReminderDaysRange), ",")
-		times := strings.Split(strings.TrimSpace(*setting.BulkReminderTime), ",")
 
-		// var days = []string{"2"}
-		// var times = []string{"15:39"}
+		if setting.BulkReminderDaysRange == nil || setting.BulkReminderTime == nil {
+			helpers.LogInfo("InitCarrierBulkDeliverNotification: skipping setting due to missing time or days range", map[string]interface{}{
+				"setting_id": setting.AnsID,
+			})
+			continue
+		}
+
+		// # Get all the user carriers
+		var carrierIDs []string
+
+		rows, err := db.GlobalDB.Query(`
+			SELECT carrier_id FROM user_carriers WHERE user_id = $1
+		`, setting.UserID)
+		if err != nil {
+			helpers.LogInfo("InitCarrierBulkDeliverNotification failed to fetch carrier IDs", map[string]interface{}{
+				"error": err.Error(),
+			})
+		}
+
+		for rows.Next() {
+			var carrierID uuid.UUID
+			err = rows.Scan(&carrierID)
+			if err != nil {
+				helpers.LogInfo("InitCarrierBulkDeliverNotification failed to scan carrier IDs", map[string]interface{}{
+					"error": err.Error(),
+				})
+			}
+			carrierIDs = append(carrierIDs, carrierID.String())
+			defer rows.Close()
+		}
+
+		isCarrierID := slices.Contains(carrierIDs, setting.CarrierID)
+
+		if !isCarrierID {
+			continue
+		}
+
+		days := strings.Split(strings.TrimSpace(*setting.BulkReminderDaysRange), ",")
 
 		for _, day := range days {
+
+			times := strings.Split(strings.TrimSpace(*setting.BulkReminderTime), ",")
+
 			for _, time := range times {
+
 				hours, minutes, _ := strings.Cut(strings.TrimSpace(time), ":")
+
 				cronExpr := fmt.Sprintf("%s %s * * *", minutes, hours)
 
-				payload := models.CarrierBulkPickupEmailWorkerData{
+				dayTrimmed := strings.TrimSpace(day)
+				payload := models.CarrierBulkDeliverEmailWorkerData{
 					NotificationID: setting.AnsID,
 					AdminID:        setting.AdminID,
 					UserID:         setting.UserID,
-					Data: models.CarrierBulkPickupEmailWorkerDataData{
+					Data: models.CarrierBulkDeliverEmailWorkerDataData{
 						CarrierID: setting.CarrierID,
-						Day:       &day,
+						Day:       &dayTrimmed,
 					},
 					Settings: setting,
 				}
 
-				payloadBytes, _ := json.Marshal(payload)
+				payloadBytes, err := json.Marshal(payload)
+				if err != nil {
+					helpers.LogException("failed to marshal payload", map[string]interface{}{
+						"error":   err.Error(),
+						"payload": payload,
+					})
+					continue
+				}
+
 				task := asynq.NewTask(models.EmailCarrierAppointmentBulkReminderQueue, payloadBytes)
 
-				taskID, err := Scheduler.Register(cronExpr, task)
+				id, err := Scheduler.Register(cronExpr, task)
 				if err != nil {
-					helpers.LogInfo("Failed to register scheduled task", map[string]interface{}{"cron": cronExpr, "payload": payload, "error": err})
+					helpers.LogException("failed to register task with scheduler", map[string]interface{}{
+						"error":   err.Error(),
+						"payload": payload,
+					})
 				} else {
-					helpers.LogInfo("Successfully scheduled reminder task", map[string]interface{}{
-						"task_id":    taskID,
-						"cron_expr":  cronExpr,
-						"setting_id": setting.AnsID,
+					helpers.LogInfo("InitCarrierBulkDeliverNotification: scheduled task with scheduler", map[string]interface{}{
+						"task_id":   id,
+						"cron_expr": cronExpr,
+						"day":       dayTrimmed,
+						"time":      time,
 						"carrier_id": setting.CarrierID,
 					})
 				}
+
+				//#  Remove carrierID from carrierIDs after scheduling the task
+				for i, id := range carrierIDs {
+					if id == setting.CarrierID {
+						carrierIDs = append(carrierIDs[:i], carrierIDs[i+1:]...)
+						break
+					}
+				}
 			}
+
 		}
+
 	}
 
-	helpers.LogInfo("Finished scheduling all reminder tasks for bulk deliver.", nil)
+	// # Schedule the cron for all carriers
+	for _, setting := range notificationSettings {
+
+		helpers.LogInfo("InitCarrierBulkDeliverNotification carrier bulk delivery notification setting", map[string]interface{}{
+			"setting": setting,
+		})
+
+		if !setting.SendBulkReminder {
+			helpers.LogInfo("InitCarrierBulkDeliverNotification: skipping setting, notifications disabled", map[string]interface{}{
+				"setting_id": setting.AnsID,
+			})
+			continue
+		}
+
+		if setting.BulkReminderDaysRange == nil || setting.BulkReminderTime == nil {
+			helpers.LogInfo("InitCarrierBulkDeliverNotification: skipping setting due to missing time or days range", map[string]interface{}{
+				"setting_id": setting.AnsID,
+			})
+			continue
+		}
+
+		helpers.LogInfo("InitCarrierBulkDeliverNotification: fetching carriers for user", map[string]interface{}{
+			"user_id": setting.UserID,
+		})
+
+		// # Get all the user carriers
+		var carrierIDs []string
+
+		rows, err := db.GlobalDB.Query(`
+			SELECT carrier_id FROM user_carriers WHERE user_id = $1
+		`, setting.UserID)
+		if err != nil {
+			helpers.LogInfo("InitCarrierBulkDeliverNotification failed to fetch carrier IDs", map[string]interface{}{
+				"error": err.Error(),
+			})
+		}
+
+		for rows.Next() {
+			var carrierID uuid.UUID
+			err = rows.Scan(&carrierID)
+			if err != nil {
+				helpers.LogInfo("InitCarrierBulkDeliverNotification failed to scan carrier IDs", map[string]interface{}{
+					"error": err.Error(),
+				})
+			}
+			carrierIDs = append(carrierIDs, carrierID.String())
+			defer rows.Close()
+		}
+
+		helpers.LogInfo("InitCarrierBulkDeliverNotification: fetched carrier IDs", map[string]interface{}{
+			"setting_id":    setting.AnsID,
+			"user_id":       setting.UserID,
+			"carrier_count": len(carrierIDs),
+		})
+
+		days := strings.Split(strings.TrimSpace(*setting.BulkReminderDaysRange), ",")
+
+		helpers.LogInfo("InitCarrierBulkDeliverNotification: parsed schedule from settings", map[string]interface{}{
+			"setting_id":  setting.AnsID,
+			"parsed_days": days,
+		})
+
+		for _, day := range days {
+
+			times := strings.Split(strings.TrimSpace(*setting.BulkReminderTime), ",")
+
+			for _, time := range times {
+
+				hours, minutes, _ := strings.Cut(strings.TrimSpace(time), ":")
+
+				cronExpr := fmt.Sprintf("%s %s * * *", minutes, hours)
+
+				dayTrimmed := strings.TrimSpace(day)
+				for _, carrierID := range carrierIDs {
+
+					payload := models.CarrierBulkDeliverEmailWorkerData{
+						NotificationID: setting.AnsID,
+						AdminID:        setting.AdminID,
+						UserID:         setting.UserID,
+						Data: models.CarrierBulkDeliverEmailWorkerDataData{
+							CarrierID: carrierID,
+							Day:       &dayTrimmed,
+						},
+						Settings: setting,
+					}
+
+					payloadBytes, err := json.Marshal(payload)
+					if err != nil {
+						helpers.LogException("failed to marshal payload", map[string]interface{}{
+							"error":   err.Error(),
+							"payload": payload,
+						})
+						continue
+					}
+
+					task := asynq.NewTask(models.EmailCarrierAppointmentBulkReminderQueue, payloadBytes)
+
+					id, err := Scheduler.Register(cronExpr, task)
+					if err != nil {
+						helpers.LogException("failed to register task with scheduler", map[string]interface{}{
+							"error":   err.Error(),
+							"payload": payload,
+						})
+					} else {
+						helpers.LogInfo("InitCarrierBulkDeliverNotification: scheduled task with scheduler", map[string]interface{}{
+							"task_id":   id,
+							"cron_expr": cronExpr,
+							"day":       dayTrimmed,
+							"time":      time,
+							"carrier_id": carrierID,
+						})
+					}
+				}
+
+			}
+
+		}
+
+	}
+	helpers.LogInfo("InitCarrierBulkDeliverNotification: finished scheduling all tasks.", nil)
 	return nil
 }

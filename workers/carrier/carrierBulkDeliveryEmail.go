@@ -12,6 +12,7 @@ import (
 	"strings"
 	"time"
 
+	"github.com/google/uuid"
 	"github.com/hibiken/asynq"
 )
 
@@ -63,23 +64,18 @@ func SendCarrierBulkDeliverEmail(ctx context.Context, task *asynq.Task) error {
 		"data":      data,
 	})
 
-	// --- New Date Logic ---
+	// --- Date Logic (matching pickup notification pattern) ---
 	day := 0
 	if data.Data.Day != nil {
 		if parsedDay, err := strconv.Atoi(*data.Data.Day); err == nil {
 			day = parsedDay
 		} else {
-			helpers.LogException("[worker] day parameter must be a positive integer", map[string]interface{}{
-				"error":     "Invalid day value",
+			helpers.LogException("[worker] failed to parse day from payload", map[string]interface{}{
+				"error":     err.Error(),
 				"day_value": *data.Data.Day,
 			})
-			return fmt.Errorf("day must be a positive integer, got %s", *data.Data.Day)
+			return err
 		}
-	} else {
-		helpers.LogException("[worker] day parameter is missing", map[string]interface{}{
-			"error": "Day is required for this worker",
-		})
-		return fmt.Errorf("day parameter is required")
 	}
 
 	var startOfPeriod, endOfPeriod time.Time
@@ -87,21 +83,31 @@ func SendCarrierBulkDeliverEmail(ctx context.Context, task *asynq.Task) error {
 	now := helpers.GetISTTime()
 
 	if day < 0 {
-		targetDate := now.AddDate(0, 0, -1*day)
+		// Negative day means past days: -2 means 2 days ago
+		targetDate := now.AddDate(0, 0, day)
+		year, month, d := targetDate.Date()
+		startOfPeriod = time.Date(year, month, d, 0, 0, 0, 0, now.Location())
+		endOfPeriod = startOfPeriod.AddDate(0, 0, 1).Add(-time.Nanosecond)
+		targetDateStr = targetDate.Format("02 Jan 2006")
+	} else if day > 0 {
+		// Positive day means future days
+		targetDate := now.AddDate(0, 0, day)
 		year, month, d := targetDate.Date()
 		startOfPeriod = time.Date(year, month, d, 0, 0, 0, 0, now.Location())
 		endOfPeriod = startOfPeriod.AddDate(0, 0, 1).Add(-time.Nanosecond)
 		targetDateStr = targetDate.Format("02 Jan 2006")
 	} else {
+		// Day 0 means today
 		year, month, d := now.Date()
-		startOfPeriod = time.Date(year, month, d, 0, 0, 0, 0, now.Location())
+		startOfDay := time.Date(year, month, d, 0, 0, 0, 0, now.Location())
+		startOfPeriod = startOfDay
 		endOfPeriod = now
 		targetDateStr = now.Format("02 Jan 2006")
 	}
 
 	baseQuery := `
     SELECT
-        o.carrier_name, o.channel, o.po_number, o.customer_city, o.customer_pincode,
+        o.order_id, o.carrier_name, o.channel, o.po_number, o.customer_city, o.customer_pincode,
         o.sku_details, o.lr_number, oa.appointment_scheduled_at, "to".expected_delivery_date,
         o.total_cartons, o.total_dead_weight, o.carton_details,
         o.invoice_number, o.total_invoice_value
@@ -111,6 +117,11 @@ func SendCarrierBulkDeliverEmail(ctx context.Context, task *asynq.Task) error {
         order_activity oa ON o.order_id = oa.order_id
     LEFT JOIN
         tracking_orders "to" ON o.order_id = "to".order_id
+    LEFT JOIN
+        notification_logs nl ON o.order_id = nl.order_id 
+        AND nl.type = $5 
+        AND nl.status = 'sent'
+        AND DATE(nl.sent_at) = DATE($6)
 `
 	var queryBuilder strings.Builder
 	queryBuilder.WriteString(baseQuery)
@@ -121,9 +132,17 @@ func SendCarrierBulkDeliverEmail(ctx context.Context, task *asynq.Task) error {
 		(oa.appointment_scheduled_at IS NOT NULL AND oa.appointment_scheduled_at >= $3 AND oa.appointment_scheduled_at <= $4)
 		OR
 		(oa.appointment_scheduled_at IS NULL AND "to".expected_delivery_date >= $3 AND "to".expected_delivery_date <= $4)
-	)`)
+	)
+	AND nl.notification_id IS NULL`)
 
-	args := []interface{}{data.Data.CarrierID, startOfPeriod, endOfPeriod}
+	args := []interface{}{
+		data.Data.CarrierID,
+		data.UserID,
+		startOfPeriod,
+		endOfPeriod,
+		models.EmailCarrierAppointmentBulkReminderQueue,
+		now,
+	}
 
 	finalQuery := queryBuilder.String()
 
@@ -325,7 +344,7 @@ func SendCarrierBulkDeliverEmail(ctx context.Context, task *asynq.Task) error {
 				SenderCC:       data.Settings.SenderCCEmailsForCarrier,
 				ReceiverCC:     data.Settings.ReceiverCCEmailsForCarrier,
 				Method:         "email",
-				Type:           models.EmailCarrierAppointmentReminderQueue,
+				Type:           models.EmailCarrierAppointmentBulkReminderQueue,
 				Status:         "worker_error",
 				SentAt:         nil,
 			})
@@ -338,7 +357,7 @@ func SendCarrierBulkDeliverEmail(ctx context.Context, task *asynq.Task) error {
 					"receiver":        *data.Settings.ReceiverEmailsForCarrier,
 					"sender_cc":       data.Settings.SenderCCEmailsForCarrier,
 					"receiver_cc":     data.Settings.ReceiverCCEmailsForCarrier,
-					"type":            models.EmailCarrierAppointmentReminderQueue,
+					"type":            models.EmailCarrierAppointmentBulkReminderQueue,
 				})
 			}
 
@@ -351,9 +370,36 @@ func SendCarrierBulkDeliverEmail(ctx context.Context, task *asynq.Task) error {
 			"data":      data,
 		})
 
-		helpers.LogInfo("[worker] carrier bulk pickup email worker completed successfully", map[string]interface{}{
-			"task_type": task.Type(),
-			"data":      data,
+		// Log notification for each order to prevent duplicates
+		sentAt := helpers.GetISTTime().Add(time.Second * 5)
+		for _, delivery := range deliveries {
+			notificationID := uuid.New()
+			_, err := helpers.InsertNotificationLog(&models.Notification{
+				NotificationID: notificationID,
+				OrderID:        delivery.OrderID,
+				Sender:         *data.Settings.SenderEmailsForCarrier,
+				Receiver:       *data.Settings.ReceiverEmailsForCarrier,
+				SenderCC:       data.Settings.SenderCCEmailsForCarrier,
+				ReceiverCC:     data.Settings.ReceiverCCEmailsForCarrier,
+				Method:         "email",
+				Type:           models.EmailCarrierAppointmentBulkReminderQueue,
+				Status:         "sent",
+				SentAt:         &sentAt,
+			})
+			if err != nil {
+				helpers.LogException("[worker] failed to log notification for order", map[string]interface{}{
+					"error":     err.Error(),
+					"order_id":  delivery.OrderID,
+					"task_type": task.Type(),
+				})
+			}
+		}
+
+		helpers.LogInfo("[worker] carrier bulk deliver email worker completed successfully", map[string]interface{}{
+			"task_type":      task.Type(),
+			"data":           data,
+			"orders_count":   len(deliveries),
+			"notifications_logged": len(deliveries),
 		})
 
 	}

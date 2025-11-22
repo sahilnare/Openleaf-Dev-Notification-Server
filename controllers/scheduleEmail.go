@@ -297,13 +297,14 @@ func ScheduleCarrierAppointmentEmail(c *gin.Context) {
 			reminder_days,
 			reminder_type,
 			
-			send_bulk_reminder,
-			bulk_reminder_days,
-			bulk_reminder_type,
-			created_at
-		FROM appointment_notification_settings
-		WHERE user_id = $1 AND admin_id = $2 AND carrier_id = $3
-	`, request.UserID, request.AdminID, carrierID).Scan(
+		send_bulk_reminder,
+		bulk_reminder_time,
+		bulk_reminder_days_range,
+		bulk_reminder_type,
+		created_at
+	FROM appointment_notification_settings
+	WHERE user_id = $1 AND admin_id = $2 AND carrier_id = $3
+`, request.UserID, request.AdminID, carrierID).Scan(
 		&notificationSettings.AdminID,
 		&notificationSettings.UserID,
 		&notificationSettings.Channel,
@@ -328,7 +329,8 @@ func ScheduleCarrierAppointmentEmail(c *gin.Context) {
 		&notificationSettings.ReminderType,
 	
 		&notificationSettings.SendBulkReminder,
-		&notificationSettings.BulkReminderDays,
+		&notificationSettings.BulkReminderTime,
+		&notificationSettings.BulkReminderDaysRange,
 		&notificationSettings.BulkReminderType,
 		&notificationSettings.CreatedAt,
 	)
@@ -371,13 +373,14 @@ func ScheduleCarrierAppointmentEmail(c *gin.Context) {
 				reminder_days,
 				reminder_type,
 				
-				send_bulk_reminder,
-				bulk_reminder_days,
-				bulk_reminder_type,
-				created_at
-			FROM appointment_notification_settings
-			WHERE user_id = $1 AND admin_id = $2 AND carrier_id = $3
-		`, request.UserID, request.AdminID, "all").Scan(
+			send_bulk_reminder,
+			bulk_reminder_time,
+			bulk_reminder_days_range,
+			bulk_reminder_type,
+			created_at
+		FROM appointment_notification_settings
+		WHERE user_id = $1 AND admin_id = $2 AND carrier_id = $3
+	`, request.UserID, request.AdminID, "all").Scan(
 			&notificationSettings.AdminID,
 			&notificationSettings.UserID,
 			&notificationSettings.Channel,
@@ -397,7 +400,8 @@ func ScheduleCarrierAppointmentEmail(c *gin.Context) {
 			&notificationSettings.ReminderDays,
 			&notificationSettings.ReminderType,
 			&notificationSettings.SendBulkReminder,
-			&notificationSettings.BulkReminderDays,
+			&notificationSettings.BulkReminderTime,
+			&notificationSettings.BulkReminderDaysRange,
 			&notificationSettings.BulkReminderType,
 			&notificationSettings.CreatedAt,
 		)
@@ -423,11 +427,19 @@ func ScheduleCarrierAppointmentEmail(c *gin.Context) {
 				"order_id": request.OrderID,
 				"user_id": request.UserID,
 				"admin_id": request.AdminID,
+				"carrier_id": carrierID,
 			})
 			c.JSON(http.StatusBadRequest, models.ServerResponse{
 				Success: false,
 				StatusCode: http.StatusBadRequest,
 				Message: "Notification settings not found",
+				Data: map[string]any{
+					"order_id": request.OrderID,
+					"user_id": request.UserID,
+					"admin_id": request.AdminID,
+					"carrier_id": carrierID,
+				},
+				Error: "Notification settings not found",
 			})
 			return
 		}
@@ -438,13 +450,8 @@ func ScheduleCarrierAppointmentEmail(c *gin.Context) {
 			"user_id": request.UserID,
 			"admin_id": request.AdminID,
 			"carrier_id": carrierID,
+
 		})
-		c.JSON(http.StatusBadRequest, models.ServerResponse{
-			Success: false,
-			StatusCode: http.StatusBadRequest,
-			Message: "Notification settings not found",
-		})
-		return
 	}
 
 	queueData := models.CarrierAppointmentEmailWorkerData{
@@ -472,6 +479,13 @@ func ScheduleCarrierAppointmentEmail(c *gin.Context) {
 				Success: false,
 				StatusCode: http.StatusBadRequest,
 				Message: "Notification type is nil",
+				Data: map[string]any{
+					"order_id": request.OrderID,
+					"user_id": request.UserID,
+					"admin_id": request.AdminID,
+					"carrier_id": carrierID,
+				},
+				Error: "Notification type is nil",
 			})
 			return
 		}
@@ -492,6 +506,13 @@ func ScheduleCarrierAppointmentEmail(c *gin.Context) {
 					Success: false,
 					StatusCode: http.StatusBadRequest,
 					Message: "Order placed at is nil or zero",
+					Data: map[string]any{
+						"order_id": request.OrderID,
+						"user_id": request.UserID,
+						"admin_id": request.AdminID,
+						"carrier_id": carrierID,
+					},
+					Error: "Order placed at is nil or zero",
 				})
 
 				return
@@ -506,6 +527,13 @@ func ScheduleCarrierAppointmentEmail(c *gin.Context) {
 					Success: false,
 					StatusCode: http.StatusBadRequest,
 					Message: "Appointment taken at is nil or zero",
+					Data: map[string]any{
+						"order_id": request.OrderID,
+						"user_id": request.UserID,
+						"admin_id": request.AdminID,
+						"carrier_id": carrierID,
+					},
+					Error: "Appointment taken at is nil or zero",
 				})
 				return
 			}
@@ -541,6 +569,12 @@ func ScheduleCarrierAppointmentEmail(c *gin.Context) {
 						StatusCode: http.StatusInternalServerError,
 						Message: "Failed to marshal request payload",
 						Error: err.Error(),
+						Data: map[string]any{
+							"order_id": request.OrderID,
+							"user_id": request.UserID,
+							"admin_id": request.AdminID,
+							"carrier_id": carrierID,
+						},
 					})
 					return
 				}

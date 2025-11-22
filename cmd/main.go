@@ -25,7 +25,7 @@ func main() {
 		panic("Error loading .env file: " + err.Error())
 	}
 
-	port := os.Getenv("NOTIFICAION_SERVER_PORT")
+	port := os.Getenv("NOTIFICATION_SERVER_PORT")
 	if port == "" {
 		port = "8080"
 	}
@@ -84,7 +84,7 @@ func main() {
 			return
 		}
 		token := authHeader[len("Bearer "):]
-		expectedToken := os.Getenv("NOTIFICAION_SERVER_TOKEN")
+		expectedToken := os.Getenv("NOTIFICATION_SERVER_TOKEN")
 		if expectedToken == "" || token != expectedToken {
 			c.AbortWithStatusJSON(http.StatusUnauthorized, map[string]interface{}{
 				"success":    false,

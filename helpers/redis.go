@@ -6,22 +6,22 @@ import (
 
 func GetRedisConfig() (string, string, string, string) {
 
-	redisHost := os.Getenv("NOTIFICAION_SERVER_REDIS_HOST")
-	redisPassword := os.Getenv("NOTIFICAION_SERVER_REDIS_PASSWORD")
-	redisUsername := os.Getenv("NOTIFICAION_SERVER_REDIS_USERNAME")
-	redisPort := os.Getenv("NOTIFICAION_SERVER_REDIS_PORT")
+	redisHost := os.Getenv("NOTIFICATION_SERVER_REDIS_HOST")
+	redisPassword := os.Getenv("NOTIFICATION_SERVER_REDIS_PASSWORD")
+	redisUsername := os.Getenv("NOTIFICATION_SERVER_REDIS_USERNAME")
+	redisPort := os.Getenv("NOTIFICATION_SERVER_REDIS_PORT")
 
 	if redisHost == "" {
-		panic("Redis configuration is incomplete. NOTIFICAION_SERVER_REDIS_HOST must be set")
+		panic("Redis configuration is incomplete. NOTIFICATION_SERVER_REDIS_HOST must be set")
 	}
 	if redisPort == "" {
-		panic("Redis configuration is incomplete. NOTIFICAION_SERVER_REDIS_PORT must be set")
+		panic("Redis configuration is incomplete. NOTIFICATION_SERVER_REDIS_PORT must be set")
 	}
 	if redisUsername == "" {
-		panic("Redis configuration is incomplete. NOTIFICAION_SERVER_REDIS_USERNAME must be set")
+		panic("Redis configuration is incomplete. NOTIFICATION_SERVER_REDIS_USERNAME must be set")
 	}
 	// if redisPassword == "" {
-	// 	panic("Redis configuration is incomplete. NOTIFICAION_SERVER_REDIS_PASSWORD must be set")
+	// 	panic("Redis configuration is incomplete. NOTIFICATION_SERVER_REDIS_PASSWORD must be set")
 	// }
 
 

@@ -190,6 +190,7 @@ type CarrierBulkPickupEmailWorkerDataData struct {
 	Day       *string `json:"day"`
 }
 type CarrierBulkDeliverEmailData struct {
+	OrderID                uuid.UUID          `json:"order_id" db:"order_id"`
 	CarrierName            string             `json:"carrier_name" db:"carrier_name"`
 	Channel                string             `json:"channel" db:"channel"`
 	PONumber               *JSONBArrayString  `json:"po_number" db:"po_number"`
