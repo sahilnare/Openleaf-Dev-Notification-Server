@@ -12,7 +12,6 @@ import (
 type CarrierAppointmentEmailData struct {
 	PONumber              *JSONBArrayString  `json:"po_number"`
 	LRNumber              *string            `json:"lr_number"`
-	AppointmentDate       *time.Time         `json:"appointment_date"`
 	MasterWaybill         *JSONBArrayString  `json:"master_waybill"`
 	ChildWaybill          *JSONBArrayString  `json:"child_waybill"`
 	Cartons               *CartonDetailsList `json:"cartons"`
@@ -159,6 +158,7 @@ type CarrierAppointmentEmailWorkerData struct {
 }
 
 type CarrierBulkPickupEmailData struct {
+	OrderID                uuid.UUID          `json:"order_id" db:"order_id"`
 	CarrierName            string             `json:"carrier_name" db:"carrier_name"`
 	Channel                string             `json:"channel" db:"channel"`
 	PONumber               *JSONBArrayString  `json:"po_number" db:"po_number"`
@@ -195,7 +195,7 @@ type CarrierBulkDeliverEmailData struct {
 	Channel                string             `json:"channel" db:"channel"`
 	PONumber               *JSONBArrayString  `json:"po_number" db:"po_number"`
 	CustomerWarehouseCity  *string            `json:"customer_warehouse_city" db:"customer_city"`
-	WarehousePin           *string            `json:"warehouse_pin" db:"customer_pincode"`
+	CustomerWarehousePin   *string            `json:"customer_warehouse_pin" db:"customer_pincode"`
 	SKUDetails             SKUDetailedItems   `json:"sku_details" db:"sku_details"`
 	LRNumber               *string            `json:"lr_number" db:"lr_number"`
 	AppointmentScheduledAt *time.Time         `json:"appointment_scheduled_at" db:"appointment_scheduled_at"`

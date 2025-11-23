@@ -4,7 +4,7 @@ const SendAppointmentReminderEmailTemplate = `
 <html>
 	<head>
 		<style>
-			body { font-family: Arial, sans-serif; color: #333; line-height: 1.5; margin: 0; padding: 20px; }
+			body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif; color: #333; line-height: 1.5; margin: 0; padding: 20px; }
 			.order-details { margin: 20px 0; }
 			.details-row { margin-bottom: 8px; }
 			.label { font-weight: bold; display: inline; }
@@ -31,14 +31,8 @@ const SendAppointmentReminderEmailTemplate = `
 				<span class="label">PO Number:</span>
 				<span class="value">%s</span>
 			</div>
-			<div class="details-row">
-				<span class="label">Master Waybills:</span>
-				<span class="value">%s</span>
-			</div>
-			<div class="details-row">
-				<span class="label">Child Waybills:</span>
-				<span class="value">%s</span>
-			</div>
+			%s
+			%s
 			<div class="details-row">
 				<span class="label">Delivery Schedule:</span>
 				<span class="value">%s</span>
@@ -117,7 +111,7 @@ const SendAppointmentEmailTemplate = `
 <html>
 	<head>
 		<style>
-			body { font-family: Arial, sans-serif; color: #333; line-height: 1.5; margin: 0; padding: 20px; }
+			body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif; color: #333; line-height: 1.5; margin: 0; padding: 20px; }
 			.order-details { margin: 20px 0; }
 			.details-row { margin-bottom: 8px; }
 			.label { font-weight: bold; display: inline; }
@@ -144,14 +138,8 @@ const SendAppointmentEmailTemplate = `
 				<span class="label">PO Number:</span>
 				<span class="value">%s</span>
 			</div>
-			<div class="details-row">
-				<span class="label">Master Waybills:</span>
-				<span class="value">%s</span>
-			</div>
-			<div class="details-row">
-				<span class="label">Child Waybills:</span>
-				<span class="value">%s</span>
-			</div>
+			%s
+			%s
 			<div class="details-row">
 				<span class="label">Delivery Schedule:</span>
 				<span class="value">%s</span>
@@ -230,7 +218,7 @@ const SendCarrierBulkPickupEmailTemplate = `
 <html>
     <head>
         <style>
-            body { font-family: Arial, sans-serif; color: #333; line-height: 1.5; margin: 0; padding: 20px; }
+            body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif; color: #333; line-height: 1.5; margin: 0; padding: 20px; }
             .order-details { margin: 20px 0; }
             .details-row { margin-bottom: 8px; }
             .label { font-weight: bold; display: inline; }
@@ -310,7 +298,7 @@ const SendCarrierBulkDeliverEmailTemplate = `
 <html>
     <head>
         <style>
-            body { font-family: Arial, sans-serif; color: #333; line-height: 1.5; margin: 0; padding: 20px; }
+            body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif; color: #333; line-height: 1.5; margin: 0; padding: 20px; }
             .order-details { margin: 20px 0; }
             .details-row { margin-bottom: 8px; }
             .label { font-weight: bold; display: inline; }

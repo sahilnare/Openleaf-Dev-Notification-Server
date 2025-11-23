@@ -212,7 +212,7 @@ func ScheduleCarrierAppointmentEmail(c *gin.Context) {
 
 
 	data.LRNumber = lrNumber
-	data.AppointmentDate = appointmentTakenAt
+	data.AppointmentTakenAt = appointmentTakenAt
 	data.AppointmentScheduledAt = appointmentScheduledAt
 	data.Channel = channel
 	data.TotalCartons = totalCartons
@@ -485,14 +485,51 @@ func ScheduleCarrierAppointmentEmail(c *gin.Context) {
 					"admin_id": request.AdminID,
 					"carrier_id": carrierID,
 				},
-				Error: "Notification type is nil",
-			})
-			return
-		}
-		
-		switch *notificationSettings.NotificationType {
+		Error: "Notification type is nil",
+		})
+		return
+	}
 
-		case "after_appointment_taken":
+	// Check if notification already sent for this order and type
+	var existingNotificationCount int
+	checkQuery := `
+		SELECT COUNT(*) 
+		FROM notification_logs 
+		WHERE order_id = $1 
+		AND type = $2 
+		AND status = 'sent'
+	`
+	err = db.GlobalDB.QueryRow(checkQuery, request.OrderID, models.EmailCarrierAppointmentQueue).Scan(&existingNotificationCount)
+	if err != nil {
+		helpers.LogException("failed to check existing notifications", map[string]interface{}{
+			"order_id": request.OrderID,
+			"type": models.EmailCarrierAppointmentQueue,
+			"error": err.Error(),
+		})
+	}
+
+	if existingNotificationCount > 0 {
+		helpers.LogInfo("notification already sent for this order", map[string]interface{}{
+			"order_id": request.OrderID,
+			"type": models.EmailCarrierAppointmentQueue,
+			"existing_count": existingNotificationCount,
+		})
+		c.JSON(http.StatusOK, models.ServerResponse{
+			Success: true,
+			StatusCode: http.StatusOK,
+			Message: "Notification already sent for this order",
+			Data: map[string]any{
+				"order_id": request.OrderID,
+				"type": models.EmailCarrierAppointmentQueue,
+				"status": "skipped",
+			},
+		})
+		return
+	}
+	
+	switch *notificationSettings.NotificationType {
+
+	case "after_appointment_taken":
 
 			// # Check if order placed or not
 			if orderPlacedAt == nil || orderPlacedAt.IsZero() {
@@ -770,7 +807,7 @@ func ScheduleCarrierAppointmentEmail(c *gin.Context) {
 				daysFloat, _ := strconv.ParseFloat(strings.TrimSpace(day), 64)
 				// Convert UTC time to IST timezone before adding days
 				istExpectedDeliveryDate := expectedDeliveryDate.In(istLocation)
-				sendAt = istExpectedDeliveryDate.Add((-time.Duration(daysFloat)) * time.Hour * 24)
+				sendAt = istExpectedDeliveryDate.Add(time.Duration(daysFloat) * time.Hour * 24)
 
 				if sendAt.Before(helpers.GetISTTime()) {
 					sendAt = helpers.GetISTTime().Add(time.Second * 5)
@@ -880,7 +917,7 @@ func ScheduleCarrierAppointmentEmail(c *gin.Context) {
 				daysFloat, _ := strconv.ParseFloat(strings.TrimSpace(day), 64)
 				// Convert UTC time to IST timezone before adding days
 				istExpectedDeliveryDate := expectedDeliveryDate.In(istLocation)
-				sendAt = istExpectedDeliveryDate.Add((-time.Duration(daysFloat)) * time.Hour * 24)
+				sendAt = istExpectedDeliveryDate.Add(time.Duration(daysFloat) * time.Hour * 24)
 
 				if sendAt.Before(helpers.GetISTTime()) {
 					sendAt = helpers.GetISTTime().Add(time.Second * 5)
@@ -1078,13 +1115,50 @@ func ScheduleCarrierAppointmentEmail(c *gin.Context) {
 				StatusCode: http.StatusBadRequest,
 				Message: "Reminder type is nil",
 			})
-			return
-		}
+		return
+	}
 
-		sendAt := helpers.GetISTTime().Add(time.Second * 5)
-		
-		switch *notificationSettings.ReminderType {
-		case "after_appointment_taken":
+	// Check if reminder notification already sent for this order and type
+	var existingReminderCount int
+	checkReminderQuery := `
+		SELECT COUNT(*) 
+		FROM notification_logs 
+		WHERE order_id = $1 
+		AND type = $2 
+		AND status = 'sent'
+	`
+	err = db.GlobalDB.QueryRow(checkReminderQuery, request.OrderID, models.EmailCarrierAppointmentReminderQueue).Scan(&existingReminderCount)
+	if err != nil {
+		helpers.LogException("failed to check existing reminder notifications", map[string]interface{}{
+			"order_id": request.OrderID,
+			"type": models.EmailCarrierAppointmentReminderQueue,
+			"error": err.Error(),
+		})
+	}
+
+	if existingReminderCount > 0 {
+		helpers.LogInfo("reminder notification already sent for this order", map[string]interface{}{
+			"order_id": request.OrderID,
+			"type": models.EmailCarrierAppointmentReminderQueue,
+			"existing_count": existingReminderCount,
+		})
+		c.JSON(http.StatusOK, models.ServerResponse{
+			Success: true,
+			StatusCode: http.StatusOK,
+			Message: "Reminder notification already sent for this order",
+			Data: map[string]any{
+				"order_id": request.OrderID,
+				"type": models.EmailCarrierAppointmentReminderQueue,
+				"status": "skipped",
+			},
+		})
+		return
+	}
+
+	sendAt := helpers.GetISTTime().Add(time.Second * 5)
+	
+	switch *notificationSettings.ReminderType {
+	case "after_appointment_taken":
 
 			// # Check if order placed or not
 			if orderPlacedAt == nil || orderPlacedAt.IsZero() {
@@ -1332,7 +1406,7 @@ func ScheduleCarrierAppointmentEmail(c *gin.Context) {
 			days := strings.Split(strings.TrimSpace(*notificationSettings.ReminderDays), ",")
 			for _, day := range days {
 				daysFloat, _ := strconv.ParseFloat(strings.TrimSpace(day), 64)
-				sendAt = expectedDeliveryDate.Add((-time.Duration(daysFloat)) * time.Hour * 24)
+				sendAt = expectedDeliveryDate.Add(time.Duration(daysFloat) * time.Hour * 24)
 
 				if sendAt.Before(helpers.GetISTTime()) {
 					sendAt = helpers.GetISTTime().Add(time.Second * 5)
@@ -1435,7 +1509,7 @@ func ScheduleCarrierAppointmentEmail(c *gin.Context) {
 			days := strings.Split(strings.TrimSpace(*notificationSettings.ReminderDays), ",")
 			for _, day := range days {
 				daysFloat, _ := strconv.ParseFloat(strings.TrimSpace(day), 64)
-				sendAt = appointmentScheduledAt.Add((-time.Duration(daysFloat)) * time.Hour * 24)
+				sendAt = appointmentScheduledAt.Add(time.Duration(daysFloat) * time.Hour * 24)
 
 				if sendAt.Before(helpers.GetISTTime()) {
 					sendAt = helpers.GetISTTime().Add(time.Second * 5)

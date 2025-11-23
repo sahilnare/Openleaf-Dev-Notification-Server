@@ -121,7 +121,6 @@ func SendCarrierBulkDeliverEmail(ctx context.Context, task *asynq.Task) error {
         notification_logs nl ON o.order_id = nl.order_id 
         AND nl.type = $5 
         AND nl.status = 'sent'
-        AND DATE(nl.sent_at) = DATE($6)
 `
 	var queryBuilder strings.Builder
 	queryBuilder.WriteString(baseQuery)
@@ -141,7 +140,6 @@ func SendCarrierBulkDeliverEmail(ctx context.Context, task *asynq.Task) error {
 		startOfPeriod,
 		endOfPeriod,
 		models.EmailCarrierAppointmentBulkReminderQueue,
-		now,
 	}
 
 	finalQuery := queryBuilder.String()
@@ -244,7 +242,7 @@ func SendCarrierBulkDeliverEmail(ctx context.Context, task *asynq.Task) error {
 				strings.ToUpper(delivery.Channel),
 				poNumberStr,
 				helpers.DerefStringPointer(delivery.CustomerWarehouseCity),
-				helpers.DerefStringPointer(delivery.WarehousePin),
+				helpers.DerefStringPointer(delivery.CustomerWarehousePin),
 				helpers.DerefFloatPointer(delivery.Amount),
 				helpers.DerefStringPointer(delivery.LRNumber),
 				date,

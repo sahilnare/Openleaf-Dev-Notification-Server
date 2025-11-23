@@ -66,14 +66,20 @@ func SendAppointmentEmail(ctx context.Context, task *asynq.Task) error {
 		"order_id": data.OrderID,
 	})
 
-	masterWaybill := ""
+	masterWaybillHTML := ""
 	if data.Data.MasterWaybill != nil && len(*data.Data.MasterWaybill) > 0 {
-		masterWaybill = strings.Join(*data.Data.MasterWaybill, ", ")
+		masterWaybill := strings.Join(*data.Data.MasterWaybill, ", ")
+		if masterWaybill != "" {
+			masterWaybillHTML = fmt.Sprintf(`<div class="details-row"><span class="label">Master Waybills:</span><span class="value">%s</span></div>`, masterWaybill)
+		}
 	}
 
-	childWaybill := ""
+	childWaybillHTML := ""
 	if data.Data.ChildWaybill != nil && len(*data.Data.ChildWaybill) > 0 {
-		childWaybill = strings.Join(*data.Data.ChildWaybill, ", ")
+		childWaybill := strings.Join(*data.Data.ChildWaybill, ", ")
+		if childWaybill != "" {
+			childWaybillHTML = fmt.Sprintf(`<div class="details-row"><span class="label">Child Waybills:</span><span class="value">%s</span></div>`, childWaybill)
+		}
 	}
 
 	poNumbers := ""
@@ -99,23 +105,14 @@ func SendAppointmentEmail(ctx context.Context, task *asynq.Task) error {
 		data.Data.CarrierName,
 		helpers.DerefStringPointer(data.Data.LRNumber),
 		poNumbers,
-		masterWaybill,
-		childWaybill,
-		helpers.FormatDateDDMMYYYYHHMM(data.Data.AppointmentDate),
+		masterWaybillHTML,
+		childWaybillHTML,
+		helpers.FormatDateDDMMYYYYHHMM(data.Data.AppointmentScheduledAt),
 		helpers.DerefIntPointer(data.Data.TotalCartons),
 		helpers.DerefFloatPointer(helpers.RoundFloat(helpers.RoundFloat(data.Data.TotalDeadWeight) / 1000.0)),
 		cartonDetails.String(),
 	
-		// Delivery warehouse
-		helpers.DerefStringPointer(data.Data.WarehouseName),
-		helpers.DerefStringPointer(data.Data.WarehouseAddress),
-		helpers.DerefStringPointer(data.Data.WarehouseCity),
-		helpers.DerefStringPointer(data.Data.WarehouseState),
-		helpers.DerefStringPointer(data.Data.WarehousePin),
-		helpers.DerefStringPointer(data.Data.WarehousePhone),
-		helpers.DerefStringPointer(data.Data.WarehouseEmail),
-	
-		// Pickup warehouse
+		// Delivery warehouse - SWAPPED: CustomerWarehouse is now delivery
 		helpers.DerefStringPointer(data.Data.CustomerWarehouseName),
 		helpers.DerefStringPointer(data.Data.CustomerWarehouseAddress),
 		helpers.DerefStringPointer(data.Data.CustomerWarehouseCity),
@@ -123,6 +120,15 @@ func SendAppointmentEmail(ctx context.Context, task *asynq.Task) error {
 		helpers.DerefStringPointer(data.Data.CustomerWarehousePin),
 		helpers.DerefStringPointer(data.Data.CustomerWarehousePhone),
 		helpers.DerefStringPointer(data.Data.CustomerWarehouseEmail),
+	
+		// Pickup warehouse - SWAPPED: Warehouse is now pickup
+		helpers.DerefStringPointer(data.Data.WarehouseName),
+		helpers.DerefStringPointer(data.Data.WarehouseAddress),
+		helpers.DerefStringPointer(data.Data.WarehouseCity),
+		helpers.DerefStringPointer(data.Data.WarehouseState),
+		helpers.DerefStringPointer(data.Data.WarehousePin),
+		helpers.DerefStringPointer(data.Data.WarehousePhone),
+		helpers.DerefStringPointer(data.Data.WarehouseEmail),
 	)
 
 	receiverEmails := strings.Split(*data.Settings.ReceiverEmailsForCarrier, ",")
@@ -147,7 +153,7 @@ func SendAppointmentEmail(ctx context.Context, task *asynq.Task) error {
 		"cc": receiverCC,
 		"subject": fmt.Sprintf("Delivery Scheduled for LR %s on %s",
 			helpers.DerefStringPointer(data.Data.LRNumber),
-			helpers.FormatDateDDMMYYYY(data.Data.AppointmentDate),
+			helpers.FormatDateDDMMYYYY(data.Data.AppointmentScheduledAt),
 		),
 		"body_length": len(body),
 		"files_count": len(fileURLs),
@@ -159,7 +165,7 @@ func SendAppointmentEmail(ctx context.Context, task *asynq.Task) error {
 		receiverCC, 
 		fmt.Sprintf("Delivery Scheduled for LR %s on %s",
 			helpers.DerefStringPointer(data.Data.LRNumber),
-			helpers.FormatDateDDMMYYYY(data.Data.AppointmentDate),
+			helpers.FormatDateDDMMYYYY(data.Data.AppointmentScheduledAt),
 		),
 		body, 
 		true, 
@@ -286,14 +292,22 @@ func SendAppointmentReminderEmail(ctx context.Context, task *asynq.Task) error {
 		"order_id": data.OrderID,
 	})
 
-	masterWaybill := ""
+	// Only show Master Waybills row if data exists
+	masterWaybillHTML := ""
 	if data.Data.MasterWaybill != nil && len(*data.Data.MasterWaybill) > 0 {
-		masterWaybill = strings.Join(*data.Data.MasterWaybill, ", ")
+		masterWaybill := strings.Join(*data.Data.MasterWaybill, ", ")
+		if masterWaybill != "" {
+			masterWaybillHTML = fmt.Sprintf(`<div class="details-row"><span class="label">Master Waybills:</span><span class="value">%s</span></div>`, masterWaybill)
+		}
 	}
 
-	childWaybill := ""
+	// Only show Child Waybills row if data exists
+	childWaybillHTML := ""
 	if data.Data.ChildWaybill != nil && len(*data.Data.ChildWaybill) > 0 {
-		childWaybill = strings.Join(*data.Data.ChildWaybill, ", ")
+		childWaybill := strings.Join(*data.Data.ChildWaybill, ", ")
+		if childWaybill != "" {
+			childWaybillHTML = fmt.Sprintf(`<div class="details-row"><span class="label">Child Waybills:</span><span class="value">%s</span></div>`, childWaybill)
+		}
 	}
 
 	poNumbers := ""
@@ -318,23 +332,14 @@ func SendAppointmentReminderEmail(ctx context.Context, task *asynq.Task) error {
 		data.Data.CarrierName,
 		helpers.DerefStringPointer(data.Data.LRNumber),
 		poNumbers,
-		masterWaybill,
-		childWaybill,
-		helpers.FormatDateDDMMYYYYHHMM(data.Data.AppointmentDate),
+		masterWaybillHTML,
+		childWaybillHTML,
+		helpers.FormatDateDDMMYYYYHHMM(data.Data.AppointmentScheduledAt),
 		helpers.DerefIntPointer(data.Data.TotalCartons),
 		helpers.DerefFloatPointer(helpers.RoundFloat(helpers.RoundFloat(data.Data.TotalDeadWeight) / 1000.0)),
 		cartonDetails.String(),
 
-		// Delivery warehouse
-		helpers.DerefStringPointer(data.Data.WarehouseName),
-		helpers.DerefStringPointer(data.Data.WarehouseAddress),
-		helpers.DerefStringPointer(data.Data.WarehouseCity),
-		helpers.DerefStringPointer(data.Data.WarehouseState),
-		helpers.DerefStringPointer(data.Data.WarehousePin),
-		helpers.DerefStringPointer(data.Data.WarehousePhone),
-		helpers.DerefStringPointer(data.Data.WarehouseEmail),
-
-		// Pickup warehouse
+		// Delivery warehouse - SWAPPED: CustomerWarehouse is now delivery
 		helpers.DerefStringPointer(data.Data.CustomerWarehouseName),
 		helpers.DerefStringPointer(data.Data.CustomerWarehouseAddress),
 		helpers.DerefStringPointer(data.Data.CustomerWarehouseCity),
@@ -342,6 +347,15 @@ func SendAppointmentReminderEmail(ctx context.Context, task *asynq.Task) error {
 		helpers.DerefStringPointer(data.Data.CustomerWarehousePin),
 		helpers.DerefStringPointer(data.Data.CustomerWarehousePhone),
 		helpers.DerefStringPointer(data.Data.CustomerWarehouseEmail),
+
+		// Pickup warehouse - SWAPPED: Warehouse is now pickup
+		helpers.DerefStringPointer(data.Data.WarehouseName),
+		helpers.DerefStringPointer(data.Data.WarehouseAddress),
+		helpers.DerefStringPointer(data.Data.WarehouseCity),
+		helpers.DerefStringPointer(data.Data.WarehouseState),
+		helpers.DerefStringPointer(data.Data.WarehousePin),
+		helpers.DerefStringPointer(data.Data.WarehousePhone),
+		helpers.DerefStringPointer(data.Data.WarehouseEmail),
 	)
 
 	receiverEmails := strings.Split(*data.Settings.ReceiverEmailsForCarrier, ",")
@@ -365,7 +379,7 @@ func SendAppointmentReminderEmail(ctx context.Context, task *asynq.Task) error {
 		"cc": receiverCC,
 		"subject": fmt.Sprintf("Reminder: Delivery for LR %s on %s",
 			helpers.DerefStringPointer(data.Data.LRNumber),
-			helpers.FormatDateDDMMYYYY(data.Data.AppointmentDate),
+			helpers.FormatDateDDMMYYYY(data.Data.AppointmentScheduledAt),
 		),
 		"body_length": len(body),
 		"files_count": len(fileURLs),
@@ -377,7 +391,7 @@ func SendAppointmentReminderEmail(ctx context.Context, task *asynq.Task) error {
 		receiverCC, 
 		fmt.Sprintf("Reminder: Delivery for LR %s on %s",
 			helpers.DerefStringPointer(data.Data.LRNumber),
-			helpers.FormatDateDDMMYYYY(data.Data.AppointmentDate),
+			helpers.FormatDateDDMMYYYY(data.Data.AppointmentScheduledAt),
 		), 
 		body,
 		true,
