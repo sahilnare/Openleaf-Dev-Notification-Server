@@ -64,7 +64,7 @@ func SendCarrierBulkDeliverEmail(ctx context.Context, task *asynq.Task) error {
 		"data":      data,
 	})
 
-	// --- Date Logic (matching pickup notification pattern) ---
+	// --- Date Logic based on notification type ---
 	day := 0
 	if data.Data.Day != nil {
 		if parsedDay, err := strconv.Atoi(*data.Data.Day); err == nil {
@@ -80,29 +80,76 @@ func SendCarrierBulkDeliverEmail(ctx context.Context, task *asynq.Task) error {
 
 	var startOfPeriod, endOfPeriod time.Time
 	var targetDateStr string
+	var dateCondition string
 	now := helpers.GetISTTime()
 
-	if day < 0 {
-		// Negative day means past days: -2 means 2 days ago
+	// Check notification type to determine date logic
+	notificationType := ""
+	if data.Settings.BulkReminderType != nil {
+		notificationType = *data.Settings.BulkReminderType
+	}
+
+	switch notificationType {
+	case "before_appointment_date":
+		// For before_appointment_date: find appointments happening X days from now
+		targetDate := now.AddDate(0, 0, -day)
+		year, month, d := targetDate.Date()
+		startOfPeriod = time.Date(year, month, d, 0, 0, 0, 0, now.Location())
+		endOfPeriod = startOfPeriod.AddDate(0, 0, 1).Add(-time.Nanosecond)
+		targetDateStr = targetDate.Format("02 Jan 2006")
+		
+		// Only check appointment_scheduled_at for this type
+		dateCondition = `AND oa.appointment_scheduled_at >= $3 AND oa.appointment_scheduled_at <= $4`
+		
+		helpers.LogInfo("[worker] using before_appointment_date logic", map[string]interface{}{
+			"day":             day,
+			"target_date":     targetDateStr,
+			"start_of_period": startOfPeriod,
+			"end_of_period":   endOfPeriod,
+		})
+	case "before_delivery":
+		// For before_delivery: find deliveries happening X days from now
+		targetDate := now.AddDate(0, 0, -day)
+		year, month, d := targetDate.Date()
+		startOfPeriod = time.Date(year, month, d, 0, 0, 0, 0, now.Location())
+		endOfPeriod = startOfPeriod.AddDate(0, 0, 1).Add(-time.Nanosecond)
+		targetDateStr = targetDate.Format("02 Jan 2006")
+		
+		// Check appointment_scheduled_at or expected_delivery_date
+		dateCondition = `AND (
+			(oa.appointment_scheduled_at IS NOT NULL AND oa.appointment_scheduled_at >= $3 AND oa.appointment_scheduled_at <= $4)
+			OR
+			(oa.appointment_scheduled_at IS NULL AND "to".expected_delivery_date >= $3 AND "to".expected_delivery_date <= $4)
+		)`
+		
+		helpers.LogInfo("[worker] using before_delivery logic", map[string]interface{}{
+			"day":             day,
+			"target_date":     targetDateStr,
+			"start_of_period": startOfPeriod,
+			"end_of_period":   endOfPeriod,
+		})
+	default:
+		// Default/fallback behavior: positive day means future dates
+		// day = 1 means tomorrow (today + 1)
 		targetDate := now.AddDate(0, 0, day)
 		year, month, d := targetDate.Date()
 		startOfPeriod = time.Date(year, month, d, 0, 0, 0, 0, now.Location())
 		endOfPeriod = startOfPeriod.AddDate(0, 0, 1).Add(-time.Nanosecond)
 		targetDateStr = targetDate.Format("02 Jan 2006")
-	} else if day > 0 {
-		// Positive day means future days
-		targetDate := now.AddDate(0, 0, day)
-		year, month, d := targetDate.Date()
-		startOfPeriod = time.Date(year, month, d, 0, 0, 0, 0, now.Location())
-		endOfPeriod = startOfPeriod.AddDate(0, 0, 1).Add(-time.Nanosecond)
-		targetDateStr = targetDate.Format("02 Jan 2006")
-	} else {
-		// Day 0 means today
-		year, month, d := now.Date()
-		startOfDay := time.Date(year, month, d, 0, 0, 0, 0, now.Location())
-		startOfPeriod = startOfDay
-		endOfPeriod = now
-		targetDateStr = now.Format("02 Jan 2006")
+		
+		// Check appointment_scheduled_at or expected_delivery_date
+		dateCondition = `AND (
+			(oa.appointment_scheduled_at IS NOT NULL AND oa.appointment_scheduled_at >= $3 AND oa.appointment_scheduled_at <= $4)
+			OR
+			(oa.appointment_scheduled_at IS NULL AND "to".expected_delivery_date >= $3 AND "to".expected_delivery_date <= $4)
+		)`
+		
+		helpers.LogInfo("[worker] using default logic", map[string]interface{}{
+			"day":             day,
+			"target_date":     targetDateStr,
+			"start_of_period": startOfPeriod,
+			"end_of_period":   endOfPeriod,
+		})
 	}
 
 	baseQuery := `
@@ -126,12 +173,9 @@ func SendCarrierBulkDeliverEmail(ctx context.Context, task *asynq.Task) error {
 	queryBuilder.WriteString(baseQuery)
 
 	queryBuilder.WriteString(`
-	WHERE o.carrier_id = $1 AND o.user_id = $2
-	AND (
-		(oa.appointment_scheduled_at IS NOT NULL AND oa.appointment_scheduled_at >= $3 AND oa.appointment_scheduled_at <= $4)
-		OR
-		(oa.appointment_scheduled_at IS NULL AND "to".expected_delivery_date >= $3 AND "to".expected_delivery_date <= $4)
-	)
+	WHERE o.carrier_id = $1 AND o.user_id = $2 `)
+	queryBuilder.WriteString(dateCondition)
+	queryBuilder.WriteString(`
 	AND nl.notification_id IS NULL`)
 
 	args := []interface{}{
