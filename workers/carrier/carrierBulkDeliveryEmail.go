@@ -165,19 +165,20 @@ func SendCarrierBulkDeliverEmail(ctx context.Context, task *asynq.Task) error {
     LEFT JOIN
         tracking_orders "to" ON o.order_id = "to".order_id
     LEFT JOIN
-        notification_logs nl ON o.order_id = nl.order_id 
-        AND nl.type = $5 
-        AND nl.status = 'sent'
-`
+        notification_logs nl ON o.order_id = nl.order_id
+	`
+
 	var queryBuilder strings.Builder
 	queryBuilder.WriteString(baseQuery)
 
-	queryBuilder.WriteString(`
-	WHERE o.carrier_id = $1 AND o.user_id = $2 `)
+	queryBuilder.WriteString(`WHERE o.carrier_id = $1 AND o.user_id = $2 `)
 	queryBuilder.WriteString(dateCondition)
 	queryBuilder.WriteString(`
-	AND nl.notification_id IS NULL`)
-
+		AND (
+		nl.notification_id IS NULL
+		OR (nl.type = $5 AND nl.status != 'sent')
+		)
+	`)
 	args := []interface{}{
 		data.Data.CarrierID,
 		data.UserID,

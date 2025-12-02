@@ -89,16 +89,18 @@ func SendCarrierBulkPickupEmail(ctx context.Context, task *asynq.Task) error {
     LEFT JOIN
         order_activity oa ON o.order_id = oa.order_id
     LEFT JOIN
-        notification_logs nl ON o.order_id = nl.order_id 
-        AND nl.type = $5 
-        AND nl.status = 'sent'
-`
+        notification_logs nl ON o.order_id = nl.order_id`
 	var queryBuilder strings.Builder
 	queryBuilder.WriteString(baseQuery)
 
 	queryBuilder.WriteString(" WHERE o.carrier_id = $1 AND o.user_id = $2")
-	queryBuilder.WriteString(" AND nl.notification_id IS NULL")
-	
+	queryBuilder.WriteString(`
+		AND (
+		nl.notification_id IS NULL
+		OR (nl.type = $5 AND nl.status != 'sent')
+		)
+	`)
+
 	var startOfPeriod, endOfPeriod time.Time
 	var targetDateStr string
 	now := helpers.GetISTTime()
@@ -165,7 +167,6 @@ func SendCarrierBulkPickupEmail(ctx context.Context, task *asynq.Task) error {
 		"carrier_id":   data.Data.CarrierID,
 		"orders_count": len(orders),
 	})
-	// todo send email
 
 	if len(orders) > 0 {
 		var totalCartons int
@@ -306,9 +307,7 @@ func SendCarrierBulkPickupEmail(ctx context.Context, task *asynq.Task) error {
 			"from": helpers.B2B_EMAIL,
 			"to":   receiverEmails,
 			"cc":   receiverCC,
-			"subject": fmt.Sprintf("Pickup Plan for %s",
-				targetDateStr,
-			),
+			"subject": fmt.Sprintf("Pickup Plan for %s", targetDateStr),
 			"body_length": len(body),
 		})
 
@@ -316,9 +315,7 @@ func SendCarrierBulkPickupEmail(ctx context.Context, task *asynq.Task) error {
 			helpers.B2B_EMAIL,
 			receiverEmails,
 			receiverCC,
-			fmt.Sprintf("Pickup Plan for %s",
-				targetDateStr,
-			),
+			fmt.Sprintf("Pickup Plan for %s", targetDateStr),
 			body,
 			true,
 			[]string{},
