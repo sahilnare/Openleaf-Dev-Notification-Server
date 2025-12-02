@@ -10,7 +10,7 @@ func GetISTTime() time.Time {
 	istLocation, err := time.LoadLocation("Asia/Kolkata")
 	if err != nil {
 		// Fallback to UTC if IST cannot be loaded
-		return time.Now().UTC()
+		return time.Now().UTC().Add(5*time.Hour + 30*time.Minute)
 	}
 	return time.Now().In(istLocation)
 }
@@ -53,14 +53,28 @@ func FormatDateDDMMYYYYHHMM(t *time.Time) string {
 	if t == nil {
 		return GetISTTime().Format("02 Jan 2006 03:04 PM")
 	}
-	return t.Format("02 Jan 2006 03:04 PM")
+
+	istLocation, err := time.LoadLocation("Asia/Kolkata")
+	if err != nil {
+		// Fallback: approximate IST by adding 5.5 hours to the given time
+		return t.Add(5*time.Hour + 30*time.Minute).Format("02 Jan 2006 03:04 PM")
+	}
+
+	return t.In(istLocation).Format("02 Jan 2006 03:04 PM")
 }
 
 func FormatDateDDMMYYYY(t *time.Time) string {
 	if t == nil {
 		return GetISTTime().Format("02 Jan 2006")
 	}
-	return t.Format("02 Jan 2006")
+
+	istLocation, err := time.LoadLocation("Asia/Kolkata")
+	if err != nil {
+		// Fallback: approximate IST by adding 5.5 hours to the given time
+		return t.Add(5*time.Hour + 30*time.Minute).Format("02 Jan 2006")
+	}
+
+	return t.In(istLocation).Format("02 Jan 2006")
 }
 
 func RoundFloat(f any) float64 {
