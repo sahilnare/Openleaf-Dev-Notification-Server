@@ -2,6 +2,7 @@ package helpers
 
 import (
 	"crypto/tls"
+	"database/sql"
 	"fmt"
 	"io"
 	"net/http"
@@ -11,6 +12,9 @@ import (
 	"strings"
 	"time"
 
+	"Notification-Server/db"
+
+	"github.com/google/uuid"
 	"gopkg.in/gomail.v2"
 )
 
@@ -45,6 +49,29 @@ func InitEmailConfig() {
 		"port":        port,
 		"username":    username,
 	})
+}
+
+func GetDisplayCompanyName(userID uuid.UUID) *string {
+	var displayCompanyName sql.NullString
+	err := db.GlobalDB.Get(&displayCompanyName, `
+		SELECT display_company_name 
+		FROM user_profile 
+		WHERE user_id = $1
+	`, userID)
+	
+	if err != nil {
+		LogInfo("failed to fetch display_company_name from user_profile", map[string]interface{}{
+			"user_id": userID,
+			"error":   err.Error(),
+		})
+		return nil
+	}
+	
+	if displayCompanyName.Valid && displayCompanyName.String != "" {
+		return &displayCompanyName.String
+	}
+	
+	return nil
 }
 
 func SendEmail(from string, to []string, cc []string, subject string, body string, isHTML bool, files []string) error {

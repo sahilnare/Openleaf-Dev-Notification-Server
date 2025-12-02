@@ -351,13 +351,19 @@ func SendCarrierBulkDeliverEmail(ctx context.Context, task *asynq.Task) error {
 			"cc_count":         len(receiverCC),
 		})
 
+		subject := fmt.Sprintf("Complete Delivery Plan for %s", targetDateStr)
+		
+		// Append display_company_name to subject if it exists
+		displayCompanyName := helpers.GetDisplayCompanyName(data.UserID)
+		if displayCompanyName != nil && *displayCompanyName != "" {
+			subject = fmt.Sprintf("%s <> %s", subject, *displayCompanyName)
+		}
+
 		helpers.LogInfo("[worker] attempting to send bulk pickup email", map[string]interface{}{
 			"from": helpers.B2B_EMAIL,
 			"to":   receiverEmails,
 			"cc":   receiverCC,
-			"subject": fmt.Sprintf("Pickup Plan for %s",
-				targetDateStr,
-			),
+			"subject": subject,
 			"body_length": len(body),
 		})
 
@@ -365,9 +371,7 @@ func SendCarrierBulkDeliverEmail(ctx context.Context, task *asynq.Task) error {
 			helpers.B2B_EMAIL,
 			receiverEmails,
 			receiverCC,
-			fmt.Sprintf("Pickup Plan for %s",
-				targetDateStr,
-			),
+			subject,
 			body,
 			true,
 			[]string{},

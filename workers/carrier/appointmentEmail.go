@@ -147,14 +147,22 @@ func SendAppointmentEmail(ctx context.Context, task *asynq.Task) error {
 		fileURLs = *data.Data.Files
 	}
 
+	subject := fmt.Sprintf("Delivery Scheduled for LR %s on %s",
+		helpers.DerefStringPointer(data.Data.LRNumber),
+		helpers.FormatDateDDMMYYYY(data.Data.AppointmentScheduledAt),
+	)
+	
+	// Append display_company_name to subject if it exists
+	displayCompanyName := helpers.GetDisplayCompanyName(data.UserID)
+	if displayCompanyName != nil && *displayCompanyName != "" {
+		subject = fmt.Sprintf("%s <> %s", subject, *displayCompanyName)
+	}
+
 	helpers.LogInfo("[worker] attempting to send email", map[string]interface{}{
 		"from": helpers.B2B_EMAIL,
 		"to": receiverEmails,
 		"cc": receiverCC,
-		"subject": fmt.Sprintf("Delivery Scheduled for LR %s on %s",
-			helpers.DerefStringPointer(data.Data.LRNumber),
-			helpers.FormatDateDDMMYYYY(data.Data.AppointmentScheduledAt),
-		),
+		"subject": subject,
 		"body_length": len(body),
 		"files_count": len(fileURLs),
 	})
@@ -163,10 +171,7 @@ func SendAppointmentEmail(ctx context.Context, task *asynq.Task) error {
 		helpers.B2B_EMAIL, 
 		receiverEmails, 
 		receiverCC, 
-		fmt.Sprintf("Delivery Scheduled for LR %s on %s",
-			helpers.DerefStringPointer(data.Data.LRNumber),
-			helpers.FormatDateDDMMYYYY(data.Data.AppointmentScheduledAt),
-		),
+		subject,
 		body, 
 		true, 
 		fileURLs,
@@ -373,14 +378,22 @@ func SendAppointmentReminderEmail(ctx context.Context, task *asynq.Task) error {
 		fileURLs = *data.Data.Files
 	}
 
+	subject := fmt.Sprintf("Reminder: Delivery for LR %s on %s",
+		helpers.DerefStringPointer(data.Data.LRNumber),
+		helpers.FormatDateDDMMYYYY(data.Data.AppointmentScheduledAt),
+	)
+	
+	// Append display_company_name to subject if it exists
+	displayCompanyName := helpers.GetDisplayCompanyName(data.UserID)
+	if displayCompanyName != nil && *displayCompanyName != "" {
+		subject = fmt.Sprintf("%s <> %s", subject, *displayCompanyName)
+	}
+
 	helpers.LogInfo("[worker] attempting to send reminder email", map[string]interface{}{
 		"from": helpers.B2B_EMAIL,
 		"to": receiverEmails,
 		"cc": receiverCC,
-		"subject": fmt.Sprintf("Reminder: Delivery for LR %s on %s",
-			helpers.DerefStringPointer(data.Data.LRNumber),
-			helpers.FormatDateDDMMYYYY(data.Data.AppointmentScheduledAt),
-		),
+		"subject": subject,
 		"body_length": len(body),
 		"files_count": len(fileURLs),
 	})
@@ -389,10 +402,7 @@ func SendAppointmentReminderEmail(ctx context.Context, task *asynq.Task) error {
 		helpers.B2B_EMAIL, 
 		receiverEmails, 
 		receiverCC, 
-		fmt.Sprintf("Reminder: Delivery for LR %s on %s",
-			helpers.DerefStringPointer(data.Data.LRNumber),
-			helpers.FormatDateDDMMYYYY(data.Data.AppointmentScheduledAt),
-		), 
+		subject, 
 		body,
 		true,
 		fileURLs,
