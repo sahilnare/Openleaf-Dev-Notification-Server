@@ -92,15 +92,15 @@ func SendCarrierBulkDeliverEmail(ctx context.Context, task *asynq.Task) error {
 	switch notificationType {
 	case "before_appointment_date":
 		// For before_appointment_date: find appointments happening X days from now
-		targetDate := now.AddDate(0, 0, -day)
+		targetDate := now.AddDate(0, 0, day)
 		year, month, d := targetDate.Date()
 		startOfPeriod = time.Date(year, month, d, 0, 0, 0, 0, now.Location())
 		endOfPeriod = startOfPeriod.AddDate(0, 0, 1).Add(-time.Nanosecond)
 		targetDateStr = targetDate.Format("02 Jan 2006")
-		
+
 		// Only check appointment_scheduled_at for this type
 		dateCondition = `AND oa.appointment_scheduled_at >= $3 AND oa.appointment_scheduled_at <= $4`
-		
+
 		helpers.LogInfo("[worker] using before_appointment_date logic", map[string]interface{}{
 			"day":             day,
 			"target_date":     targetDateStr,
@@ -109,19 +109,19 @@ func SendCarrierBulkDeliverEmail(ctx context.Context, task *asynq.Task) error {
 		})
 	case "before_delivery":
 		// For before_delivery: find deliveries happening X days from now
-		targetDate := now.AddDate(0, 0, -day)
+		targetDate := now.AddDate(0, 0, day)
 		year, month, d := targetDate.Date()
 		startOfPeriod = time.Date(year, month, d, 0, 0, 0, 0, now.Location())
 		endOfPeriod = startOfPeriod.AddDate(0, 0, 1).Add(-time.Nanosecond)
 		targetDateStr = targetDate.Format("02 Jan 2006")
-		
+
 		// Check appointment_scheduled_at or expected_delivery_date
 		dateCondition = `AND (
 			(oa.appointment_scheduled_at IS NOT NULL AND oa.appointment_scheduled_at >= $3 AND oa.appointment_scheduled_at <= $4)
 			OR
 			(oa.appointment_scheduled_at IS NULL AND "to".expected_delivery_date >= $3 AND "to".expected_delivery_date <= $4)
 		)`
-		
+
 		helpers.LogInfo("[worker] using before_delivery logic", map[string]interface{}{
 			"day":             day,
 			"target_date":     targetDateStr,
@@ -136,14 +136,14 @@ func SendCarrierBulkDeliverEmail(ctx context.Context, task *asynq.Task) error {
 		startOfPeriod = time.Date(year, month, d, 0, 0, 0, 0, now.Location())
 		endOfPeriod = startOfPeriod.AddDate(0, 0, 1).Add(-time.Nanosecond)
 		targetDateStr = targetDate.Format("02 Jan 2006")
-		
+
 		// Check appointment_scheduled_at or expected_delivery_date
 		dateCondition = `AND (
 			(oa.appointment_scheduled_at IS NOT NULL AND oa.appointment_scheduled_at >= $3 AND oa.appointment_scheduled_at <= $4)
 			OR
 			(oa.appointment_scheduled_at IS NULL AND "to".expected_delivery_date >= $3 AND "to".expected_delivery_date <= $4)
 		)`
-		
+
 		helpers.LogInfo("[worker] using default logic", map[string]interface{}{
 			"day":             day,
 			"target_date":     targetDateStr,
@@ -352,7 +352,7 @@ func SendCarrierBulkDeliverEmail(ctx context.Context, task *asynq.Task) error {
 		})
 
 		subject := fmt.Sprintf("Complete Delivery Plan for %s", targetDateStr)
-		
+
 		// Append display_company_name to subject if it exists
 		displayCompanyName := helpers.GetDisplayCompanyName(data.UserID)
 		if displayCompanyName != nil && *displayCompanyName != "" {
@@ -360,10 +360,10 @@ func SendCarrierBulkDeliverEmail(ctx context.Context, task *asynq.Task) error {
 		}
 
 		helpers.LogInfo("[worker] attempting to send bulk pickup email", map[string]interface{}{
-			"from": helpers.B2B_EMAIL,
-			"to":   receiverEmails,
-			"cc":   receiverCC,
-			"subject": subject,
+			"from":        helpers.B2B_EMAIL,
+			"to":          receiverEmails,
+			"cc":          receiverCC,
+			"subject":     subject,
 			"body_length": len(body),
 		})
 
@@ -443,9 +443,9 @@ func SendCarrierBulkDeliverEmail(ctx context.Context, task *asynq.Task) error {
 		}
 
 		helpers.LogInfo("[worker] carrier bulk deliver email worker completed successfully", map[string]interface{}{
-			"task_type":      task.Type(),
-			"data":           data,
-			"orders_count":   len(deliveries),
+			"task_type":            task.Type(),
+			"data":                 data,
+			"orders_count":         len(deliveries),
 			"notifications_logged": len(deliveries),
 		})
 
