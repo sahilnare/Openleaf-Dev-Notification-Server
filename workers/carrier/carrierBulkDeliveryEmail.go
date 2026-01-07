@@ -92,7 +92,7 @@ func SendCarrierBulkDeliverEmail(ctx context.Context, task *asynq.Task) error {
 	switch notificationType {
 	case "before_appointment_date":
 		// For before_appointment_date: find appointments happening X days from now
-		targetDate := now.AddDate(0, 0, day)
+		targetDate := now.AddDate(0, 0, -day)
 		year, month, d := targetDate.Date()
 		startOfPeriod = time.Date(year, month, d, 0, 0, 0, 0, now.Location())
 		endOfPeriod = startOfPeriod.AddDate(0, 0, 1).Add(-time.Nanosecond)
@@ -109,7 +109,7 @@ func SendCarrierBulkDeliverEmail(ctx context.Context, task *asynq.Task) error {
 		})
 	case "before_delivery":
 		// For before_delivery: find deliveries happening X days from now
-		targetDate := now.AddDate(0, 0, day)
+		targetDate := now.AddDate(0, 0, -day)
 		year, month, d := targetDate.Date()
 		startOfPeriod = time.Date(year, month, d, 0, 0, 0, 0, now.Location())
 		endOfPeriod = startOfPeriod.AddDate(0, 0, 1).Add(-time.Nanosecond)
@@ -131,7 +131,7 @@ func SendCarrierBulkDeliverEmail(ctx context.Context, task *asynq.Task) error {
 	default:
 		// Default/fallback behavior: positive day means future dates
 		// day = 1 means tomorrow (today + 1)
-		targetDate := now.AddDate(0, 0, day)
+		targetDate := now.AddDate(0, 0, 1)
 		year, month, d := targetDate.Date()
 		startOfPeriod = time.Date(year, month, d, 0, 0, 0, 0, now.Location())
 		endOfPeriod = startOfPeriod.AddDate(0, 0, 1).Add(-time.Nanosecond)

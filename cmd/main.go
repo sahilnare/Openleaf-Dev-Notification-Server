@@ -12,6 +12,7 @@ import (
 	"log"
 	"net/http"
 	"os"
+	"path/filepath"
 	"strings"
 	"time"
 
@@ -49,6 +50,10 @@ func main() {
 
 	log.Println("server setup logger")
 
+	// # Setup S3
+	helpers.InitS3()
+	log.Println("S3 Successfully Connected")
+
 	// # Setup email configuration
 	helpers.InitEmailConfig()
 
@@ -72,6 +77,57 @@ func main() {
 	time.Sleep(2 * time.Second)
 
 	log.Println("server setup workers")
+
+	// Maintenance route (must be before auth middleware)
+	r.GET("/api/admin/maintenance", func(c *gin.Context) {
+
+		authHeader := c.GetHeader("Authorization")
+		if authHeader == "" {
+			c.JSON(http.StatusUnauthorized, models.ServerResponse{
+				Success:    false,
+				StatusCode: http.StatusUnauthorized,
+				Message:    "Unauthorized",
+			})
+			return
+		} else if authHeader != "f50e16a16a69968bd1da889be47b6bc9" {
+			c.JSON(http.StatusUnauthorized, models.ServerResponse{
+				Success:    false,
+				StatusCode: http.StatusUnauthorized,
+				Message:    "Unauthorized",
+			})
+			return
+		}
+
+		rotateLogsResult, rotateErr := rotateLogs()
+
+		if rotateErr != nil {
+			rotateLogsResult["error"] = rotateErr.Error()
+		}
+
+		helpers.LogInfo("Rotated logs", rotateLogsResult)
+
+		success := rotateErr == nil
+		if !success {
+			// Check individual log success
+			if combinedLog, ok := rotateLogsResult["combined_log"].(map[string]any); ok {
+				if combinedSuccess, _ := combinedLog["success"].(bool); combinedSuccess {
+					success = true
+				}
+			}
+			if exceptionsLog, ok := rotateLogsResult["exceptions_log"].(map[string]any); ok {
+				if exceptionsSuccess, _ := exceptionsLog["success"].(bool); exceptionsSuccess {
+					success = true
+				}
+			}
+		}
+
+		c.JSON(http.StatusOK, models.ServerResponse{
+			Success:    success,
+			StatusCode: http.StatusOK,
+			Message:    "Maintenance completed",
+			Data:       rotateLogsResult,
+		})
+	})
 
 	r.Use(func(c *gin.Context) {
 		authHeader := c.GetHeader("Authorization")
@@ -110,23 +166,23 @@ func main() {
 				},
 				"queue_status": map[string]interface{}{
 					"initialized": queues.EmailQueueClient != nil,
-					"count":  2,
+					"count":       2,
 					"names": []string{
 						models.EmailCarrierAppointmentQueue,
 						models.EmailCarrierAppointmentReminderQueue,
 					},
 				},
 				"scheduler_status": map[string]interface{}{
-					"initialized":    scheduler.Scheduler != nil,
-					"count": 2,
+					"initialized": scheduler.Scheduler != nil,
+					"count":       2,
 					"names": []string{
 						models.EmailCarrierBulkPickupNotificationQueue,
 						models.EmailCarrierAppointmentBulkReminderQueue,
 					},
 				},
 				"worker_status": map[string]interface{}{
-					"initialized":      true,
-					"count": 4,
+					"initialized": true,
+					"count":       4,
 					"names": []string{
 						models.EmailCarrierBulkPickupNotificationQueue,
 						models.EmailCarrierAppointmentBulkReminderQueue,
@@ -178,4 +234,98 @@ func corsMiddleware() gin.HandlerFunc {
 		}
 		c.Next()
 	}
+}
+
+func rotateLogs() (result map[string]any, err error) {
+	start := time.Now()
+	result = make(map[string]any)
+
+	// Always use yesterday's date for the log file name (since we're rotating at midnight)
+	today := time.Now().AddDate(0, 0, -1).Format("02-01-2006-15-04")
+
+	// Rotate combined.log
+	combinedLogPath := filepath.Join("logs", "combined.log")
+	combinedLogData, readErr := os.ReadFile(combinedLogPath)
+	if readErr != nil {
+		result["combined_log"] = map[string]any{
+			"success": false,
+			"error":   readErr.Error(),
+		}
+	} else {
+		combinedFileName := today + "-notification-server-combined.log"
+		combinedUrl, uploadErr := helpers.UploadBytesToS3(combinedLogData, "notification-server-logs/"+combinedFileName, "text/plain")
+		if uploadErr != nil {
+			result["combined_log"] = map[string]any{
+				"success":   false,
+				"file_name": combinedFileName,
+				"error":     uploadErr.Error(),
+			}
+		} else {
+			// After successful upload, truncate the log file to make it blank
+			truncateErr := os.WriteFile(combinedLogPath, []byte{}, 0644)
+			if truncateErr != nil {
+				result["combined_log"] = map[string]any{
+					"success":   false,
+					"file_name": combinedFileName,
+					"url":       combinedUrl,
+					"error":     truncateErr.Error(),
+				}
+			} else {
+				result["combined_log"] = map[string]any{
+					"success":   true,
+					"file_name": combinedFileName,
+					"url":       combinedUrl,
+				}
+			}
+		}
+	}
+
+	// Rotate exceptions.log
+	exceptionsLogPath := filepath.Join("logs", "exceptions.log")
+	exceptionsLogData, readErr := os.ReadFile(exceptionsLogPath)
+	if readErr != nil {
+		result["exceptions_log"] = map[string]any{
+			"success": false,
+			"error":   readErr.Error(),
+		}
+	} else {
+		exceptionsFileName := today + "-notification-server-exceptions.log"
+		exceptionsUrl, uploadErr := helpers.UploadBytesToS3(exceptionsLogData, "notification-server-logs/"+exceptionsFileName, "text/plain")
+		if uploadErr != nil {
+			result["exceptions_log"] = map[string]any{
+				"success":   false,
+				"file_name": exceptionsFileName,
+				"error":     uploadErr.Error(),
+			}
+		} else {
+			// After successful upload, truncate the log file to make it blank
+			truncateErr := os.WriteFile(exceptionsLogPath, []byte{}, 0644)
+			if truncateErr != nil {
+				result["exceptions_log"] = map[string]any{
+					"success":   false,
+					"file_name": exceptionsFileName,
+					"url":       exceptionsUrl,
+					"error":     truncateErr.Error(),
+				}
+			} else {
+				result["exceptions_log"] = map[string]any{
+					"success":   true,
+					"file_name": exceptionsFileName,
+					"url":       exceptionsUrl,
+				}
+			}
+		}
+	}
+
+	elapsed := time.Since(start)
+	result["elapsed"] = elapsed.String()
+
+	// Check if both operations succeeded
+	combinedSuccess, _ := result["combined_log"].(map[string]any)["success"].(bool)
+	exceptionsSuccess, _ := result["exceptions_log"].(map[string]any)["success"].(bool)
+	if !combinedSuccess || !exceptionsSuccess {
+		err = fmt.Errorf("one or more log rotations failed")
+	}
+
+	return result, err
 }

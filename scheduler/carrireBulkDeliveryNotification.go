@@ -135,6 +135,14 @@ func InitCarrierBulkDeliverNotification() error {
 
 				hours, minutes, _ := strings.Cut(strings.TrimSpace(time), ":")
 
+				if minutes == "00" {
+					minutes = "0"
+				}
+
+				if hours == "00" {
+					hours = "0"
+				}
+
 				cronExpr := fmt.Sprintf("%s %s * * *", minutes, hours)
 
 				dayTrimmed := strings.TrimSpace(day)
@@ -168,10 +176,10 @@ func InitCarrierBulkDeliverNotification() error {
 					})
 				} else {
 					helpers.LogInfo("InitCarrierBulkDeliverNotification: scheduled task with scheduler", map[string]interface{}{
-						"task_id":   id,
-						"cron_expr": cronExpr,
-						"day":       dayTrimmed,
-						"time":      time,
+						"task_id":    id,
+						"cron_expr":  cronExpr,
+						"day":        dayTrimmed,
+						"time":       time,
 						"carrier_id": setting.CarrierID,
 					})
 				}
@@ -259,6 +267,14 @@ func InitCarrierBulkDeliverNotification() error {
 
 				hours, minutes, _ := strings.Cut(strings.TrimSpace(time), ":")
 
+				if minutes == "00" {
+					minutes = "0"
+				}
+
+				if hours == "00" {
+					hours = "0"
+				}
+
 				cronExpr := fmt.Sprintf("%s %s * * *", minutes, hours)
 
 				dayTrimmed := strings.TrimSpace(day)
@@ -294,10 +310,10 @@ func InitCarrierBulkDeliverNotification() error {
 						})
 					} else {
 						helpers.LogInfo("InitCarrierBulkDeliverNotification: scheduled task with scheduler", map[string]interface{}{
-							"task_id":   id,
-							"cron_expr": cronExpr,
-							"day":       dayTrimmed,
-							"time":      time,
+							"task_id":    id,
+							"cron_expr":  cronExpr,
+							"day":        dayTrimmed,
+							"time":       time,
 							"carrier_id": carrierID,
 						})
 					}
