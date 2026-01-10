@@ -133,9 +133,10 @@ func InitCarrierBulkDeliverNotification() error {
 
 			for _, time := range times {
 
-				if setting.CarrierID == "5c54da80-3160-486e-a0f9-151ceedfc41a" {
-					time = "00:40"
-				}
+				// ! TESTING: Uncomment this to test the cron expression for a specific carrier
+				// if setting.CarrierID == "5c54da80-3160-486e-a0f9-151ceedfc41a" {
+				// 	time = "00:40"
+				// }
 
 				hours, minutes, _ := strings.Cut(strings.TrimSpace(time), ":")
 
