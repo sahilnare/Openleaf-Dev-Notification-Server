@@ -17,7 +17,7 @@ func SendAppointmentEmail(ctx context.Context, task *asynq.Task) error {
 	defer func() {
 		if r := recover(); r != nil {
 			helpers.LogException("[worker] carrier appointment email worker panic recovered", map[string]interface{}{
-				"panic": r,
+				"panic":     r,
 				"task_type": task.Type(),
 				"task_data": string(task.Payload()),
 			})
@@ -25,8 +25,8 @@ func SendAppointmentEmail(ctx context.Context, task *asynq.Task) error {
 	}()
 
 	helpers.LogInfo("[worker] carrier appointment email worker started", map[string]interface{}{
-		"task_type": task.Type(),
-		"task_data": string(task.Payload()),
+		"task_type":      task.Type(),
+		"task_data":      string(task.Payload()),
 		"payload_length": len(task.Payload()),
 	})
 
@@ -43,15 +43,15 @@ func SendAppointmentEmail(ctx context.Context, task *asynq.Task) error {
 	helpers.LogInfo("[worker] carrier appointment email payload raw", map[string]interface{}{
 		"task_type": task.Type(),
 		"task_data": string(task.Payload()),
-		"payload": string(payload),
+		"payload":   string(payload),
 	})
 
 	var data models.CarrierAppointmentEmailWorkerData
 	err := json.Unmarshal(payload, &data)
 	if err != nil {
 		helpers.LogException("[worker] failed to unmarshal carrier appointment email payload", map[string]interface{}{
-			"error": err.Error(),
-			"payload": string(payload),
+			"error":     err.Error(),
+			"payload":   string(payload),
 			"task_type": task.Type(),
 			"task_data": string(task.Payload()),
 		})
@@ -59,11 +59,11 @@ func SendAppointmentEmail(ctx context.Context, task *asynq.Task) error {
 	}
 
 	helpers.LogInfo("[worker] carrier appointment email payload", map[string]interface{}{
-		"task_type": task.Type(),
-		"task_data": string(task.Payload()),
-		"data": data,
+		"task_type":       task.Type(),
+		"task_data":       string(task.Payload()),
+		"data":            data,
 		"notification_id": data.NotificationID,
-		"order_id": data.OrderID,
+		"order_id":        data.OrderID,
 	})
 
 	masterWaybillHTML := ""
@@ -93,13 +93,12 @@ func SendAppointmentEmail(ctx context.Context, task *asynq.Task) error {
 			"<tr><td>%d</td><td>%.2f x %.2f x %.2f Inch</td><td>%.f</td><td>%.2f KG</td></tr>",
 			i+1,
 			helpers.CmToInch(&carton.Length),
-			helpers.CmToInch(&carton.Breadth), 
+			helpers.CmToInch(&carton.Breadth),
 			helpers.CmToInch(&carton.Height),
 			carton.Quantity,
-			helpers.DerefFloatPointer(helpers.RoundFloat(carton.Weight / 1000.0)),
+			helpers.DerefFloatPointer(helpers.RoundFloat(carton.Weight/1000.0, 2)),
 		))
 	}
-
 
 	body := fmt.Sprintf(templates.SendAppointmentEmailTemplate,
 		data.Data.CarrierName,
@@ -109,9 +108,9 @@ func SendAppointmentEmail(ctx context.Context, task *asynq.Task) error {
 		childWaybillHTML,
 		helpers.FormatDateDDMMYYYYHHMM(data.Data.AppointmentScheduledAt),
 		helpers.DerefIntPointer(data.Data.TotalCartons),
-		helpers.DerefFloatPointer(helpers.RoundFloat(helpers.RoundFloat(data.Data.TotalDeadWeight) / 1000.0)),
+		helpers.DerefFloatPointer(helpers.RoundFloat(*data.Data.TotalDeadWeight/1000.0, 2)),
 		cartonDetails.String(),
-	
+
 		// Delivery warehouse - SWAPPED: CustomerWarehouse is now delivery
 		helpers.DerefStringPointer(data.Data.CustomerWarehouseName),
 		helpers.DerefStringPointer(data.Data.CustomerWarehouseAddress),
@@ -120,7 +119,7 @@ func SendAppointmentEmail(ctx context.Context, task *asynq.Task) error {
 		helpers.DerefStringPointer(data.Data.CustomerWarehousePin),
 		helpers.DerefStringPointer(data.Data.CustomerWarehousePhone),
 		helpers.DerefStringPointer(data.Data.CustomerWarehouseEmail),
-	
+
 		// Pickup warehouse - SWAPPED: Warehouse is now pickup
 		helpers.DerefStringPointer(data.Data.WarehouseName),
 		helpers.DerefStringPointer(data.Data.WarehouseAddress),
@@ -132,7 +131,7 @@ func SendAppointmentEmail(ctx context.Context, task *asynq.Task) error {
 	)
 
 	receiverEmails := strings.Split(*data.Settings.ReceiverEmailsForCarrier, ",")
-	
+
 	receiverCC := []string{}
 	if data.Settings.ReceiverCCEmailsForCarrier != nil {
 		receiverCC = append(receiverCC, strings.Split(*data.Settings.ReceiverCCEmailsForCarrier, ",")...)
@@ -151,7 +150,7 @@ func SendAppointmentEmail(ctx context.Context, task *asynq.Task) error {
 		helpers.DerefStringPointer(data.Data.LRNumber),
 		helpers.FormatDateDDMMYYYY(data.Data.AppointmentScheduledAt),
 	)
-	
+
 	// Append display_company_name to subject if it exists
 	displayCompanyName := helpers.GetDisplayCompanyName(data.UserID)
 	if displayCompanyName != nil && *displayCompanyName != "" {
@@ -159,21 +158,21 @@ func SendAppointmentEmail(ctx context.Context, task *asynq.Task) error {
 	}
 
 	helpers.LogInfo("[worker] attempting to send email", map[string]interface{}{
-		"from": helpers.B2B_EMAIL,
-		"to": receiverEmails,
-		"cc": receiverCC,
-		"subject": subject,
+		"from":        helpers.B2B_EMAIL,
+		"to":          receiverEmails,
+		"cc":          receiverCC,
+		"subject":     subject,
 		"body_length": len(body),
 		"files_count": len(fileURLs),
 	})
 
 	err = helpers.SendEmail(
-		helpers.B2B_EMAIL, 
-		receiverEmails, 
-		receiverCC, 
+		helpers.B2B_EMAIL,
+		receiverEmails,
+		receiverCC,
 		subject,
-		body, 
-		true, 
+		body,
+		true,
 		fileURLs,
 	)
 
@@ -184,27 +183,27 @@ func SendAppointmentEmail(ctx context.Context, task *asynq.Task) error {
 
 		notificationID, err := helpers.UpdateNotification(&models.Notification{
 			NotificationID: data.NotificationID,
-			OrderID: data.OrderID,
-			Sender: *data.Settings.SenderEmailsForCarrier,
-			Receiver: *data.Settings.ReceiverEmailsForCarrier,
-			SenderCC: data.Settings.SenderCCEmailsForCarrier,
-			ReceiverCC: data.Settings.ReceiverCCEmailsForCarrier,
-			Method: "email",
-			Type: models.EmailCarrierAppointmentQueue,
-			Status: "worker_error",
-			SentAt: nil,
+			OrderID:        data.OrderID,
+			Sender:         *data.Settings.SenderEmailsForCarrier,
+			Receiver:       *data.Settings.ReceiverEmailsForCarrier,
+			SenderCC:       data.Settings.SenderCCEmailsForCarrier,
+			ReceiverCC:     data.Settings.ReceiverCCEmailsForCarrier,
+			Method:         "email",
+			Type:           models.EmailCarrierAppointmentQueue,
+			Status:         "worker_error",
+			SentAt:         nil,
 		})
 
 		if err != nil {
 			helpers.LogException("[worker] failed to update notification", map[string]interface{}{
-				"error": err.Error(),
+				"error":           err.Error(),
 				"notification_id": notificationID,
-				"order_id": data.OrderID,
-				"sender": *data.Settings.SenderEmailsForCarrier,
-				"sender_cc": *data.Settings.SenderCCEmailsForCarrier,
-				"receiver_cc": *data.Settings.ReceiverCCEmailsForCarrier,
-				"receiver": *data.Settings.ReceiverEmailsForCarrier,
-				"type": models.EmailCarrierAppointmentQueue,
+				"order_id":        data.OrderID,
+				"sender":          *data.Settings.SenderEmailsForCarrier,
+				"sender_cc":       *data.Settings.SenderCCEmailsForCarrier,
+				"receiver_cc":     *data.Settings.ReceiverCCEmailsForCarrier,
+				"receiver":        *data.Settings.ReceiverEmailsForCarrier,
+				"type":            models.EmailCarrierAppointmentQueue,
 			})
 		}
 
@@ -215,28 +214,28 @@ func SendAppointmentEmail(ctx context.Context, task *asynq.Task) error {
 
 	notificationID, err := helpers.UpdateNotification(&models.Notification{
 		NotificationID: data.NotificationID,
-		OrderID: data.OrderID,
-		Sender: *data.Settings.SenderEmailsForCarrier,
-		Receiver: *data.Settings.ReceiverEmailsForCarrier,
-		SenderCC: data.Settings.SenderCCEmailsForCarrier,
-		ReceiverCC: data.Settings.ReceiverCCEmailsForCarrier,
-		Method: "email",
-		Type: models.EmailCarrierAppointmentQueue,
-		Status: "sent",
-		SentAt: &now,
+		OrderID:        data.OrderID,
+		Sender:         *data.Settings.SenderEmailsForCarrier,
+		Receiver:       *data.Settings.ReceiverEmailsForCarrier,
+		SenderCC:       data.Settings.SenderCCEmailsForCarrier,
+		ReceiverCC:     data.Settings.ReceiverCCEmailsForCarrier,
+		Method:         "email",
+		Type:           models.EmailCarrierAppointmentQueue,
+		Status:         "sent",
+		SentAt:         &now,
 	})
 
 	if err != nil {
 		helpers.LogException("[worker] failed to update notification status to sent", map[string]interface{}{
-			"error": err.Error(),
+			"error":           err.Error(),
 			"notification_id": data.NotificationID,
-			"order_id": data.OrderID,
+			"order_id":        data.OrderID,
 		})
 	}
 
 	helpers.LogInfo("[worker] appointment email sent successfully", map[string]interface{}{
-		"task_type": task.Type(),
-		"data": data,
+		"task_type":       task.Type(),
+		"data":            data,
 		"notification_id": notificationID,
 	})
 
@@ -249,7 +248,7 @@ func SendAppointmentReminderEmail(ctx context.Context, task *asynq.Task) error {
 	defer func() {
 		if r := recover(); r != nil {
 			helpers.LogException("[worker] carrier appointment reminder email worker panic recovered", map[string]interface{}{
-				"panic": r,
+				"panic":     r,
 				"task_type": task.Type(),
 				"task_data": string(task.Payload()),
 			})
@@ -257,8 +256,8 @@ func SendAppointmentReminderEmail(ctx context.Context, task *asynq.Task) error {
 	}()
 
 	helpers.LogInfo("[worker] carrier appointment reminder email worker started", map[string]interface{}{
-		"task_type": task.Type(),
-		"task_data": string(task.Payload()),
+		"task_type":      task.Type(),
+		"task_data":      string(task.Payload()),
 		"payload_length": len(task.Payload()),
 	})
 
@@ -274,15 +273,15 @@ func SendAppointmentReminderEmail(ctx context.Context, task *asynq.Task) error {
 	helpers.LogInfo("[worker] carrier appointment reminder email payload raw", map[string]interface{}{
 		"task_type": task.Type(),
 		"task_data": string(task.Payload()),
-		"payload": string(payload),
+		"payload":   string(payload),
 	})
 
 	var data models.CarrierAppointmentEmailWorkerData
 	err := json.Unmarshal(payload, &data)
 	if err != nil {
 		helpers.LogException("[worker] failed to unmarshal carrier appointment reminder email payload", map[string]interface{}{
-			"error": err.Error(),
-			"payload": string(payload),
+			"error":     err.Error(),
+			"payload":   string(payload),
 			"task_type": task.Type(),
 			"task_data": string(task.Payload()),
 		})
@@ -290,11 +289,11 @@ func SendAppointmentReminderEmail(ctx context.Context, task *asynq.Task) error {
 	}
 
 	helpers.LogInfo("[worker] carrier appointment reminder email payload", map[string]interface{}{
-		"task_type": task.Type(),
-		"task_data": string(task.Payload()),
-		"data": data,
+		"task_type":       task.Type(),
+		"task_data":       string(task.Payload()),
+		"data":            data,
 		"notification_id": data.NotificationID,
-		"order_id": data.OrderID,
+		"order_id":        data.OrderID,
 	})
 
 	// Only show Master Waybills row if data exists
@@ -326,10 +325,10 @@ func SendAppointmentReminderEmail(ctx context.Context, task *asynq.Task) error {
 			"<tr><td>%d</td><td>%.2f x %.2f x %.2f Inch</td><td>%.f</td><td>%.2f KG</td></tr>",
 			i+1,
 			helpers.CmToInch(&carton.Length),
-			helpers.CmToInch(&carton.Breadth), 
+			helpers.CmToInch(&carton.Breadth),
 			helpers.CmToInch(&carton.Height),
 			carton.Quantity,
-			helpers.DerefFloatPointer(helpers.RoundFloat(carton.Weight / 1000.0)),
+			helpers.DerefFloatPointer(helpers.RoundFloat(carton.Weight/1000.0, 2)),
 		))
 	}
 
@@ -341,7 +340,7 @@ func SendAppointmentReminderEmail(ctx context.Context, task *asynq.Task) error {
 		childWaybillHTML,
 		helpers.FormatDateDDMMYYYYHHMM(data.Data.AppointmentScheduledAt),
 		helpers.DerefIntPointer(data.Data.TotalCartons),
-		helpers.DerefFloatPointer(helpers.RoundFloat(helpers.RoundFloat(data.Data.TotalDeadWeight) / 1000.0)),
+		helpers.DerefFloatPointer(helpers.RoundFloat(*data.Data.TotalDeadWeight/1000.0, 2)),
 		cartonDetails.String(),
 
 		// Delivery warehouse - SWAPPED: CustomerWarehouse is now delivery
@@ -372,7 +371,7 @@ func SendAppointmentReminderEmail(ctx context.Context, task *asynq.Task) error {
 		receiverCC = append(receiverCC, strings.Split(*data.Settings.SenderCCEmailsForCarrier, ",")...)
 	}
 
-	// Prepare file URLs for attachment  
+	// Prepare file URLs for attachment
 	var fileURLs []string
 	if data.Data.Files != nil {
 		fileURLs = *data.Data.Files
@@ -382,7 +381,7 @@ func SendAppointmentReminderEmail(ctx context.Context, task *asynq.Task) error {
 		helpers.DerefStringPointer(data.Data.LRNumber),
 		helpers.FormatDateDDMMYYYY(data.Data.AppointmentScheduledAt),
 	)
-	
+
 	// Append display_company_name to subject if it exists
 	displayCompanyName := helpers.GetDisplayCompanyName(data.UserID)
 	if displayCompanyName != nil && *displayCompanyName != "" {
@@ -390,19 +389,19 @@ func SendAppointmentReminderEmail(ctx context.Context, task *asynq.Task) error {
 	}
 
 	helpers.LogInfo("[worker] attempting to send reminder email", map[string]interface{}{
-		"from": helpers.B2B_EMAIL,
-		"to": receiverEmails,
-		"cc": receiverCC,
-		"subject": subject,
+		"from":        helpers.B2B_EMAIL,
+		"to":          receiverEmails,
+		"cc":          receiverCC,
+		"subject":     subject,
 		"body_length": len(body),
 		"files_count": len(fileURLs),
 	})
 
 	err = helpers.SendEmail(
-		helpers.B2B_EMAIL, 
-		receiverEmails, 
-		receiverCC, 
-		subject, 
+		helpers.B2B_EMAIL,
+		receiverEmails,
+		receiverCC,
+		subject,
 		body,
 		true,
 		fileURLs,
@@ -410,73 +409,73 @@ func SendAppointmentReminderEmail(ctx context.Context, task *asynq.Task) error {
 
 	if err != nil {
 		helpers.LogException("[worker] failed to send reminder email", map[string]interface{}{
-			"error": err.Error(),
+			"error":     err.Error(),
 			"task_type": task.Type(),
 			"task_data": string(task.Payload()),
 		})
 
 		notificationID, err := helpers.UpdateNotification(&models.Notification{
 			NotificationID: data.NotificationID,
-			OrderID: data.OrderID,
-			Sender: *data.Settings.SenderEmailsForCarrier,
-			Receiver: *data.Settings.ReceiverEmailsForCarrier,
-			SenderCC: data.Settings.SenderCCEmailsForCarrier,
-			ReceiverCC: data.Settings.ReceiverCCEmailsForCarrier,
-			Method: "email",
-			Type: models.EmailCarrierAppointmentReminderQueue,
-			Status: "worker_error",
-			SentAt: nil,
+			OrderID:        data.OrderID,
+			Sender:         *data.Settings.SenderEmailsForCarrier,
+			Receiver:       *data.Settings.ReceiverEmailsForCarrier,
+			SenderCC:       data.Settings.SenderCCEmailsForCarrier,
+			ReceiverCC:     data.Settings.ReceiverCCEmailsForCarrier,
+			Method:         "email",
+			Type:           models.EmailCarrierAppointmentReminderQueue,
+			Status:         "worker_error",
+			SentAt:         nil,
 		})
 
 		if err != nil {
 			helpers.LogException("[worker] failed to update notification", map[string]interface{}{
-				"error": err.Error(),
+				"error":           err.Error(),
 				"notification_id": notificationID,
-				"order_id": data.OrderID,
-				"sender": *data.Settings.SenderEmailsForCarrier,
-				"receiver": *data.Settings.ReceiverEmailsForCarrier,
-				"sender_cc": data.Settings.SenderCCEmailsForCarrier,
-				"receiver_cc": data.Settings.ReceiverCCEmailsForCarrier,
-				"type": models.EmailCarrierAppointmentReminderQueue,
+				"order_id":        data.OrderID,
+				"sender":          *data.Settings.SenderEmailsForCarrier,
+				"receiver":        *data.Settings.ReceiverEmailsForCarrier,
+				"sender_cc":       data.Settings.SenderCCEmailsForCarrier,
+				"receiver_cc":     data.Settings.ReceiverCCEmailsForCarrier,
+				"type":            models.EmailCarrierAppointmentReminderQueue,
 			})
 		}
-		
+
 		return err
 	}
 
 	helpers.LogInfo("[worker] reminder email sent successfully", map[string]interface{}{
 		"task_type": task.Type(),
 		"task_data": string(task.Payload()),
-		"data": data,
+		"data":      data,
 	})
 
 	now := helpers.GetISTTime()
 
 	notificationID, err := helpers.UpdateNotification(&models.Notification{
 		NotificationID: data.NotificationID,
-		OrderID: data.OrderID,
-		Sender: *data.Settings.SenderEmailsForCarrier,
-		Receiver: *data.Settings.ReceiverEmailsForCarrier,
-		SenderCC: data.Settings.SenderCCEmailsForCarrier,
-		ReceiverCC: data.Settings.ReceiverCCEmailsForCarrier,
-		Method: "email",
-		Type: models.EmailCarrierAppointmentReminderQueue,
-		Status: "sent",
-		SentAt: &now,
+		OrderID:        data.OrderID,
+		Sender:         *data.Settings.SenderEmailsForCarrier,
+		Receiver:       *data.Settings.ReceiverEmailsForCarrier,
+		SenderCC:       data.Settings.SenderCCEmailsForCarrier,
+		ReceiverCC:     data.Settings.ReceiverCCEmailsForCarrier,
+		Method:         "email",
+		Type:           models.EmailCarrierAppointmentReminderQueue,
+		Status:         "sent",
+		SentAt:         &now,
 	})
 
 	if err != nil {
 		helpers.LogException("[worker] failed to update notification status to sent", map[string]interface{}{
-			"error": err.Error(),
+			"error":           err.Error(),
 			"notification_id": data.NotificationID,
-			"order_id": data.OrderID,
+			"order_id":        data.OrderID,
 		})
 	}
 
 	helpers.LogInfo("[worker] reminder email sent successfully", map[string]interface{}{
-		"task_type": task.Type(),
-		"task_data": string(task.Payload()),
-		"data": data,
+		"task_type":       task.Type(),
+		"task_data":       string(task.Payload()),
+		"data":            data,
 		"notification_id": notificationID,
 	})
 

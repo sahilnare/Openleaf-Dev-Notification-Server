@@ -205,6 +205,7 @@ type CarrierBulkDeliverEmailData struct {
 	Cartons                *CartonDetailsList `json:"cartons" db:"carton_details"`
 	InvoiceNumber          *string            `json:"invoice_number" db:"invoice_number"`
 	Amount                 *float64           `json:"amount" db:"total_invoice_value"`
+	ASNNumber              *string            `json:"asn_number" db:"asn_number"`
 }
 
 type CarrierBulkDeliverEmailWorkerData struct {

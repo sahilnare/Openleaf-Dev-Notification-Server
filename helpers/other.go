@@ -77,39 +77,39 @@ func FormatDateDDMMYYYY(t *time.Time) string {
 	return t.In(istLocation).Format("02 Jan 2006")
 }
 
-func RoundFloat(f any) float64 {
+func RoundFloat(f any, precision int) float64 {
 	if f == nil {
-		return 0.00
+		return 0.0
 	}
 	switch v := f.(type) {
 	case *float64:
-		return math.Round(*v*100) / 100
+		return math.Round(*v*float64(precision)) / float64(precision)
 	case float64:
-		return math.Round(float64(v)*100) / 100
+		return math.Round(float64(v)*float64(precision)) / float64(precision)
 	case int:
-		return float64(v)
+		return math.Round(float64(v)*float64(precision)) / float64(precision)
 	case int64:
-		return float64(v)
+		return math.Round(float64(v)*float64(precision)) / float64(precision)
 	case float32:
-		return float64(v)
+		return math.Round(float64(v)*float64(precision)) / float64(precision)
 	case int32:
-		return float64(v)
+		return math.Round(float64(v)*float64(precision)) / float64(precision)
 	case int16:
-		return float64(v)
+		return math.Round(float64(v)*float64(precision)) / float64(precision)
 	case int8:
-		return float64(v)
+		return math.Round(float64(v)*float64(precision)) / float64(precision)
 	case uint:
-		return float64(v)
+		return math.Round(float64(v)*float64(precision)) / float64(precision)
 	case uint64:
 		return float64(v)
 	case uint32:
-		return float64(v)
+		return math.Round(float64(v)*float64(precision)) / float64(precision)
 	case uint16:
-		return float64(v)
+		return math.Round(float64(v)*float64(precision)) / float64(precision)
 	case uint8:
-		return float64(v)
+		return math.Round(float64(v)*float64(precision)) / float64(precision)
 	}
-	return 0.00
+	return 0.0
 }
 
 func CmToInch(cm *float64) float64 {

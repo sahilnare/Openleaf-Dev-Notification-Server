@@ -157,13 +157,15 @@ func SendCarrierBulkDeliverEmail(ctx context.Context, task *asynq.Task) error {
         o.order_id, o.carrier_name, o.channel, o.po_number, o.customer_city, o.customer_pincode,
         o.sku_details, o.lr_number, oa.appointment_scheduled_at, "to".expected_delivery_date,
         o.total_cartons, o.total_dead_weight, o.carton_details,
-        o.invoice_number, o.total_invoice_value
+        o.invoice_number, o.total_invoice_value, od.asn_number
     FROM
         orders o
     LEFT JOIN
         order_activity oa ON o.order_id = oa.order_id
     LEFT JOIN
         tracking_orders "to" ON o.order_id = "to".order_id
+    LEFT JOIN
+        order_documents od ON o.order_id = od.order_id
     LEFT JOIN
         notification_logs nl ON o.order_id = nl.order_id
 	`
@@ -181,7 +183,7 @@ func SendCarrierBulkDeliverEmail(ctx context.Context, task *asynq.Task) error {
 	`)
 	args := []interface{}{
 		data.Data.CarrierID,
-		data.UserID,
+		data.AdminID,
 		startOfPeriod,
 		endOfPeriod,
 		models.EmailCarrierAppointmentBulkReminderQueue,
@@ -266,6 +268,11 @@ func SendCarrierBulkDeliverEmail(ctx context.Context, task *asynq.Task) error {
 				date = ""
 			}
 
+			asnNumber := "N/A"
+			if delivery.ASNNumber != nil && *delivery.ASNNumber != "" {
+				asnNumber = *delivery.ASNNumber
+			}
+
 			rowHTML := fmt.Sprintf(`
             <tr>
                 <td>%d</td>
@@ -274,6 +281,7 @@ func SendCarrierBulkDeliverEmail(ctx context.Context, task *asynq.Task) error {
                 <td>%s</td>
                 <td>%s</td>
                 <td>%.2f</td>
+                <td>%s</td>
                 <td>%s</td>
                 <td>%s</td>
                 <td>%d</td>
@@ -291,6 +299,7 @@ func SendCarrierBulkDeliverEmail(ctx context.Context, task *asynq.Task) error {
 				helpers.DerefFloatPointer(delivery.Amount),
 				helpers.DerefStringPointer(delivery.LRNumber),
 				date,
+				asnNumber,
 				helpers.DerefIntPointer(delivery.TotalCartons),
 				helpers.DerefFloatPointer(delivery.Weight)/1000,
 				cartonDimensions,
@@ -322,11 +331,11 @@ func SendCarrierBulkDeliverEmail(ctx context.Context, task *asynq.Task) error {
 		// finalString := strings.Join(dateStrings, ", ")
 
 		//Final email body
-		body := fmt.Sprintf(templates.SendCarrierBulkPickupEmailTemplate,
+		body := fmt.Sprintf(templates.SendCarrierBulkDeliverEmailTemplate,
 			deliveries[0].CarrierName,
 			targetDateStr,
 			totalCartons,
-			totalWeight/1000,
+			helpers.RoundFloat(totalWeight/1000, 2),
 			totalLRs,
 			tableRows.String(),
 		)
