@@ -53,6 +53,7 @@ func InitWorkers() {
 	mux.HandleFunc(models.EmailCarrierAppointmentQueue, carrierWorker.SendAppointmentEmail)
 	mux.HandleFunc(models.EmailCarrierAppointmentReminderQueue, carrierWorker.SendAppointmentReminderEmail)
 	mux.HandleFunc(models.EmailCarrierBulkPickupNotificationQueue, carrierWorker.SendCarrierBulkPickupEmail)
+	mux.HandleFunc(models.EmailCarrierUndeliveredNotificationQueue, carrierWorker.SendCarrierUndeliveredEmail)
 	mux.HandleFunc(models.EmailCarrierAppointmentBulkReminderQueue, carrierWorker.SendCarrierBulkDeliverEmail)
 
 	log.Println("Starting Asynq worker server...")

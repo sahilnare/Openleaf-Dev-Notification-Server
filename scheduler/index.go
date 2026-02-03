@@ -66,6 +66,9 @@ func StartScheduler() {
 	if err := InitCarrierBulkDeliverNotification(); err != nil {
 		panic("Failed to initialize carrier bulk deliver notification: " + err.Error())
 	}
+	if err := InitCarrierUndeliveredNotification(); err != nil {
+		panic("Failed to initialize carrier undelivered notification: " + err.Error())
+	}
 
 	if err := Scheduler.Run(); err != nil {
 		panic("Scheduler failed to run: " + err.Error())

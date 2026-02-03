@@ -12,6 +12,7 @@ const (
 
 	EmailCarrierAppointmentBulkReminderQueue = "email:carrier-appointment-bulk-reminder"
 	EmailCarrierBulkPickupNotificationQueue = "email:carrier-bulk-pickup-notification"
+	EmailCarrierUndeliveredNotificationQueue = "email:carrier-undelivered-notification"
 )
 
 type Notification struct {

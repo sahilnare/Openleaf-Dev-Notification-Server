@@ -374,3 +374,100 @@ const SendCarrierBulkDeliverEmailTemplate = `
     </body>
 </html>
 `
+
+const SendCarrierUndeliveredEmailTemplate = `
+<html>
+    <head>
+        <style>
+            body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif; color: #333; line-height: 1.5; margin: 0; padding: 20px; }
+            .alert-box { background-color: #fff3cd; border: 1px solid #ffc107; padding: 15px; margin-bottom: 20px; border-radius: 5px; width: fit-content; }
+            .alert-box strong { color: #856404; }
+            .order-details { margin: 20px 0; }
+            .details-row { margin-bottom: 8px; }
+            .label { font-weight: bold; display: inline; }
+            .value { display: inline; margin-left: 5px; }
+            .data-table { width: 100%%; border-collapse: collapse; font-size: 14px; margin-top: 10px; }
+            .data-table th, .data-table td { 
+                border: 1px solid #ddd; 
+                padding: 8px; 
+                text-align: left; 
+                vertical-align: top; 
+                white-space: nowrap;
+				text-align: center;
+            }
+            .data-table th { background: #f5f5f5; font-weight: bold; }
+            .sub-label { font-weight: bold; }
+            .location-section { margin: 20px 0; }
+            .location-title { font-weight: bold; margin-bottom: 8px; }
+            .location-row { margin-bottom: 6px; font-size: 14px; }
+            .footer { margin-top: 30px; }
+            .action-required { background-color: #ff5722; color: white; padding: 10px; border-radius: 5px; margin: 20px 0; text-align: center; font-weight: bold; }
+        </style>
+    </head>
+    <body>
+
+		<div class="alert-box">
+            <strong>Important Notice:</strong> The following orders were UNDELIVERED on %s. 
+            Please co-ordinate and schedule a delivery on new appointment as soon as possible.
+        </div>
+
+        <p>Hello %s Team,</p>
+        
+        <!-- <div class="action-required">
+            ⚠️ ACTION REQUIRED - UNDELIVERED ORDERS ⚠️
+        </div> -->
+
+        <div class="order-details">
+            <div class="details-row">
+                <span class="label">Total Cartons:</span>
+                <span class="value">%d</span>
+            </div>
+            <div class="details-row">
+                <span class="label">Total Weight:</span>
+                <span class="value">%.2f KG</span>
+            </div>
+            <div class="details-row">
+                <span class="label">Total LRs:</span>
+                <span class="value">%d</span>
+            </div>
+        </div>
+
+        <div class="order-details">
+            <div class="location-title">Undelivered Shipment Details</div>
+            <table class="data-table">
+                <tr>
+                    <th rowspan="2" style="text-align:center;vertical-align:middle;">Sr No</th>
+                    <th colspan="5" style="text-align:center;vertical-align:middle;">PO Details</th>
+                    <th rowspan="2" style="text-align:center;vertical-align:middle;">LR Number</th>
+                    <th rowspan="2" style="text-align:center;vertical-align:middle;">Original Appointment Date</th>
+                    <th rowspan="2" style="text-align:center;vertical-align:middle;">New Appointment Date</th>
+                    <th rowspan="2" style="text-align:center;vertical-align:middle;">ASN</th>
+                    <th colspan="3" style="text-align:center;vertical-align:middle;">Carton Details</th>
+                    <th colspan="3" style="text-align:center;vertical-align:middle;">Invoice Details</th>
+                    <th rowspan="2" style="text-align:center;vertical-align:middle;">Remark</th>
+                    <th rowspan="2" style="text-align:center;vertical-align:middle;">Last Updated At</th>
+                </tr>
+                <tr>
+                    <th>Marketplace</th>
+                    <th>Number</th>
+                    <th>City</th>
+                    <th>Pincode</th>
+                    <th>Amount (Rs)</th>
+                    <th>Quantity</th>
+                    <th>Weight</th>
+                    <th>Dimensions (L x B x H)</th>
+                    <th>Number</th>
+                    <th>Quantity</th>
+                    <th>Amount</th>
+                </tr>
+                %s
+            </table>
+        </div>
+
+        <div class="footer">
+            <p><strong>Best regards,</strong><br>Openleaf Team</p>
+            <p style="font-size: 12px; color: #666;">This is an automated notification. Please take necessary action to ensure timely delivery.</p>
+        </div>
+    </body>
+</html>
+`

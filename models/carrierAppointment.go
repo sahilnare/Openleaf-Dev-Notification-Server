@@ -143,6 +143,10 @@ type CarrierAppointmentEmailSettings struct {
 	PickupWeightNotificationTime      *string `json:"pickup_weight_notification_time" db:"pickup_weight_notification_time"`
 	PickupWeightNotificationDaysRange *string `json:"pickup_weight_notification_days_range" db:"pickup_weight_notification_days_range"`
 
+	SendUndeliveredNotification bool    `json:"send_undelivered_notification" db:"send_undelivered_notification"`
+	UndeliveredNotificationDays *string `json:"undelivered_notification_days" db:"undelivered_notification_days"`
+	UndeliveredNotificationTime *string `json:"undelivered_notification_time" db:"undelivered_notification_time"`
+
 	CreatedAt time.Time `json:"created_at" db:"created_at"`
 }
 
