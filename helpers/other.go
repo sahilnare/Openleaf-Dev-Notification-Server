@@ -126,7 +126,7 @@ func AdjustNotificationTimeToSkipSunday(sendAt time.Time, skipSunday bool) time.
 	// Check if the send time falls on Sunday
 	if skipSunday && sendAt.Weekday() == time.Sunday {
 		// Move back one day to Saturday
-		sendAt = sendAt.AddDate(0, 0, -1)0
+		sendAt = sendAt.AddDate(0, 0, -1)
 		LogInfo("Notification time adjusted to skip Sunday", map[string]interface{}{
 			"original_day":  "Sunday",
 			"adjusted_day":  "Saturday",

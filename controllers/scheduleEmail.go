@@ -22,7 +22,7 @@ func getSkipSundayByUserID(userID uuid.UUID) bool {
 	// table name to add
 	err := db.GlobalDB.QueryRow(`
 		SELECT skip_sunday
-		FROM users  
+		FROM client_users  
 		WHERE user_id = $1
 	`, userID).Scan(&skipSunday)
 
@@ -378,7 +378,6 @@ func ScheduleCarrierAppointmentEmail(c *gin.Context) {
 				notification_days,
 				notification_type,
 
-				skip_sunday,
 				
 				send_reminder,
 				reminder_days,
@@ -954,8 +953,8 @@ func ScheduleCarrierAppointmentEmail(c *gin.Context) {
 			for _, day := range days {
 				daysFloat, _ := strconv.ParseFloat(strings.TrimSpace(day), 64)
 				// Convert UTC time to IST timezone before adding days
-				istAppointmentScheduledAt := appointmentScheduledAt.In(istLocation)
-				sendAt = istAppointmentScheduledAt.Add(time.Duration(daysFloat) * time.Hour * 24)
+				istExpectedDeliveryDate := expectedDeliveryDate.In(istLocation)
+				sendAt = istExpectedDeliveryDate.Add(time.Duration(daysFloat) * time.Hour * 24)
 
 				// Adjust to skip Sunday - move to Saturday if notification falls on Sunday
 				sendAt = helpers.AdjustNotificationTimeToSkipSunday(sendAt, skipSunday)
