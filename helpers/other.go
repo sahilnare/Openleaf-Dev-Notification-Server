@@ -122,14 +122,14 @@ func CmToInch(cm *float64) float64 {
 // AdjustNotificationTimeToSkipSunday adjusts the notification time to skip Sundays
 // If the sendAt time falls on Sunday, it moves it back to Saturday
 // This ensures notifications for Sunday and Monday appointments are both sent on Saturday
-func AdjustNotificationTimeToSkipSunday(sendAt time.Time) time.Time {
+func AdjustNotificationTimeToSkipSunday(sendAt time.Time, skipSunday bool) time.Time {
 	// Check if the send time falls on Sunday
-	if sendAt.Weekday() == time.Sunday {
+	if skipSunday && sendAt.Weekday() == time.Sunday {
 		// Move back one day to Saturday
-		sendAt = sendAt.AddDate(0, 0, -1)
+		sendAt = sendAt.AddDate(0, 0, -1)0
 		LogInfo("Notification time adjusted to skip Sunday", map[string]interface{}{
-			"original_day": "Sunday",
-			"adjusted_day": "Saturday",
+			"original_day":  "Sunday",
+			"adjusted_day":  "Saturday",
 			"adjusted_time": sendAt.Format("02 Jan 2006 03:04 PM"),
 		})
 	}
