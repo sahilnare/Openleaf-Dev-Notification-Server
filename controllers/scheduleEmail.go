@@ -79,7 +79,7 @@ func ScheduleCarrierAppointmentEmail(c *gin.Context) {
 		return
 	}
 
-	skipSunday := getSkipSundayByUserID(request.UserID)
+	skipSunday := IsSkipSundayEnabledByUserID(request.UserID)
 
 	var data models.CarrierAppointmentEmailData
 
