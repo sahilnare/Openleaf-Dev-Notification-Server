@@ -17,6 +17,33 @@ import (
 	"github.com/hibiken/asynq"
 )
 
+func IsSkipSundayEnabledByUserID(userID uuid.UUID) bool {
+	var skipSunday bool
+	// table name to add
+	err := db.GlobalDB.QueryRow(`
+		SELECT skip_sunday
+		FROM client_users  
+		WHERE user_id = $1
+	`, userID).Scan(&skipSunday)
+
+	if err != nil {
+		if err == sql.ErrNoRows {
+			// User not found → default behaviour
+			return false
+		}
+
+		// Log unexpected DB error
+		helpers.LogException("failed to fetch skip_sunday by user_id", map[string]interface{}{
+			"user_id": userID,
+			"error":   err.Error(),
+		})
+
+		return false
+	}
+
+	return skipSunday
+}
+
 func ScheduleCarrierAppointmentEmail(c *gin.Context) {
 
 	var request models.ScheduleAppointmentEmailRequest
@@ -272,7 +299,7 @@ func ScheduleCarrierAppointmentEmail(c *gin.Context) {
 			send_notification,
 			notification_days,
 			notification_type,
-			
+
 			send_reminder,
 			reminder_days,
 			reminder_type,
@@ -281,6 +308,7 @@ func ScheduleCarrierAppointmentEmail(c *gin.Context) {
 		bulk_reminder_time,
 		bulk_reminder_days_range,
 		bulk_reminder_type,
+		skip_sunday_notifications,
 		created_at
 	FROM appointment_notification_settings
 	WHERE user_id = $1 AND admin_id = $2 AND carrier_id = $3
@@ -312,6 +340,7 @@ func ScheduleCarrierAppointmentEmail(c *gin.Context) {
 		&notificationSettings.BulkReminderTime,
 		&notificationSettings.BulkReminderDaysRange,
 		&notificationSettings.BulkReminderType,
+		&notificationSettings.SkipSundayNotifications,
 		&notificationSettings.CreatedAt,
 	)
 
@@ -348,6 +377,7 @@ func ScheduleCarrierAppointmentEmail(c *gin.Context) {
 				send_notification,
 				notification_days,
 				notification_type,
+
 				
 				send_reminder,
 				reminder_days,
@@ -357,6 +387,7 @@ func ScheduleCarrierAppointmentEmail(c *gin.Context) {
 			bulk_reminder_time,
 			bulk_reminder_days_range,
 			bulk_reminder_type,
+			skip_sunday_notifications,
 			created_at
 		FROM appointment_notification_settings
 		WHERE user_id = $1 AND admin_id = $2 AND carrier_id = $3
@@ -376,6 +407,7 @@ func ScheduleCarrierAppointmentEmail(c *gin.Context) {
 			&notificationSettings.SendNotification,
 			&notificationSettings.NotificationDays,
 			&notificationSettings.NotificationType,
+
 			&notificationSettings.SendReminder,
 			&notificationSettings.ReminderDays,
 			&notificationSettings.ReminderType,
@@ -383,6 +415,7 @@ func ScheduleCarrierAppointmentEmail(c *gin.Context) {
 			&notificationSettings.BulkReminderTime,
 			&notificationSettings.BulkReminderDaysRange,
 			&notificationSettings.BulkReminderType,
+			&notificationSettings.SkipSundayNotifications,
 			&notificationSettings.CreatedAt,
 		)
 
@@ -566,6 +599,9 @@ func ScheduleCarrierAppointmentEmail(c *gin.Context) {
 				istAppointmentTakenAt := appointmentTakenAt.In(istLocation)
 				sendAt = istAppointmentTakenAt.Add(time.Duration(daysFloat) * time.Hour * 24)
 
+				// Adjust to skip Sunday - move to Saturday if notification falls on Sunday
+				sendAt = helpers.AdjustNotificationTimeToSkipSunday(sendAt, notificationSettings.SkipSundayNotifications)
+
 				if sendAt.Before(helpers.GetISTTime()) {
 					sendAt = helpers.GetISTTime().Add(time.Second * 5)
 				}
@@ -677,6 +713,9 @@ func ScheduleCarrierAppointmentEmail(c *gin.Context) {
 				istAppointmentScheduledAt := appointmentScheduledAt.In(istLocation)
 				sendAt = istAppointmentScheduledAt.Add(time.Duration(daysFloat) * time.Hour * 24)
 
+				// Adjust to skip Sunday - move to Saturday if notification falls on Sunday
+				sendAt = helpers.AdjustNotificationTimeToSkipSunday(sendAt, notificationSettings.SkipSundayNotifications)
+
 				if sendAt.Before(helpers.GetISTTime()) {
 					sendAt = helpers.GetISTTime().Add(time.Second * 5)
 				}
@@ -768,7 +807,7 @@ func ScheduleCarrierAppointmentEmail(c *gin.Context) {
 		case "before_delivery":
 
 			if expectedDeliveryDate == nil || expectedDeliveryDate.IsZero() {
-				if appointmentScheduledAt != nil || !appointmentScheduledAt.IsZero() {
+				if appointmentScheduledAt != nil && !appointmentScheduledAt.IsZero() {
 					expectedDeliveryDate = appointmentScheduledAt
 				} else {
 					helpers.LogInfo("expected delivery date is nil or zero and appointment scheduled at is nil or zero", map[string]interface{}{
@@ -783,7 +822,7 @@ func ScheduleCarrierAppointmentEmail(c *gin.Context) {
 					Message:    "Expected delivery date is nil or zero and appointment scheduled at is nil or zero",
 				})
 				return
-			} else if expectedDeliveryDate != nil && !expectedDeliveryDate.IsZero() && appointmentScheduledAt != nil || !appointmentScheduledAt.IsZero() {
+			} else if expectedDeliveryDate != nil && !expectedDeliveryDate.IsZero() && appointmentScheduledAt != nil && !appointmentScheduledAt.IsZero() {
 				if appointmentScheduledAt.After(*expectedDeliveryDate) || appointmentScheduledAt.Equal(*expectedDeliveryDate) {
 					expectedDeliveryDate = appointmentScheduledAt
 				}
@@ -800,6 +839,9 @@ func ScheduleCarrierAppointmentEmail(c *gin.Context) {
 				// Convert UTC time to IST timezone before adding days
 				istExpectedDeliveryDate := expectedDeliveryDate.In(istLocation)
 				sendAt = istExpectedDeliveryDate.Add(time.Duration(daysFloat) * time.Hour * 24)
+
+				// Adjust to skip Sunday - move to Saturday if notification falls on Sunday
+				sendAt = helpers.AdjustNotificationTimeToSkipSunday(sendAt, notificationSettings.SkipSundayNotifications)
 
 				if sendAt.Before(helpers.GetISTTime()) {
 					sendAt = helpers.GetISTTime().Add(time.Second * 5)
@@ -915,6 +957,9 @@ func ScheduleCarrierAppointmentEmail(c *gin.Context) {
 				// Convert UTC time to IST timezone before adding days
 				istExpectedDeliveryDate := expectedDeliveryDate.In(istLocation)
 				sendAt = istExpectedDeliveryDate.Add(time.Duration(daysFloat) * time.Hour * 24)
+
+				// Adjust to skip Sunday - move to Saturday if notification falls on Sunday
+				sendAt = helpers.AdjustNotificationTimeToSkipSunday(sendAt, notificationSettings.SkipSundayNotifications)
 
 				if sendAt.Before(helpers.GetISTTime()) {
 					sendAt = helpers.GetISTTime().Add(time.Second * 5)
@@ -1194,6 +1239,9 @@ func ScheduleCarrierAppointmentEmail(c *gin.Context) {
 				istAppointmentTakenAt := appointmentTakenAt.In(istLocation)
 				sendAt = istAppointmentTakenAt.Add(time.Duration(daysFloat) * time.Hour * 24)
 
+				// Adjust to skip Sunday - move to Saturday if notification falls on Sunday
+				sendAt = helpers.AdjustNotificationTimeToSkipSunday(sendAt, notificationSettings.SkipSundayNotifications)
+
 				if sendAt.Before(helpers.GetISTTime()) {
 					sendAt = helpers.GetISTTime().Add(time.Second * 5)
 				}
@@ -1289,6 +1337,9 @@ func ScheduleCarrierAppointmentEmail(c *gin.Context) {
 				daysFloat, _ := strconv.ParseFloat(strings.TrimSpace(day), 64)
 				sendAt = appointmentScheduledAt.Add(time.Duration(daysFloat) * time.Hour * 24)
 
+				// Adjust to skip Sunday - move to Saturday if notification falls on Sunday
+				sendAt = helpers.AdjustNotificationTimeToSkipSunday(sendAt, notificationSettings.SkipSundayNotifications)
+
 				if sendAt.Before(helpers.GetISTTime()) {
 					sendAt = helpers.GetISTTime().Add(time.Second * 5)
 				}
@@ -1373,7 +1424,7 @@ func ScheduleCarrierAppointmentEmail(c *gin.Context) {
 		case "before_delivery":
 
 			if expectedDeliveryDate == nil || expectedDeliveryDate.IsZero() {
-				if appointmentScheduledAt != nil || !appointmentScheduledAt.IsZero() {
+				if appointmentScheduledAt != nil && !appointmentScheduledAt.IsZero() {
 					expectedDeliveryDate = appointmentScheduledAt
 				} else {
 					helpers.LogInfo("expected delivery date is nil or zero and appointment scheduled at is nil or zero", map[string]interface{}{
@@ -1388,7 +1439,7 @@ func ScheduleCarrierAppointmentEmail(c *gin.Context) {
 					})
 					return
 				}
-			} else if expectedDeliveryDate != nil && !expectedDeliveryDate.IsZero() && appointmentScheduledAt != nil || !appointmentScheduledAt.IsZero() {
+			} else if expectedDeliveryDate != nil && !expectedDeliveryDate.IsZero() && appointmentScheduledAt != nil && !appointmentScheduledAt.IsZero() {
 				if appointmentScheduledAt.After(*expectedDeliveryDate) || appointmentScheduledAt.Equal(*expectedDeliveryDate) {
 					expectedDeliveryDate = appointmentScheduledAt
 				}
@@ -1398,6 +1449,9 @@ func ScheduleCarrierAppointmentEmail(c *gin.Context) {
 			for _, day := range days {
 				daysFloat, _ := strconv.ParseFloat(strings.TrimSpace(day), 64)
 				sendAt = expectedDeliveryDate.Add(time.Duration(daysFloat) * time.Hour * 24)
+
+				// Adjust to skip Sunday - move to Saturday if notification falls on Sunday
+				sendAt = helpers.AdjustNotificationTimeToSkipSunday(sendAt, notificationSettings.SkipSundayNotifications)
 
 				if sendAt.Before(helpers.GetISTTime()) {
 					sendAt = helpers.GetISTTime().Add(time.Second * 5)
@@ -1501,6 +1555,9 @@ func ScheduleCarrierAppointmentEmail(c *gin.Context) {
 			for _, day := range days {
 				daysFloat, _ := strconv.ParseFloat(strings.TrimSpace(day), 64)
 				sendAt = appointmentScheduledAt.Add(time.Duration(daysFloat) * time.Hour * 24)
+
+				// Adjust to skip Sunday - move to Saturday if notification falls on Sunday
+				sendAt = helpers.AdjustNotificationTimeToSkipSunday(sendAt, notificationSettings.SkipSundayNotifications)
 
 				if sendAt.Before(helpers.GetISTTime()) {
 					sendAt = helpers.GetISTTime().Add(time.Second * 5)
