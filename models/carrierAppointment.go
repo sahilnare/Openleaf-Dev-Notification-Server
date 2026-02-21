@@ -143,6 +143,8 @@ type CarrierAppointmentEmailSettings struct {
 	PickupWeightNotificationTime      *string `json:"pickup_weight_notification_time" db:"pickup_weight_notification_time"`
 	PickupWeightNotificationDaysRange *string `json:"pickup_weight_notification_days_range" db:"pickup_weight_notification_days_range"`
 
+	SkipSundayNotifications bool `json:"skip_sunday_notifications" db:"skip_sunday_notifications"`
+
 	CreatedAt time.Time `json:"created_at" db:"created_at"`
 }
 
