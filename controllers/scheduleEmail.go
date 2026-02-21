@@ -17,7 +17,7 @@ import (
 	"github.com/hibiken/asynq"
 )
 
-func getSkipSundayByUserID(userID uuid.UUID) bool {
+func IsSkipSundayEnabledByUserID(userID uuid.UUID) bool {
 	var skipSunday bool
 	// table name to add
 	err := db.GlobalDB.QueryRow(`
