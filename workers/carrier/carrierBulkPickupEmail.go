@@ -217,6 +217,15 @@ func SendCarrierBulkPickupEmail(ctx context.Context, task *asynq.Task) error {
 				cartonDimensions = "N/A"
 			}
 
+			// Format appointment date - extract date only to avoid timezone conversion issues
+			appointmentDate := ""
+			if order.AppointmentScheduledAt != nil {
+				t := *order.AppointmentScheduledAt
+				year, month, day := t.Date()
+				dateOnly := time.Date(year, month, day, 0, 0, 0, 0, time.UTC)
+				appointmentDate = dateOnly.Format("02 Jan 2006 03:04 PM")
+			}
+
 			// Creating rows for the table
 			rowHTML := fmt.Sprintf(`
 			<tr>
@@ -242,7 +251,7 @@ func SendCarrierBulkPickupEmail(ctx context.Context, task *asynq.Task) error {
 				helpers.DerefStringPointer(order.WarehousePin),               // PO Details: Pincode
 				helpers.DerefFloatPointer(order.Amount),                      // PO Details: Amount
 				helpers.DerefStringPointer(order.LRNumber),                   // LR Number
-				helpers.FormatDateDDMMYYYYHHMM(order.AppointmentScheduledAt), // Appointment Date
+				appointmentDate,                                              // Appointment Date
 				helpers.DerefIntPointer(order.TotalCartons),                  // Carton Details: Quantity
 				helpers.DerefFloatPointer(order.Weight)/1000,                 // Carton Details: Weight
 				cartonDimensions, // Carton Details: Dimensions

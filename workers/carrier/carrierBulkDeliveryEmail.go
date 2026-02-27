@@ -261,9 +261,17 @@ func SendCarrierBulkDeliverEmail(ctx context.Context, task *asynq.Task) error {
 
 			date := ""
 			if delivery.AppointmentScheduledAt != nil {
-				date = helpers.FormatDateDDMMYYYYHHMM(delivery.AppointmentScheduledAt)
+				// Extract date only to avoid timezone conversion issues
+				t := *delivery.AppointmentScheduledAt
+				year, month, day := t.Date()
+				dateOnly := time.Date(year, month, day, 0, 0, 0, 0, time.UTC)
+				date = dateOnly.Format("02 Jan 2006 03:04 PM")
 			} else if delivery.EDD != nil {
-				date = helpers.FormatDateDDMMYYYYHHMM(delivery.EDD)
+				// Extract date only to avoid timezone conversion issues
+				t := *delivery.EDD
+				year, month, day := t.Date()
+				dateOnly := time.Date(year, month, day, 0, 0, 0, 0, time.UTC)
+				date = dateOnly.Format("02 Jan 2006 03:04 PM")
 			} else {
 				date = ""
 			}
