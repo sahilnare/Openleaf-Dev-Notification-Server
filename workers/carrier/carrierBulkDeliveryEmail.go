@@ -95,7 +95,7 @@ func SendCarrierBulkDeliverEmail(ctx context.Context, task *asynq.Task) error {
 		targetDate := now.AddDate(0, 0, -day)
 		year, month, d := targetDate.Date()
 		startOfPeriod = time.Date(year, month, d, 0, 0, 0, 0, now.Location())
-		endOfPeriod = startOfPeriod.AddDate(0, 0, 1).Add(-time.Nanosecond)
+		endOfPeriod = startOfPeriod.AddDate(0, 0, 1).Add(-time.Second)
 		targetDateStr = targetDate.Format("02 Jan 2006")
 
 		// Only check appointment_scheduled_at for this type
@@ -112,7 +112,7 @@ func SendCarrierBulkDeliverEmail(ctx context.Context, task *asynq.Task) error {
 		targetDate := now.AddDate(0, 0, -day)
 		year, month, d := targetDate.Date()
 		startOfPeriod = time.Date(year, month, d, 0, 0, 0, 0, now.Location())
-		endOfPeriod = startOfPeriod.AddDate(0, 0, 1).Add(-time.Nanosecond)
+		endOfPeriod = startOfPeriod.AddDate(0, 0, 1).Add(-time.Second)
 		targetDateStr = targetDate.Format("02 Jan 2006")
 
 		// Check appointment_scheduled_at or expected_delivery_date
@@ -134,7 +134,7 @@ func SendCarrierBulkDeliverEmail(ctx context.Context, task *asynq.Task) error {
 		targetDate := now.AddDate(0, 0, 1)
 		year, month, d := targetDate.Date()
 		startOfPeriod = time.Date(year, month, d, 0, 0, 0, 0, now.Location())
-		endOfPeriod = startOfPeriod.AddDate(0, 0, 1).Add(-time.Nanosecond)
+		endOfPeriod = startOfPeriod.AddDate(0, 0, 1).Add(-time.Second)
 		targetDateStr = targetDate.Format("02 Jan 2006")
 
 		// Check appointment_scheduled_at or expected_delivery_date
