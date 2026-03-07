@@ -106,10 +106,10 @@ func SendCarrierBulkPickupEmail(ctx context.Context, task *asynq.Task) error {
 	now := helpers.GetISTTime()
 
 	args := []interface{}{
-		data.Data.CarrierID, 
+		data.Data.CarrierID,
 		data.AdminID,
-		startOfPeriod,  // Will be set below - $3
-		endOfPeriod,    // Will be set below - $4
+		startOfPeriod, // Will be set below - $3
+		endOfPeriod,   // Will be set below - $4
 		models.EmailCarrierBulkPickupNotificationQueue, // $5
 	}
 
@@ -117,7 +117,7 @@ func SendCarrierBulkPickupEmail(ctx context.Context, task *asynq.Task) error {
 		targetDate := now.AddDate(0, 0, day)
 		year, month, d := targetDate.Date()
 		startOfPeriod = time.Date(year, month, d, 0, 0, 0, 0, now.Location())
-		endOfPeriod = startOfPeriod.AddDate(0, 0, 1).Add(-time.Nanosecond)
+		endOfPeriod = startOfPeriod.AddDate(0, 0, 1).Add(-time.Second)
 		targetDateStr = targetDate.Format("02 Jan 2006")
 
 		queryBuilder.WriteString(" AND oa.order_placed_at >= $3 AND oa.order_placed_at <= $4")
@@ -128,7 +128,7 @@ func SendCarrierBulkPickupEmail(ctx context.Context, task *asynq.Task) error {
 		targetDate := now.AddDate(0, 0, day)
 		year, month, d := targetDate.Date()
 		startOfPeriod = time.Date(year, month, d, 0, 0, 0, 0, now.Location())
-		endOfPeriod = startOfPeriod.AddDate(0, 0, 1).Add(-time.Nanosecond)
+		endOfPeriod = startOfPeriod.AddDate(0, 0, 1).Add(-time.Second)
 		targetDateStr = targetDate.Format("02 Jan 2006")
 
 		queryBuilder.WriteString(" AND oa.order_placed_at >= $3 AND oa.order_placed_at <= $4")
@@ -247,7 +247,7 @@ func SendCarrierBulkPickupEmail(ctx context.Context, task *asynq.Task) error {
 				helpers.DerefFloatPointer(order.Weight)/1000,                 // Carton Details: Weight
 				cartonDimensions, // Carton Details: Dimensions
 				helpers.DerefStringPointer(order.InvoiceNumber), // Invoice Details: Number
-				helpers.DerefFloatPointer(&totalSkuQuantity),     // SKU Quantity
+				helpers.DerefFloatPointer(&totalSkuQuantity),    // SKU Quantity
 				helpers.DerefFloatPointer(order.Amount),         // Invoice Details: Amount
 			)
 			tableRows.WriteString(rowHTML)
@@ -304,7 +304,7 @@ func SendCarrierBulkPickupEmail(ctx context.Context, task *asynq.Task) error {
 		})
 
 		subject := fmt.Sprintf("Pickup Plan for %s", targetDateStr)
-		
+
 		// Append display_company_name to subject if it exists
 		displayCompanyName := helpers.GetDisplayCompanyName(data.UserID)
 		if displayCompanyName != nil && *displayCompanyName != "" {
@@ -312,10 +312,10 @@ func SendCarrierBulkPickupEmail(ctx context.Context, task *asynq.Task) error {
 		}
 
 		helpers.LogInfo("[worker] attempting to send bulk pickup email", map[string]interface{}{
-			"from": helpers.B2B_EMAIL,
-			"to":   receiverEmails,
-			"cc":   receiverCC,
-			"subject": subject,
+			"from":        helpers.B2B_EMAIL,
+			"to":          receiverEmails,
+			"cc":          receiverCC,
+			"subject":     subject,
 			"body_length": len(body),
 		})
 
@@ -395,9 +395,9 @@ func SendCarrierBulkPickupEmail(ctx context.Context, task *asynq.Task) error {
 		}
 
 		helpers.LogInfo("[worker] carrier bulk pickup email worker completed successfully", map[string]interface{}{
-			"task_type":      task.Type(),
-			"data":           data,
-			"orders_count":   len(orders),
+			"task_type":            task.Type(),
+			"data":                 data,
+			"orders_count":         len(orders),
 			"notifications_logged": len(orders),
 		})
 
