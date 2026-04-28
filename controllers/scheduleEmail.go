@@ -230,8 +230,12 @@ func ScheduleCarrierAppointmentEmail(c *gin.Context) {
 	data.TotalCartons = totalCartons
 	data.TotalDeadWeight = totalDeadWeight
 	data.TotalVolumetricWeight = totalVolumetricWeight
-	data.CarrierName = *carrierName
-	data.CarrierID = *carrierID
+	if carrierName != nil {
+		data.CarrierName = *carrierName
+	}
+	if carrierID != nil {
+		data.CarrierID = *carrierID
+	}
 	data.Cartons = &cartonDetails
 	// Unmarshal carton_details
 
