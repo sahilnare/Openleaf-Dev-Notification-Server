@@ -139,6 +139,8 @@ type CarrierAppointmentEmailSettings struct {
 	BulkReminderDaysRange *string `json:"bulk_reminder_days_range" db:"bulk_reminder_days_range"` // 2,3
 	BulkReminderType      *string `json:"bulk_reminder_type" db:"bulk_reminder_type"`
 
+	CarrierName *string `json:"carrier_name" db:"carrier_name"`
+
 	SendPickupWeightNotification      bool    `json:"send_pickup_weight_notification" db:"send_pickup_weight_notification"`
 	PickupWeightNotificationTime      *string `json:"pickup_weight_notification_time" db:"pickup_weight_notification_time"`
 	PickupWeightNotificationDaysRange *string `json:"pickup_weight_notification_days_range" db:"pickup_weight_notification_days_range"`

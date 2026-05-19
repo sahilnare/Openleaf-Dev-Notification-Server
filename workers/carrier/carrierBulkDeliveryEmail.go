@@ -212,6 +212,45 @@ func SendCarrierBulkDeliverEmail(ctx context.Context, task *asynq.Task) error {
 		"deliveries_count": len(deliveries),
 	})
 
+	if len(deliveries) == 0 && data.Settings.CarrierName != nil && *data.Settings.CarrierName != "" {
+		var fallbackQuery strings.Builder
+		fallbackQuery.WriteString(baseQuery)
+		fallbackQuery.WriteString(`WHERE o.carrier_name = $1 AND o.user_id = $2 `)
+		fallbackQuery.WriteString(dateCondition)
+		fallbackQuery.WriteString(`
+			AND (
+			nl.notification_id IS NULL
+			OR (nl.type = $5 AND nl.status != 'sent')
+			)
+		`)
+		fallbackArgs := []interface{}{
+			*data.Settings.CarrierName,
+			data.AdminID,
+			startOfPeriod,
+			endOfPeriod,
+			models.EmailCarrierAppointmentBulkReminderQueue,
+		}
+
+		helpers.LogInfo("[worker] retrying with carrier_name fallback", map[string]interface{}{
+			"carrier_name": *data.Settings.CarrierName,
+			"query":        fallbackQuery.String(),
+			"args":         fallbackArgs,
+		})
+
+		if err := db.GlobalDB.Select(&deliveries, fallbackQuery.String(), fallbackArgs...); err != nil {
+			helpers.LogException("[worker] failed to fetch deliveries by carrier_name", map[string]interface{}{
+				"error":        err.Error(),
+				"carrier_name": *data.Settings.CarrierName,
+			})
+			return err
+		}
+
+		helpers.LogInfo("[worker] fetched deliveries by carrier_name fallback", map[string]interface{}{
+			"carrier_name":     *data.Settings.CarrierName,
+			"deliveries_count": len(deliveries),
+		})
+	}
+
 	if len(deliveries) > 0 {
 		var totalCartons int
 		var totalWeight float64

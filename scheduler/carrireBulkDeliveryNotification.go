@@ -30,7 +30,8 @@ func InitCarrierBulkDeliverNotification() error {
 			send_bulk_reminder,
 			bulk_reminder_time,
 			bulk_reminder_days_range,
-			bulk_reminder_type
+			bulk_reminder_type,
+			carrier_name
 		FROM
 			appointment_notification_settings
 		WHERE
@@ -63,6 +64,7 @@ func InitCarrierBulkDeliverNotification() error {
 			&setting.BulkReminderTime,
 			&setting.BulkReminderDaysRange,
 			&setting.BulkReminderType,
+			&setting.CarrierName,
 		)
 		if err != nil {
 			helpers.LogInfo("InitCarrierBulkDeliverNotification failed to scan carrier bulk delivery notification settings", map[string]interface{}{
