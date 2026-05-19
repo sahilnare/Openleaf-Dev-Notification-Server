@@ -35,6 +35,9 @@ func DerefFloatPointer(f any) float64 {
 	}
 	switch v := f.(type) {
 	case *float64:
+		if v == nil {
+			return 0.0
+		}
 		return *v
 	case float64:
 		return v
@@ -83,6 +86,9 @@ func RoundFloat(f any, precision int) float64 {
 	}
 	switch v := f.(type) {
 	case *float64:
+		if v == nil {
+			return 0.0
+		}
 		return math.Round(*v*float64(precision)) / float64(precision)
 	case float64:
 		return math.Round(float64(v)*float64(precision)) / float64(precision)
