@@ -157,7 +157,8 @@ func SendCarrierBulkDeliverEmail(ctx context.Context, task *asynq.Task) error {
         o.order_id, o.carrier_name, o.channel, o.po_number, o.customer_city, o.customer_pincode,
         o.sku_details, o.lr_number, oa.appointment_scheduled_at, "to".expected_delivery_date,
         o.total_cartons, o.total_dead_weight, o.carton_details,
-        o.invoice_number, o.total_invoice_value, od.asn_number
+        o.invoice_number, o.total_invoice_value, od.asn_number,
+        po.created_at, po.release_date, po.expires_at, po.total_amount, po.readable_status, o.customer_name
     FROM
         orders o
     LEFT JOIN
@@ -168,6 +169,8 @@ func SendCarrierBulkDeliverEmail(ctx context.Context, task *asynq.Task) error {
         order_documents od ON o.order_id = od.order_id
     LEFT JOIN
         notification_logs nl ON o.order_id = nl.order_id
+    LEFT JOIN
+        purchase_orders po ON po.po_id = (o.po_id->>0)::uuid
 	`
 
 	var queryBuilder strings.Builder
@@ -296,26 +299,44 @@ func SendCarrierBulkDeliverEmail(ctx context.Context, task *asynq.Task) error {
 
 			var rowHTML string
 			switch templateKey {
-			case "new_template_1":
+			case "mom_appointment":
 				rowHTML = fmt.Sprintf(`
             <tr>
-                <td>%d</td>
                 <td>%s</td>
                 <td>%s</td>
                 <td>%s</td>
                 <td>%s</td>
                 <td>%s</td>
-                <td>%d</td>
+                <td>%s</td>
+                <td>%s</td>
+                <td>%s</td>
+                <td>%s</td>
+                <td>%s</td>
+                <td>%s</td>
+                <td>%s</td>
+                <td>%s</td>
+                <td>%.2f</td>
+                <td>%.2f</td>
+                <td>%s</td>
                 <td>%s</td>
             </tr>`,
-					i+1,
 					poNumberStr,
-					helpers.DerefStringPointer(delivery.CustomerWarehousePin),
+					helpers.FormatDateBlankIfNil(delivery.POEntryDate),
+					strings.ToUpper(delivery.Channel),
+					helpers.FormatDateBlankIfNil(delivery.PickupDate),
+					helpers.FormatDateBlankIfNil(delivery.EDD),
+					helpers.FormatDateBlankIfNil(delivery.POExpDate),
+					delivery.CarrierName,
 					helpers.DerefStringPointer(delivery.LRNumber),
-					date,
+					"",
+					helpers.DerefStringPointer(delivery.CustomerName),
 					asnNumber,
-					helpers.DerefIntPointer(delivery.TotalCartons),
+					helpers.FormatDateBlankIfNil(delivery.AppointmentScheduledAt),
+					helpers.FormatTimeBlankIfNil(delivery.AppointmentScheduledAt),
+					helpers.DerefFloatPointer(delivery.POValue),
+					helpers.DerefFloatPointer(delivery.Amount),
 					helpers.DerefStringPointer(delivery.InvoiceNumber),
+					helpers.DerefStringPointer(delivery.Status),
 				)
 			default:
 				var totalSkuQuantity float64

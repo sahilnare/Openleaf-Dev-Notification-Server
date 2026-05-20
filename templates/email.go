@@ -375,9 +375,9 @@ const SendCarrierBulkDeliverEmailTemplate = `
 </html>
 `
 
-// SendCarrierBulkDeliverEmailTemplateNewTemplate1 is a slimmer variant.
-// Removed columns: Marketplace, City, Amount (Rs), Carton Weight, Carton Dimensions, Invoice Qty, Invoice Amount.
-const SendCarrierBulkDeliverEmailTemplateNewTemplate1 = `
+// SendCarrierBulkDeliverEmailTemplateMOM is the custom 17-column
+// appointment layout requested by Meal of the Moment.
+const SendCarrierBulkDeliverEmailTemplateMOM = `
 <html>
     <head>
         <style>
@@ -386,20 +386,16 @@ const SendCarrierBulkDeliverEmailTemplateNewTemplate1 = `
             .details-row { margin-bottom: 8px; }
             .label { font-weight: bold; display: inline; }
             .value { display: inline; margin-left: 5px; }
-            .data-table { width: 100%%; border-collapse: collapse; font-size: 14px; margin-top: 10px; }
+            .data-table { width: 100%%; border-collapse: collapse; font-size: 13px; margin-top: 10px; }
             .data-table th, .data-table td {
                 border: 1px solid #ddd;
                 padding: 8px;
-                text-align: left;
                 vertical-align: top;
                 white-space: nowrap;
                 text-align: center;
             }
             .data-table th { background: #f5f5f5; font-weight: bold; }
-            .sub-label { font-weight: bold; }
-            .location-section { margin: 20px 0; }
             .location-title { font-weight: bold; margin-bottom: 8px; }
-            .location-row { margin-bottom: 6px; font-size: 14px; }
             .footer { margin-top: 30px; }
         </style>
     </head>
@@ -426,17 +422,23 @@ const SendCarrierBulkDeliverEmailTemplateNewTemplate1 = `
             <div class="location-title">Shipment Details</div>
             <table class="data-table">
                 <tr>
-                    <th rowspan="2" style="text-align:center;vertical-align:middle;">Sr No</th>
-                    <th colspan="2" style="text-align:center;vertical-align:middle;">PO Details</th>
-                    <th rowspan="2" style="text-align:center;vertical-align:middle;">LR Number</th>
-                    <th rowspan="2" style="text-align:center;vertical-align:middle;">Appointment Date</th>
-                    <th rowspan="2" style="text-align:center;vertical-align:middle;">ASN</th>
-                    <th rowspan="2" style="text-align:center;vertical-align:middle;">Cartons</th>
-                    <th rowspan="2" style="text-align:center;vertical-align:middle;">Invoice Number</th>
-                </tr>
-                <tr>
-                    <th>Number</th>
-                    <th>Pincode</th>
+                    <th>PO</th>
+                    <th>PO Entry Date</th>
+                    <th>Channel</th>
+                    <th>Pick up/Dispatch Date</th>
+                    <th>Delivery Date</th>
+                    <th>PO Exp Date</th>
+                    <th>Transporter</th>
+                    <th>Waybill</th>
+                    <th>Delivery Gateway</th>
+                    <th>Consignee</th>
+                    <th>ASN Number/Appointment ID</th>
+                    <th>Appointment Date 1</th>
+                    <th>Time (HH:MM AM/PM)</th>
+                    <th>PO Value</th>
+                    <th>Supplied Value</th>
+                    <th>Inv No</th>
+                    <th>Status</th>
                 </tr>
                 %s
             </table>
@@ -458,8 +460,8 @@ func GetBulkDeliveryEmailTemplate(key *string) string {
 	switch *key {
 	case "default", "":
 		return SendCarrierBulkDeliverEmailTemplate
-	case "new_template_1":
-		return SendCarrierBulkDeliverEmailTemplateNewTemplate1
+	case "mom_appointment":
+		return SendCarrierBulkDeliverEmailTemplateMOM
 	default:
 		return SendCarrierBulkDeliverEmailTemplate
 	}
