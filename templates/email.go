@@ -374,3 +374,93 @@ const SendCarrierBulkDeliverEmailTemplate = `
     </body>
 </html>
 `
+
+// SendCarrierBulkDeliverEmailTemplateNewTemplate1 is a slimmer variant.
+// Removed columns: Marketplace, City, Amount (Rs), Carton Weight, Carton Dimensions, Invoice Qty, Invoice Amount.
+const SendCarrierBulkDeliverEmailTemplateNewTemplate1 = `
+<html>
+    <head>
+        <style>
+            body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif; color: #333; line-height: 1.5; margin: 0; padding: 20px; }
+            .order-details { margin: 20px 0; }
+            .details-row { margin-bottom: 8px; }
+            .label { font-weight: bold; display: inline; }
+            .value { display: inline; margin-left: 5px; }
+            .data-table { width: 100%%; border-collapse: collapse; font-size: 14px; margin-top: 10px; }
+            .data-table th, .data-table td {
+                border: 1px solid #ddd;
+                padding: 8px;
+                text-align: left;
+                vertical-align: top;
+                white-space: nowrap;
+                text-align: center;
+            }
+            .data-table th { background: #f5f5f5; font-weight: bold; }
+            .sub-label { font-weight: bold; }
+            .location-section { margin: 20px 0; }
+            .location-title { font-weight: bold; margin-bottom: 8px; }
+            .location-row { margin-bottom: 6px; font-size: 14px; }
+            .footer { margin-top: 30px; }
+        </style>
+    </head>
+    <body>
+        <p>Hello %s Team,</p>
+        <p>This is to inform you about the Delivery schedule for %s:</p>
+
+        <div class="order-details">
+            <div class="details-row">
+                <span class="label">Total Cartons:</span>
+                <span class="value">%d</span>
+            </div>
+            <div class="details-row">
+                <span class="label">Total Weight:</span>
+                <span class="value">%.2f KG</span>
+            </div>
+            <div class="details-row">
+                <span class="label">Total LRs:</span>
+                <span class="value">%d</span>
+            </div>
+        </div>
+
+        <div class="order-details">
+            <div class="location-title">Shipment Details</div>
+            <table class="data-table">
+                <tr>
+                    <th rowspan="2" style="text-align:center;vertical-align:middle;">Sr No</th>
+                    <th colspan="2" style="text-align:center;vertical-align:middle;">PO Details</th>
+                    <th rowspan="2" style="text-align:center;vertical-align:middle;">LR Number</th>
+                    <th rowspan="2" style="text-align:center;vertical-align:middle;">Appointment Date</th>
+                    <th rowspan="2" style="text-align:center;vertical-align:middle;">ASN</th>
+                    <th rowspan="2" style="text-align:center;vertical-align:middle;">Cartons</th>
+                    <th rowspan="2" style="text-align:center;vertical-align:middle;">Invoice Number</th>
+                </tr>
+                <tr>
+                    <th>Number</th>
+                    <th>Pincode</th>
+                </tr>
+                %s
+            </table>
+        </div>
+
+        <div class="footer">
+            <p><strong>Best regards,</strong><br>Openleaf Team</p>
+        </div>
+    </body>
+</html>
+`
+
+// GetBulkDeliveryEmailTemplate returns the email template for the given key.
+// Add new cases here as new template variants are needed.
+func GetBulkDeliveryEmailTemplate(key *string) string {
+	if key == nil {
+		return SendCarrierBulkDeliverEmailTemplate
+	}
+	switch *key {
+	case "default", "":
+		return SendCarrierBulkDeliverEmailTemplate
+	case "new_template_1":
+		return SendCarrierBulkDeliverEmailTemplateNewTemplate1
+	default:
+		return SendCarrierBulkDeliverEmailTemplate
+	}
+}

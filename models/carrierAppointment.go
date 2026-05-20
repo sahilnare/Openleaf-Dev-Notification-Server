@@ -141,6 +141,8 @@ type CarrierAppointmentEmailSettings struct {
 
 	CarrierName *string `json:"carrier_name" db:"carrier_name"`
 
+	BulkDeliveryEmailTemplate *string `json:"bulk_delivery_email_template" db:"bulk_delivery_email_template"`
+
 	SendPickupWeightNotification      bool    `json:"send_pickup_weight_notification" db:"send_pickup_weight_notification"`
 	PickupWeightNotificationTime      *string `json:"pickup_weight_notification_time" db:"pickup_weight_notification_time"`
 	PickupWeightNotificationDaysRange *string `json:"pickup_weight_notification_days_range" db:"pickup_weight_notification_days_range"`
