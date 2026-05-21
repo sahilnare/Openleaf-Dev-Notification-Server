@@ -5,12 +5,62 @@ import (
 	"crypto/tls"
 	"fmt"
 	"log"
+	"sync"
 	"time"
 
 	"github.com/hibiken/asynq"
 )
 
 var Scheduler *asynq.Scheduler
+
+// appointmentEntryIDs tracks every cron entry registered from appointment_notification_settings
+// so a runtime reload can unregister them before re-reading the table.
+var (
+	appointmentEntryIDs []string
+	appointmentEntryMu  sync.Mutex
+)
+
+// trackAppointmentEntry records a registered cron entry ID for later reload.
+func trackAppointmentEntry(id string) {
+	appointmentEntryMu.Lock()
+	appointmentEntryIDs = append(appointmentEntryIDs, id)
+	appointmentEntryMu.Unlock()
+}
+
+// ReloadAppointmentSchedules unregisters all appointment crons and re-registers
+// them from the current appointment_notification_settings rows, with no restart.
+func ReloadAppointmentSchedules() (int, error) {
+	appointmentEntryMu.Lock()
+	old := appointmentEntryIDs
+	appointmentEntryIDs = nil
+	appointmentEntryMu.Unlock()
+
+	for _, id := range old {
+		if err := Scheduler.Unregister(id); err != nil {
+			helpers.LogException("ReloadAppointmentSchedules: failed to unregister entry", map[string]interface{}{
+				"entry_id": id,
+				"error":    err.Error(),
+			})
+		}
+	}
+
+	if err := InitCarrierBulkPickupNotification(); err != nil {
+		return 0, err
+	}
+	if err := InitCarrierBulkDeliverNotification(); err != nil {
+		return 0, err
+	}
+
+	appointmentEntryMu.Lock()
+	count := len(appointmentEntryIDs)
+	appointmentEntryMu.Unlock()
+
+	helpers.LogInfo("ReloadAppointmentSchedules: reload complete", map[string]interface{}{
+		"unregistered": len(old),
+		"registered":   count,
+	})
+	return count, nil
+}
 
 func InitScheduler() {
 

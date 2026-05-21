@@ -182,6 +182,7 @@ func InitCarrierBulkDeliverNotification() error {
 						"payload": payload,
 					})
 				} else {
+					trackAppointmentEntry(id)
 					helpers.LogInfo("InitCarrierBulkDeliverNotification: scheduled task with scheduler", map[string]interface{}{
 						"task_id":    id,
 						"cron_expr":  cronExpr,
@@ -316,6 +317,7 @@ func InitCarrierBulkDeliverNotification() error {
 							"payload": payload,
 						})
 					} else {
+						trackAppointmentEntry(id)
 						helpers.LogInfo("InitCarrierBulkDeliverNotification: scheduled task with scheduler", map[string]interface{}{
 							"task_id":    id,
 							"cron_expr":  cronExpr,

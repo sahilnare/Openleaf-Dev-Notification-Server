@@ -196,6 +196,8 @@ func main() {
 
 	r.POST("/api/scheduleCarrierAppointmentEmail", controllers.ScheduleCarrierAppointmentEmail)
 
+	r.POST("/api/scheduler/reload", controllers.ReloadScheduler)
+
 	log.Println("server setup routes")
 
 	// # Start the server
