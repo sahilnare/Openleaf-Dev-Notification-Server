@@ -157,7 +157,8 @@ func SendCarrierBulkDeliverEmail(ctx context.Context, task *asynq.Task) error {
         o.order_id, o.carrier_name, o.channel, o.po_number, o.customer_city, o.customer_pincode,
         o.sku_details, o.lr_number, oa.appointment_scheduled_at, "to".expected_delivery_date,
         o.total_cartons, o.total_dead_weight, o.carton_details,
-        o.invoice_number, o.total_invoice_value, od.asn_number
+        o.invoice_number, o.total_invoice_value, od.asn_number,
+        po.created_at, po.release_date, po.expires_at, po.total_amount, po.readable_status, o.customer_name
     FROM
         orders o
     LEFT JOIN
@@ -168,6 +169,8 @@ func SendCarrierBulkDeliverEmail(ctx context.Context, task *asynq.Task) error {
         order_documents od ON o.order_id = od.order_id
     LEFT JOIN
         notification_logs nl ON o.order_id = nl.order_id
+    LEFT JOIN
+        purchase_orders po ON po.po_id = (o.po_id->>0)::uuid
 	`
 
 	var queryBuilder strings.Builder
@@ -265,37 +268,19 @@ func SendCarrierBulkDeliverEmail(ctx context.Context, task *asynq.Task) error {
 		}
 		totalLRs := len(lrSet)
 
+		templateKey := ""
+		if data.Settings.BulkDeliveryEmailTemplate != nil {
+			templateKey = *data.Settings.BulkDeliveryEmailTemplate
+		}
+
 		var tableRows strings.Builder
 		for i, delivery := range deliveries {
 			var poNumberStr string
-			var totalSkuQuantity float64
 
 			if delivery.PONumber != nil && len(*delivery.PONumber) > 0 {
 				poNumberStr = strings.Join(*delivery.PONumber, ", ")
 			} else {
 				poNumberStr = "N/A"
-			}
-
-			for _, skuItem := range delivery.SKUDetails {
-				totalSkuQuantity += skuItem.Quantity
-			}
-
-			var dimensionsBuilder strings.Builder
-			if delivery.Cartons != nil {
-				for _, carton := range *delivery.Cartons {
-					dimStr := fmt.Sprintf(
-						"%.fx%.fx%.f Inch = %.f<br>",
-						helpers.CmToInch(&carton.Length),
-						helpers.CmToInch(&carton.Breadth),
-						helpers.CmToInch(&carton.Height),
-						helpers.DerefFloatPointer(&carton.Quantity),
-					)
-					dimensionsBuilder.WriteString(dimStr)
-				}
-			}
-			cartonDimensions := dimensionsBuilder.String()
-			if cartonDimensions == "" {
-				cartonDimensions = "N/A"
 			}
 
 			date := ""
@@ -312,7 +297,72 @@ func SendCarrierBulkDeliverEmail(ctx context.Context, task *asynq.Task) error {
 				asnNumber = *delivery.ASNNumber
 			}
 
-			rowHTML := fmt.Sprintf(`
+			var rowHTML string
+			switch templateKey {
+			case "mom_appointment":
+				rowHTML = fmt.Sprintf(`
+            <tr>
+                <td>%s</td>
+                <td>%s</td>
+                <td>%s</td>
+                <td>%s</td>
+                <td>%s</td>
+                <td>%s</td>
+                <td>%s</td>
+                <td>%s</td>
+                <td>%s</td>
+                <td>%s</td>
+                <td>%s</td>
+                <td>%s</td>
+                <td>%s</td>
+                <td>%.2f</td>
+                <td>%.2f</td>
+                <td>%s</td>
+                <td>%s</td>
+            </tr>`,
+					poNumberStr,
+					helpers.FormatDateBlankIfNil(delivery.POEntryDate),
+					strings.ToUpper(delivery.Channel),
+					helpers.FormatDateBlankIfNil(delivery.PickupDate),
+					helpers.FormatDateBlankIfNil(delivery.EDD),
+					helpers.FormatDateBlankIfNil(delivery.POExpDate),
+					delivery.CarrierName,
+					helpers.DerefStringPointer(delivery.LRNumber),
+					"",
+					helpers.DerefStringPointer(delivery.CustomerName),
+					asnNumber,
+					helpers.FormatDateBlankIfNil(delivery.AppointmentScheduledAt),
+					helpers.FormatTimeBlankIfNil(delivery.AppointmentScheduledAt),
+					helpers.DerefFloatPointer(delivery.POValue),
+					helpers.DerefFloatPointer(delivery.Amount),
+					helpers.DerefStringPointer(delivery.InvoiceNumber),
+					helpers.DerefStringPointer(delivery.Status),
+				)
+			default:
+				var totalSkuQuantity float64
+				for _, skuItem := range delivery.SKUDetails {
+					totalSkuQuantity += skuItem.Quantity
+				}
+
+				var dimensionsBuilder strings.Builder
+				if delivery.Cartons != nil {
+					for _, carton := range *delivery.Cartons {
+						dimStr := fmt.Sprintf(
+							"%.fx%.fx%.f Inch = %.f<br>",
+							helpers.CmToInch(&carton.Length),
+							helpers.CmToInch(&carton.Breadth),
+							helpers.CmToInch(&carton.Height),
+							helpers.DerefFloatPointer(&carton.Quantity),
+						)
+						dimensionsBuilder.WriteString(dimStr)
+					}
+				}
+				cartonDimensions := dimensionsBuilder.String()
+				if cartonDimensions == "" {
+					cartonDimensions = "N/A"
+				}
+
+				rowHTML = fmt.Sprintf(`
             <tr>
                 <td>%d</td>
                 <td>%s</td>
@@ -330,22 +380,23 @@ func SendCarrierBulkDeliverEmail(ctx context.Context, task *asynq.Task) error {
                 <td>%.f</td>
                 <td>%.2f</td>
             </tr>`,
-				i+1,
-				strings.ToUpper(delivery.Channel),
-				poNumberStr,
-				helpers.DerefStringPointer(delivery.CustomerWarehouseCity),
-				helpers.DerefStringPointer(delivery.CustomerWarehousePin),
-				helpers.DerefFloatPointer(delivery.Amount),
-				helpers.DerefStringPointer(delivery.LRNumber),
-				date,
-				asnNumber,
-				helpers.DerefIntPointer(delivery.TotalCartons),
-				helpers.DerefFloatPointer(delivery.Weight)/1000,
-				cartonDimensions,
-				helpers.DerefStringPointer(delivery.InvoiceNumber),
-				helpers.DerefFloatPointer(&totalSkuQuantity),
-				helpers.DerefFloatPointer(delivery.Amount),
-			)
+					i+1,
+					strings.ToUpper(delivery.Channel),
+					poNumberStr,
+					helpers.DerefStringPointer(delivery.CustomerWarehouseCity),
+					helpers.DerefStringPointer(delivery.CustomerWarehousePin),
+					helpers.DerefFloatPointer(delivery.Amount),
+					helpers.DerefStringPointer(delivery.LRNumber),
+					date,
+					asnNumber,
+					helpers.DerefIntPointer(delivery.TotalCartons),
+					helpers.DerefFloatPointer(delivery.Weight)/1000,
+					cartonDimensions,
+					helpers.DerefStringPointer(delivery.InvoiceNumber),
+					helpers.DerefFloatPointer(&totalSkuQuantity),
+					helpers.DerefFloatPointer(delivery.Amount),
+				)
+			}
 			tableRows.WriteString(rowHTML)
 		}
 
@@ -370,7 +421,7 @@ func SendCarrierBulkDeliverEmail(ctx context.Context, task *asynq.Task) error {
 		// finalString := strings.Join(dateStrings, ", ")
 
 		//Final email body
-		body := fmt.Sprintf(templates.SendCarrierBulkDeliverEmailTemplate,
+		body := fmt.Sprintf(templates.GetBulkDeliveryEmailTemplate(data.Settings.BulkDeliveryEmailTemplate),
 			deliveries[0].CarrierName,
 			targetDateStr,
 			totalCartons,

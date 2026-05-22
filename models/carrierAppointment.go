@@ -141,6 +141,8 @@ type CarrierAppointmentEmailSettings struct {
 
 	CarrierName *string `json:"carrier_name" db:"carrier_name"`
 
+	BulkDeliveryEmailTemplate *string `json:"bulk_delivery_email_template" db:"bulk_delivery_email_template"`
+
 	SendPickupWeightNotification      bool    `json:"send_pickup_weight_notification" db:"send_pickup_weight_notification"`
 	PickupWeightNotificationTime      *string `json:"pickup_weight_notification_time" db:"pickup_weight_notification_time"`
 	PickupWeightNotificationDaysRange *string `json:"pickup_weight_notification_days_range" db:"pickup_weight_notification_days_range"`
@@ -210,6 +212,14 @@ type CarrierBulkDeliverEmailData struct {
 	InvoiceNumber          *string            `json:"invoice_number" db:"invoice_number"`
 	Amount                 *float64           `json:"amount" db:"total_invoice_value"`
 	ASNNumber              *string            `json:"asn_number" db:"asn_number"`
+
+	// PO-level fields, joined from purchase_orders for the MOM template.
+	POEntryDate  *time.Time `json:"po_entry_date" db:"created_at"`
+	PickupDate   *time.Time `json:"pickup_date" db:"release_date"`
+	POExpDate    *time.Time `json:"po_exp_date" db:"expires_at"`
+	POValue      *float64   `json:"po_value" db:"total_amount"`
+	Status       *string    `json:"status" db:"readable_status"`
+	CustomerName *string    `json:"customer_name" db:"customer_name"`
 }
 
 type CarrierBulkDeliverEmailWorkerData struct {

@@ -374,3 +374,95 @@ const SendCarrierBulkDeliverEmailTemplate = `
     </body>
 </html>
 `
+
+// SendCarrierBulkDeliverEmailTemplateMOM is the custom 17-column
+// appointment layout requested by Meal of the Moment.
+const SendCarrierBulkDeliverEmailTemplateMOM = `
+<html>
+    <head>
+        <style>
+            body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif; color: #333; line-height: 1.5; margin: 0; padding: 20px; }
+            .order-details { margin: 20px 0; }
+            .details-row { margin-bottom: 8px; }
+            .label { font-weight: bold; display: inline; }
+            .value { display: inline; margin-left: 5px; }
+            .data-table { width: 100%%; border-collapse: collapse; font-size: 13px; margin-top: 10px; }
+            .data-table th, .data-table td {
+                border: 1px solid #ddd;
+                padding: 8px;
+                vertical-align: top;
+                white-space: nowrap;
+                text-align: center;
+            }
+            .data-table th { background: #f5f5f5; font-weight: bold; }
+            .location-title { font-weight: bold; margin-bottom: 8px; }
+            .footer { margin-top: 30px; }
+        </style>
+    </head>
+    <body>
+        <p>Hello %s Team,</p>
+        <p>This is to inform you about the Delivery schedule for %s:</p>
+
+        <div class="order-details">
+            <div class="details-row">
+                <span class="label">Total Cartons:</span>
+                <span class="value">%d</span>
+            </div>
+            <div class="details-row">
+                <span class="label">Total Weight:</span>
+                <span class="value">%.2f KG</span>
+            </div>
+            <div class="details-row">
+                <span class="label">Total LRs:</span>
+                <span class="value">%d</span>
+            </div>
+        </div>
+
+        <div class="order-details">
+            <div class="location-title">Shipment Details</div>
+            <table class="data-table">
+                <tr>
+                    <th>PO</th>
+                    <th>PO Entry Date</th>
+                    <th>Channel</th>
+                    <th>Pick up/Dispatch Date</th>
+                    <th>Delivery Date</th>
+                    <th>PO Exp Date</th>
+                    <th>Transporter</th>
+                    <th>Waybill</th>
+                    <th>Delivery Gateway</th>
+                    <th>Consignee</th>
+                    <th>ASN Number/Appointment ID</th>
+                    <th>Appointment Date 1</th>
+                    <th>Time (HH:MM AM/PM)</th>
+                    <th>PO Value</th>
+                    <th>Supplied Value</th>
+                    <th>Inv No</th>
+                    <th>Status</th>
+                </tr>
+                %s
+            </table>
+        </div>
+
+        <div class="footer">
+            <p><strong>Best regards,</strong><br>Openleaf Team</p>
+        </div>
+    </body>
+</html>
+`
+
+// GetBulkDeliveryEmailTemplate returns the email template for the given key.
+// Add new cases here as new template variants are needed.
+func GetBulkDeliveryEmailTemplate(key *string) string {
+	if key == nil {
+		return SendCarrierBulkDeliverEmailTemplate
+	}
+	switch *key {
+	case "default", "":
+		return SendCarrierBulkDeliverEmailTemplate
+	case "mom_appointment":
+		return SendCarrierBulkDeliverEmailTemplateMOM
+	default:
+		return SendCarrierBulkDeliverEmailTemplate
+	}
+}
