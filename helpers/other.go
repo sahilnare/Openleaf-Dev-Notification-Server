@@ -92,16 +92,24 @@ func FormatDateBlankIfNil(t *time.Time) string {
 	return t.In(istLocation).Format("02 Jan 2006")
 }
 
-// FormatTimeBlankIfNil renders an IST time (03:04 PM), empty when nil.
+// FormatTimeBlankIfNil renders an IST time (03:04 PM), empty when nil or midnight IST (date-only appointments).
 func FormatTimeBlankIfNil(t *time.Time) string {
 	if t == nil {
 		return ""
 	}
 	istLocation, err := time.LoadLocation("Asia/Kolkata")
 	if err != nil {
-		return t.Add(5*time.Hour + 30*time.Minute).Format("03:04 PM")
+		ist := t.Add(5*time.Hour + 30*time.Minute)
+		if ist.Hour() == 0 && ist.Minute() == 0 {
+			return ""
+		}
+		return ist.Format("03:04 PM")
 	}
-	return t.In(istLocation).Format("03:04 PM")
+	ist := t.In(istLocation)
+	if ist.Hour() == 0 && ist.Minute() == 0 {
+		return ""
+	}
+	return ist.Format("03:04 PM")
 }
 
 func RoundFloat(f any, precision int) float64 {
