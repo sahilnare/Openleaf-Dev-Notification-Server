@@ -314,7 +314,6 @@ func SendCarrierBulkDeliverEmail(ctx context.Context, task *asynq.Task) error {
                 <td>%s</td>
                 <td>%s</td>
                 <td>%s</td>
-                <td>%s</td>
                 <td>%.2f</td>
                 <td>%.2f</td>
                 <td>%s</td>
@@ -332,7 +331,6 @@ func SendCarrierBulkDeliverEmail(ctx context.Context, task *asynq.Task) error {
 					helpers.DerefStringPointer(delivery.CustomerName),
 					asnNumber,
 					helpers.FormatDateBlankIfNil(delivery.AppointmentScheduledAt),
-					helpers.FormatTimeBlankIfNil(delivery.AppointmentScheduledAt),
 					helpers.DerefFloatPointer(delivery.POValue),
 					helpers.DerefFloatPointer(delivery.Amount),
 					helpers.DerefStringPointer(delivery.InvoiceNumber),

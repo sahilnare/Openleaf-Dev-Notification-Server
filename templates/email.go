@@ -375,7 +375,7 @@ const SendCarrierBulkDeliverEmailTemplate = `
 </html>
 `
 
-// SendCarrierBulkDeliverEmailTemplateMOM is the custom 17-column
+// SendCarrierBulkDeliverEmailTemplateMOM is the custom 16-column
 // appointment layout requested by Meal of the Moment.
 const SendCarrierBulkDeliverEmailTemplateMOM = `
 <html>
@@ -434,7 +434,6 @@ const SendCarrierBulkDeliverEmailTemplateMOM = `
                     <th>Consignee</th>
                     <th>ASN Number/Appointment ID</th>
                     <th>Appointment Date 1</th>
-                    <th>Time (HH:MM AM/PM)</th>
                     <th>PO Value</th>
                     <th>Supplied Value</th>
                     <th>Inv No</th>
